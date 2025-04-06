@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  OWNER
+}
+
+enum RoomStatus {
+  VACANT
+  OCCUPIED
+  MAINTENANCE
+}
+
+model User {
+  id            String           @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  email         String?          @unique
+  emailVerified DateTime?
+  image         String?
+  isOnboarded   Boolean
+  phoneNumber   String?
+  isAdmin       Boolean
+  role          UserRole         @default(USER)
+  accounts      Account[]
+  owner         Room[]           @relation("owner")
+  client        Room[]           @relation("client")
+  post          Post[]
+  paymentClient PaymentHistory[]
+   savedPost SavedPost[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Room {
+  id                  String           @id @default(auto()) @map("_id") @db.ObjectId
+  ownerId             String           @db.ObjectId
+  owner               User             @relation("owner", fields: [ownerId], references: [id], onDelete: Cascade)
+  roomStatus          RoomStatus       @default(VACANT)
+  post                Post[]
+  roomNumber          Int
+  numberOfRooms       Int              @default(1)
+  description         String
+  roomImages          String[]
+  clientId            String?          @db.ObjectId
+  client              User?            @relation("client", fields: [clientId], references: [id], onDelete: Cascade)
+  otherClients        String[]
+  maxNoOfClient       Int
+  lat                 Float?
+  lon                 Float?
+  location            String
+  noOfClientLiving    Int?
+  roomCost            Float
+  electricityBill     Float
+  waterBill           Float
+  internetBill        Float
+  clientInitationDate DateTime?
+  payedMoney          Float?
+  paymentHistory      PaymentHistory[]
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+}
+
+model PaymentHistory {
+  id     String   @id @default(auto()) @map("_id") @db.ObjectId
+  date   DateTime
+  amount Float
+  userId String   @db.ObjectId
+  user   User     @relation(fields: [userId], references: [id])
+  roomId String   @db.ObjectId
+  room   Room     @relation(fields: [roomId], references: [id])
+}
+
+model Post {
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  roomId        String     @db.ObjectId
+  room          Room       @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomImages    String[]
+  description   String
+  roomStatus    RoomStatus
+  roomNumber Int
+  roomCost      Int
+  location      String
+  numberOfRooms Int
+  ownerId       String     @db.ObjectId
+  owner         User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  lat Float?
+  lon Float?
+  savedPost SavedPost[]
+}
+
+
+model SavedPost{
+    id            String     @id @default(auto()) @map("_id") @db.ObjectId
+    postId String @db.ObjectId
+    post Post @relation(fields: [postId], references: [id], onDelete : Cascade)
+    userId String @db.ObjectId
+    user User @relation(fields: [userId], references: [id], onDelete : Cascade)
+    savedDate DateTime @default(now())
+    
+}
