@@ -18,7 +18,6 @@ interface SavedPostCardProps {
 export function SavedPostCard({ savedPost, onRemove }: SavedPostCardProps) {
   const post = savedPost.post
 
-  // Function to determine badge variant based on room status
   const getBadgeVariant = (status: RoomStatus) => {
     switch (status) {
       case RoomStatus.VACANT:

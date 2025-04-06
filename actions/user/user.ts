@@ -4,6 +4,9 @@ import { auth } from "@/auth";
 import { db } from "@/prisma"
 
 
+
+
+
 export const getUserFromQuery = async (query: string) => {
     try {
         const trimmedQuery = query.trim();

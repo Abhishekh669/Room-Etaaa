@@ -9,7 +9,7 @@ import type { Posts } from "@/utils/types/type"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 import { useGetUserSession } from "@/hooks/tanstack/query-hooks/user/use-get-user-session"
-import { useGetPosts } from "@/hooks/tanstack/query-hooks/saved-posts/use-get-posts"
+import { formatDistanceToNow } from "date-fns"
 
 interface PostCardProps {
   post: Posts,
@@ -65,6 +65,11 @@ export function PostCard({ post, handleSave, pending }: PostCardProps) {
           >
             {post.roomStatus.charAt(0) + post.roomStatus.slice(1).toLowerCase()}
           </Badge>
+          <div className="absolute bottom-3 right-3">
+                      <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm">
+                        Posted {formatDistanceToNow(new Date(post.createdAt || new Date()), { addSuffix: true })}
+                      </Badge>
+                    </div>
 
           {post.roomImages && post.roomImages.length > 1 && (
             <div className="absolute bottom-3 right-3">

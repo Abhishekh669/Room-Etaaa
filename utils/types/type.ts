@@ -73,7 +73,8 @@ export interface Posts{
   },
   lat ?: number | null,
   lon ?: number | null,
-  savedPost : SavedPost[]
+  savedPost : SavedPost[],
+  createdAt : Date
 }
 
 export interface PostForSavedPost{

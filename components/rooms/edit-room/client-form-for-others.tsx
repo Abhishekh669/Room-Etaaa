@@ -21,8 +21,8 @@ interface ClientFormProps {
   setQuery: (q: string) => void
   users: User[]
   isLoading: boolean
-  onSelectUser: (user: User, position?: number) => void
-  position?: number
+  onSelectUser: (user: User, position : number) => void
+  position : number
 }
 
 export function ClientFormForOthers({
