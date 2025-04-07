@@ -57,20 +57,39 @@ export const updateRoomData = async(values : RoomFormValues, id : string) =>{
 
         console.log("this ishte ot her clients Id ",otherClientIds)
         let totalClients =  0;
+        let roomStatus : RoomStatus = RoomStatus.VACANT;
 
         if(values.client){
             totalClients += 1;
             if(values.otherClients && values.otherClients.length > 0){
                 totalClients += values.otherClients.length
             }
+            roomStatus = RoomStatus.OCCUPIED;
+
         }
+
+        if((!values.client && values.otherClients?.length == 0) && values.payedMoney){
+            throw new Error('without client no payment is possible')
+        }
+
+        const checkRoom = await db.room.findFirst({
+            where : {id}
+        });
+
+        if(!checkRoom){
+            return{
+                error : "no such room exists"
+            }
+        }
+
+        
 
 
         const updateForm = await db.room.update({
             where : {id},
             data : {
                 roomNumber : values.roomNumber,
-                roomStatus : values.roomStatus,
+                roomStatus : roomStatus,
                 description : values.description,
                 numberOfRooms : values.numberOfRooms,
                 maxNoOfClient : values.maxNoOfClient,
@@ -85,11 +104,15 @@ export const updateRoomData = async(values : RoomFormValues, id : string) =>{
                 payedMoney : values.payedMoney,
                 otherClients : otherClientIds ,
                 clientId : values.client?.id ,
+                paymentDue :checkRoom.paymentDue + (values.electricityBill + values.internetBill + values.waterBill + values.roomCost) - (values?.payedMoney || 0),
                 roomImages : values.roomImages,
                 noOfClientLiving : totalClients,
                 
             }
         })
+        console.log("this is updateing filed ",values.client, values.client?.id,
+            values.payedMoney
+        )
 
         if(values.payedMoney && values.client && values.client.id){
             await db.paymentHistory.create({
@@ -97,10 +120,13 @@ export const updateRoomData = async(values : RoomFormValues, id : string) =>{
                     date : new Date(),
                     amount : values.payedMoney,
                     userId : values.client.id,
-                    roomId : id
+                    roomId : id,
+                    description : "room rent",
+                    ownerId : currentUser.id,
                 }
             })
         }
+
         if(!updateForm){
             throw new Error("Failed to update the form")
         }
@@ -110,6 +136,7 @@ export const updateRoomData = async(values : RoomFormValues, id : string) =>{
             success : true,
         }
     } catch (error) {
+        console.log("thisi shte error : ",error)
         return {
             error : error ||  "failed to update the room data",
         }
@@ -336,6 +363,30 @@ export const getRoomDataById = async(id : string) =>{
     } catch (error) {
         return {
             error : error || "failed to get the data"
+        }
+        
+    }
+}
+
+
+export const getPaymentHistory = async(roomId : string) =>{
+    try {
+        const currentUser = await getCurrentUser();
+        if (!currentUser || !currentUser.id || !currentUser.email || (currentUser.role !== "ADMIN" && currentUser.role !== "OWNER") || !currentUser.isOnboarded) {
+            throw new Error("User not authenticated")
+        }
+
+
+        const paymentHistory = await db.paymentHistory.findMany({
+            where : {
+                roomId ,
+                ownerId : currentUser.id
+            }
+        }) || []
+        return paymentHistory;
+    } catch (error) {
+        return {
+            error : "failed to get history"
         }
         
     }

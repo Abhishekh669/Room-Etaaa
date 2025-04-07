@@ -1,3 +1,4 @@
+"use client"
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -5,12 +6,14 @@ import { Room } from "@/utils/types/type";
 import { Users, CreditCard } from "lucide-react";
 import { RoomStatusBadge } from "./room-badge-status";
 import { formatDate } from "date-fns";
+import { useRouter } from "next/navigation";
 
 interface RoomSummaryCardProps {
   room: Room;
 }
 
 export const RoomSummaryCard = ({ room }: RoomSummaryCardProps) => {
+  const router = useRouter();
   const calculateTotalCost = () => {
     const roomCost = room.roomCost || 0;
     const electricityBill = room.electricityBill || 0;
@@ -84,7 +87,7 @@ export const RoomSummaryCard = ({ room }: RoomSummaryCardProps) => {
           <div className="flex justify-between items-center">
             <span className="text-muted-foreground">Amount Due</span>
             <span className="font-medium text-red-500">
-              ${calculateAmountDue().toFixed(2)}
+              Rs {room.paymentDue}
             </span>
           </div>
 
@@ -93,15 +96,15 @@ export const RoomSummaryCard = ({ room }: RoomSummaryCardProps) => {
           <div className="flex justify-between items-center">
             <span className="text-muted-foreground">Client Since</span>
             <p className="font-medium">{
-                room.clientInitationDate ? (
-                    <>
-                    {formatDate(room.clientInitationDate,"eeee, MMMM do yyyy, h:mm:ss a")}
-                    </>
-                ) : (
-                    <span>
-                        No Client arrived till now
-                    </span>
-                )
+              room.clientInitationDate ? (
+                <>
+                  {formatDate(room.clientInitationDate, "eeee, MMMM do yyyy, h:mm:ss a")}
+                </>
+              ) : (
+                <span>
+                  No Client arrived till now
+                </span>
+              )
             }</p>
           </div>
 
@@ -115,15 +118,23 @@ export const RoomSummaryCard = ({ room }: RoomSummaryCardProps) => {
 
         <div className="mt-6 space-y-2">
           {room.roomStatus === "VACANT" && (
-            <Button className="w-full">
+            <Button className="w-full"
+              onMouseEnter={() => router.prefetch(`/ghar/rooms/${room.id}/edit-room`)}
+              onClick={() => router.push(`/ghar/rooms/${room.id}/edit-room`)}
+            >
               <Users className="mr-2 h-4 w-4" />
+
               Assign Client
             </Button>
           )}
 
-          <Button variant="outline" className="w-full">
+          <Button variant="outline" className="w-full"
+            onMouseEnter={() => router.prefetch(`/ghar/rooms/${room.id}/payment-record`)}
+
+            onClick={() => router.push(`/ghar/rooms/${room.id}/payment-record`)}
+          >
             <CreditCard className="mr-2 h-4 w-4" />
-            Record Payment
+            Record of Payment
           </Button>
         </div>
       </div>

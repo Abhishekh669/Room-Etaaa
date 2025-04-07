@@ -19,7 +19,6 @@ import { RoomBasicDetailsForm } from "./room-basic-details"
 import { RoomBillingForm } from "./room-billing-form"
 import { RoomLocationForm } from "./room-location-form"
 import { RoomClientsForm } from "./room-client-form"
-import { RoomStatus } from "@prisma/client"
 import { getRoomDataById, updateRoomData } from "@/actions/room/room"
 import toast from "react-hot-toast"
 
@@ -200,7 +199,6 @@ export default function EditRoomPage() {
     )
   }
 
-  console.log("Current form values:", form.getValues())
 
   return (
     <div className="py10">

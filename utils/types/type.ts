@@ -19,7 +19,7 @@ export interface PaymentHistory {
   amount: number;
   userId: string;
   roomId: string;
-  description?: string;
+  description : string;
 }
 
 
@@ -50,6 +50,7 @@ export  interface Room{
     roomStatus : RoomStatus,
     updatedAt : Date,
     waterBill : number,
+    paymentDue : number,
 }
 
 
@@ -74,7 +75,7 @@ export interface Posts{
   lat ?: number | null,
   lon ?: number | null,
   savedPost : SavedPost[],
-  createdAt : Date
+  createdAt : Date | null;
 }
 
 export interface PostForSavedPost{
@@ -102,4 +103,14 @@ export interface SavedPostType{
   userId : string,
   savedDate : Date,
   post : PostForSavedPost,
+}
+
+
+export interface  UserForOwner{
+  id : string,
+  name : string | null,
+  email : string | null,
+  phoneNumber : string | null,
+  roomNumbers : number[] | null,
+  image  : string | null
 }

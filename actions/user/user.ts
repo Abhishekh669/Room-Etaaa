@@ -9,14 +9,24 @@ import { db } from "@/prisma"
 
 export const getUserFromQuery = async (query: string) => {
     try {
+        const currentUser = await getCurrentUser();
+        if (!currentUser || !currentUser.id || !currentUser.email || (currentUser.role !== "ADMIN" && currentUser.role !== "OWNER") || !currentUser.isOnboarded) {
+            throw new Error("User not authenticated")
+        }
+
         const trimmedQuery = query.trim();
         if (!trimmedQuery) return [];
 
         const users = await db.user.findMany({
             where: {
-                OR: [
-                    { name: { contains: trimmedQuery, mode: "insensitive" } },
-                    { email: { contains: trimmedQuery, mode: "insensitive" } }
+                AND: [
+                    {
+                        OR: [
+                            { name: { contains: trimmedQuery, mode: "insensitive" } },
+                            { email: { contains: trimmedQuery, mode: "insensitive" } }
+                        ]
+                    },
+                    { id: { not: currentUser.id } }  // Exclude current user
                 ]
             },
             orderBy: {
@@ -24,6 +34,7 @@ export const getUserFromQuery = async (query: string) => {
             },
             take: 10
         });
+        
 
         return users;
 

@@ -60,6 +60,7 @@ export async function getPosts(params?: {
         },
         savedPost : true,
         
+        
       },
       orderBy: {
         roomCost: "desc",

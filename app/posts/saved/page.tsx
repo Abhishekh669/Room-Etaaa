@@ -33,9 +33,18 @@ const SavedPage = () => {
     return <SavedPostsLoading />
   }
 
-  if(!savedPosts || "error" in savedPosts){
-    return (<>
-          <div className="flex flex-col items-center justify-center py-16 space-y-4">
+  if(!savedPosts  || "error" in savedPosts  || (savedPosts && savedPosts.length === 0) ){
+    return (<div className="w-full min-h-screen p-10">
+     <div className="mb-8">
+        <h1 className="text-3xl font-bold mb-2">Saved Rooms</h1>
+        <Button variant={"outline"} onClick={() => router.back()}>
+        <ArrowLeft />
+        Go Back
+      </Button>
+        <p className="text-muted-foreground">Manage your saved listings and inquire about availability</p>
+      </div>
+          <div className="flex flex-col items-center justify-center py-16 space-y-4 h-full">
+
           <div className="bg-muted/30 p-4 rounded-full">
             <BookmarkX className="h-12 w-12 text-muted-foreground" />
           </div>
@@ -44,7 +53,7 @@ const SavedPage = () => {
             You haven't saved any rooms yet. Browse available listings and click the "Save" button to add them here.
           </p>
         </div>
-    </>)
+    </div>)
   }
 
   return (

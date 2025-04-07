@@ -86,6 +86,7 @@ model Room {
   internetBill        Float
   clientInitationDate DateTime?
   payedMoney          Float?
+  paymentDue Float @default(0.0)
   paymentHistory      PaymentHistory[]
   createdAt           DateTime         @default(now())
   updatedAt           DateTime         @updatedAt
@@ -99,6 +100,8 @@ model PaymentHistory {
   user   User     @relation(fields: [userId], references: [id])
   roomId String   @db.ObjectId
   room   Room     @relation(fields: [roomId], references: [id])
+  ownerId String 
+  description String
 }
 
 model Post {
