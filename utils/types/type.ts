@@ -1,4 +1,5 @@
-import { SavedPost } from "@prisma/client";
+import { SavedPost, UserRole } from "@prisma/client";
+import { StringOrTemplateHeader } from "@tanstack/react-table";
 import { string } from "zod";
 
 export type RoomStatus = "VACANT" | "OCCUPIED" | "MAINTENANCE";
@@ -113,4 +114,21 @@ export interface  UserForOwner{
   phoneNumber : string | null,
   roomNumbers : number[] | null,
   image  : string | null
+}
+
+
+export interface OwnerRequestUser {
+    createdAt :Date,
+    id : string,
+    requestedRole : UserRole,
+    updatedAt : Date,
+    user : {
+      email : string | null,
+      id : string,
+      isOnboarded : boolean,
+      name : string | null,
+      phoneNumber : string | null,
+      image : string | null
+    },
+    userId : string
 }

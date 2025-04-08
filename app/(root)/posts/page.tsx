@@ -32,22 +32,26 @@ export default  function PostPage({
   const router = useRouter()
   const {data : user} = useGetUserSession();
   const {data : posts, isLoading } = useGetPosts(params)
+  console.log("this are teh posts",posts)
   const {mutate : toggleSavePost, isPending} = useToggleSavePost();
   useEffect(()=>{
     setMounted(true)
   },[])
 
 
+  
+
+
   const handleSavePost = async (post: Posts) => {
 
-    if (!post || !user?.user) {
+    if (!post || !user) {
       return;
     }
 
 
     toggleSavePost({
       postId: post.id,
-      userId: user.user.id!,
+      userId: user.id!,
     },{
       onSuccess  : (res)=>{
         if (res.message && res.success) {
@@ -72,6 +76,8 @@ export default  function PostPage({
       <Loader2 className="size-4 animate-spin" />
     </div>
   }
+
+
 
   
 

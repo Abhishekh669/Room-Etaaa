@@ -16,7 +16,6 @@ import {
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
@@ -48,44 +47,6 @@ const data = {
       url: "clients",
       icon: User2,
     },
-    {
-      title: "Students",
-      url: "students",
-      icon: Users,
-      
-    },
-   
-    {
-      title: "Subjects",
-      url: "subjects",
-      icon: BookOpen,
-      
-    },
-    {
-      title: "Attendance",
-      url: "attendance",
-      icon: UserRoundCheck,
-      
-    },
-    {
-      title: "Todo",
-      url: "todo",
-      icon: ListTodo,
-      
-    },
-    {
-      title: "Authorize",
-      url: "authorize",
-      icon: Key,
-      isAdmin : true,
-      
-    },
-    {
-      title: "Settings",
-      url: "settings",
-      icon: Settings2,
-    },
-   
   ],
  
 }

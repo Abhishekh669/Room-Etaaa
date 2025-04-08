@@ -1,5 +1,5 @@
 import { getPosts } from "@/actions/posts/post";
-import { SearchParams } from "@/app/posts/page";
+import { SearchParams } from "@/app/(root)/posts/page";
 import { useQuery } from "@tanstack/react-query";
 
 export  const fetchPosts = async( searchParams : SearchParams) =>{

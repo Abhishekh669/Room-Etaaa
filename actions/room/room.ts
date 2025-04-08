@@ -22,7 +22,7 @@ export const deleteRoom = async(id : string) =>{
             where : {id}
         })
 
-        if(deleteData){
+        if(!deleteData){
             return {
                 error : 'failed to delete data'
             }
@@ -34,7 +34,7 @@ export const deleteRoom = async(id : string) =>{
         }
     } catch (error) {
         return {
-            error : "failed to delte the data"
+            error : "failed to delete the data"
         }
         
     }

@@ -38,7 +38,7 @@ export default function RoomsPage() {
   const [activeFilter, setActiveFilter] = useState("all")
 
   
-  const filteredRooms = roomStats?.rooms.filter((room) => {
+  const filteredRooms =  roomStats?.rooms && roomStats?.rooms.filter((room) => {
     if (activeFilter === "all") return true
     if (activeFilter === "vacant") return room.roomStatus === "VACANT"
     if (activeFilter === "occupied") return room.roomStatus === "OCCUPIED"
@@ -157,7 +157,7 @@ export default function RoomsPage() {
 
         <TabsContent value="all" className="mt-0">
           {filteredRooms && filteredRooms.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredRooms.map((room) => (
                 <RoomDataCard key={room.id} room={room} />
               ))}

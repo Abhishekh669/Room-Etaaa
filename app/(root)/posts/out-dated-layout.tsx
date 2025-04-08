@@ -1,10 +1,10 @@
+import ProtectPosts from '@/components/shared/protect-post'
 import React from 'react'
-
 function PostLayout({children} : {children : React.ReactNode}) {
   return (
-    <div className='w-full h-full'>
+    <ProtectPosts>
         {children}
-    </div>
+    </ProtectPosts>
   )
 }
 
