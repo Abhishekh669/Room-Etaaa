@@ -1,12 +1,15 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { db } from "@/prisma";
-import { getAccountByUserId, getUserById} from "@/actions/user/user";
+import { getAccountByUserId, getUserById} from "@/features/actions/users/user";
+import { db } from "@/prisma"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: PrismaAdapter(db),
+  adapter: PrismaAdapter(db as any),
   session: { strategy: "jwt" },
+  pages : {
+    error : "/error"
+  },
   providers: [
     Google({
       clientId: process.env.AUTH_GOOGLE_ID,
@@ -115,7 +118,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.id = token.sub;
         session.user.role = token.role;
       }
+      console.log("this is the session : ", session);
       return session;
     },
   },
+
 });

@@ -5,26 +5,26 @@ import { Input } from "@/components/ui/input"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { DollarSign, Zap, Droplets, Wifi } from "lucide-react"
 import { useWatch, type Control } from "react-hook-form"
-import { RoomFormValues } from "@/utils/types/schema"
+import { EditRoomType } from "@/features/schemas/room/room.schema"
+import { Separator } from "@/components/ui/separator"
 
 interface RoomBillingFormProps {
-  control: Control<RoomFormValues>
-  calculateTotalCost: () => number
+  control: Control<EditRoomType>
 }
 
 export function RoomBillingForm({ control }: RoomBillingFormProps) {
-  const [roomCost, electricityBill, waterBill, internetBill] = useWatch({
+  const [roomCost, electricity, water, internet, payedAmount] = useWatch({
     control,
-    name: ["roomCost", "electricityBill", "waterBill", "internetBill"]
+    name: ["roomBilling.roomCost", "roomBilling.electricity", "roomBilling.water", "roomBilling.internet", "payedAmount"]
   });
 
   // Calculate total cost
   const calculateTotalCost = () => {
     return (
       (Number(roomCost) || 0) +
-      (Number(electricityBill) || 0) +
-      (Number(waterBill) || 0) +
-      (Number(internetBill) || 0)
+      (Number(electricity) || 0) +
+      (Number(water) || 0) +
+      (Number(internet) || 0)
     );
   };
 
@@ -37,7 +37,7 @@ export function RoomBillingForm({ control }: RoomBillingFormProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormField
             control={control}
-            name="roomCost"
+            name="roomBilling.roomCost"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Room Cost</FormLabel>
@@ -60,7 +60,7 @@ export function RoomBillingForm({ control }: RoomBillingFormProps) {
 
           <FormField
             control={control}
-            name="electricityBill"
+            name="roomBilling.electricity"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Electricity Bill</FormLabel>
@@ -82,7 +82,7 @@ export function RoomBillingForm({ control }: RoomBillingFormProps) {
 
           <FormField
             control={control}
-            name="waterBill"
+            name="roomBilling.water"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Water Bill</FormLabel>
@@ -104,7 +104,7 @@ export function RoomBillingForm({ control }: RoomBillingFormProps) {
 
           <FormField
             control={control}
-            name="internetBill"
+            name="roomBilling.internet"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Internet Bill</FormLabel>
@@ -127,7 +127,7 @@ export function RoomBillingForm({ control }: RoomBillingFormProps) {
 
         <FormField
           control={control}
-          name="payedMoney"
+        name="payedAmount"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Amount Paid</FormLabel>
@@ -139,7 +139,7 @@ export function RoomBillingForm({ control }: RoomBillingFormProps) {
                     className="pl-8"
                     {...field}
                     onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : null)}
-                    value={field.value ?? ""}
+                        value={field.value ?? ""}
                   />
                 </div>
               </FormControl>
@@ -151,9 +151,19 @@ export function RoomBillingForm({ control }: RoomBillingFormProps) {
         <div className="p-4 bg-muted/50 rounded-lg">
           <div className="flex justify-between items-center">
             <span className="font-semibold">Total Monthly Cost:</span>
-            <span className="text-lg font-bold">${calculateTotalCost().toFixed(2)}</span>
+            <span className="text-lg font-bold ">Rs {calculateTotalCost().toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="font-semibold">Payed Amount:</span>
+            <span className="text-lg font-bold ">Rs {payedAmount}</span>
+          </div>
+          <Separator />
+        <div className="flex justify-between items-center mt-2">
+            <span className="font-semibold">Remaining Amount:</span>
+            <span className="text-lg font-bold text-[#ff0000]">Rs {calculateTotalCost() - payedAmount}</span>
           </div>
         </div>
+        
       </CardContent>
     </Card>
   )

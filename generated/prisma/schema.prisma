@@ -1,0 +1,193 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  OWNER
+}
+
+model User {
+  //user information
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  phoneNumber   String?
+  role          UserRole  @default(USER)
+
+  //auth status
+  isOnboarded     Boolean @default(false)
+  isVerified      Boolean @default(false)
+  isAssignedOwner Boolean @default(false)
+  isAdmin         Boolean @default(false)
+
+  //relations
+  accounts         Account[]
+  userRequest      UserRequest[]
+  subscriptionPlan SubscriptionPlan[]
+  room             Room[]             @relation("owner")
+  roomBilling      RoomBilling[]      @relation("roomBilling")
+  paymentHistory   PaymentHistory[]   @relation("paymentHistory")
+  client           PaymentHistory[]   @relation("client")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model UserRequest {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String   @db.ObjectId
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  requestedRole UserRole
+  updatedAt     DateTime @updatedAt
+  createdAt     DateTime @default(now())
+
+  @@unique([userId])
+}
+
+enum SubscriptionType {
+  FREE
+  MONTHLY
+  YEARLY
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  EXPIRED
+  PENDING
+}
+
+model SubscriptionPlan {
+  id          String             @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String             @db.ObjectId
+  user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type        SubscriptionType   @default(FREE)
+  status      SubscriptionStatus @default(ACTIVE)
+  startDate   DateTime           @default(now())
+  endDate     DateTime?
+  renewalDate DateTime?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  @@unique([userId])
+}
+
+enum RoomStatus {
+  VACANT
+  OCCUPIED
+  MAINTENANCE
+}
+
+model Room {
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  ownerId       String     @db.ObjectId
+  owner         User       @relation("owner", fields: [ownerId], references: [id], onDelete: Cascade)
+  roomStatus    RoomStatus @default(VACANT)
+  province      Int
+  location      String
+  lon           Float?
+  lat           Float?
+  roomNumber    Int
+  title         String
+  description   String
+  roomImages    String[]
+  numberOfRooms Int
+  beds          Int
+  toilet        Int
+  clients       String[]
+  roomCapacity  Int        @default(1)
+
+  payedAmount Float @default(0)
+  dueAmount   Float @default(0)
+
+  clientInitationData  DateTime?
+  startedPriceFromDate DateTime?
+  lastPayedDate        DateTime?
+
+  //relations
+  roomBilling RoomBilling?     @relation("roomBilling")
+  roomPayment PaymentHistory[] @relation("roomPayment")
+
+  createdAt DateTime @default(now())
+
+  @@unique([roomNumber])
+}
+
+model RoomBilling {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  ownerId String @db.ObjectId
+  owner   User   @relation("roomBilling", fields: [ownerId], references: [id], onDelete: Cascade)
+
+  roomId String @db.ObjectId
+  room   Room   @relation("roomBilling", fields: [roomId], references: [id], onDelete: Cascade)
+
+  water       Float @default(0.0)
+  electricity Float @default(0.0)
+  internet    Float @default(0.0)
+  roomCost    Float @default(0.0)
+
+  createdAt DateTime @default(now())
+
+  @@unique([roomId])
+}
+
+model PaymentHistory {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  ownerId String @db.ObjectId
+  owner   User   @relation("paymentHistory", fields: [ownerId], references: [id], onDelete: Cascade)
+
+  payedBy String @db.ObjectId
+  client  User   @relation("client", fields: [payedBy], references: [id], onDelete: Cascade)
+
+  totalAmount Float
+
+  roomId String @db.ObjectId
+  room   Room   @relation("roomPayment", fields: [roomId], references: [id])
+
+  payedamount Float
+  dueAmount   Float
+
+  startedDate DateTime
+  createdAt   DateTime @default(now())
+
+  @@unique([roomId])
+}

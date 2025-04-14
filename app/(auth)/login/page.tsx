@@ -1,4 +1,4 @@
-import AuthCard from '@/components/auth/auth-card'
+import AuthCard from '@/components/auth/login-form'
 import React from 'react'
 
 function SignInPage() {

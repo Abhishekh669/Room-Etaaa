@@ -1,28 +1,25 @@
 "use client"
 import { useState } from "react"
 import Link from "next/link"
-import { ArrowLeft, CheckCircle2, Smartphone, User, Building2 } from "lucide-react"
+import { CheckCircle2, Smartphone, User, Building2 } from "lucide-react"
 import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import SpinningLoader from "./SpinningLoader"
 
 const phoneSchema = z
   .string()
-  .min(10, {
-    message: "Phone number must be at least 10 digits",
-  })
-  .max(15, {
-    message: "Phone number must not exceed 15 digits",
-  })
+  .min(10, { message: "Phone number must be at least 10 digits" })
+  .max(15, { message: "Phone number must not exceed 15 digits" })
   .refine((val) => /^[0-9+\-\s()]*$/.test(val), {
     message: "Please enter a valid phone number",
   })
 
 interface OnboardingProps {
-  isOpen: boolean,
+  isOpen: boolean
   handleUpdate: (phoneNumber: string, role: "USER" | "OWNER") => void
 }
 
@@ -34,8 +31,7 @@ export default function OnboardingPage({ isOpen, handleUpdate }: OnboardingProps
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setPhoneNumber(value)
+    setPhoneNumber(e.target.value)
     setPhoneError(null)
   }
 
@@ -46,29 +42,22 @@ export default function OnboardingPage({ isOpen, handleUpdate }: OnboardingProps
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
-    // Reset errors
     setPhoneError(null)
     setRoleError(null)
-
-    // Validate inputs
-    let isValid = true
 
     try {
       phoneSchema.parse(phoneNumber)
     } catch (error) {
       if (error instanceof z.ZodError) {
         setPhoneError(error.errors[0].message)
-        isValid = false
+        return
       }
     }
 
     if (!role) {
       setRoleError("Please select a role")
-      isValid = false
+      return
     }
-
-    if (!isValid) return
 
     try {
       setIsSubmitting(true)
@@ -79,55 +68,65 @@ export default function OnboardingPage({ isOpen, handleUpdate }: OnboardingProps
   }
 
   return (
-    <Dialog open={isOpen} >
-      <DialogContent className="sm:max-w-[425px] p-0 overflow-hidden">
-        <div className="bg-gradient-to-b from-white to-gray-50">
-          <div className="h-2 bg-gradient-to-r from-pink-500 to-orange-500"></div>
+    <Dialog open={isOpen}>
+      <DialogContent className="sm:max-w-[425px] p-0 overflow-hidden border-2 border-black">
+        <div className="bg-white">
+          <div className="h-2 bg-red-600"></div>
           <DialogHeader className="px-6 pt-6">
             <div className="flex justify-center mb-2">
-              <div className="bg-gradient-to-r from-pink-500 to-orange-500 w-12 h-12 rounded-full flex items-center justify-center">
+              <div className="bg-red-600 w-12 h-12 rounded-full flex items-center justify-center">
                 <Smartphone className="h-6 w-6 text-white" />
               </div>
             </div>
-            <DialogTitle className="text-2xl font-bold text-center">Get Started</DialogTitle>
-            <DialogDescription className="text-center">
+            <DialogTitle className="text-2xl font-bold text-center text-black">
+              Get Started
+            </DialogTitle>
+            <DialogDescription className="text-center text-gray-600">
               Complete your profile to start using RoomMate
             </DialogDescription>
           </DialogHeader>
 
           <form onSubmit={handleSubmit} className="px-6 py-4 space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="phone">Phone Number</Label>
+              <Label htmlFor="phone" className="text-black">
+                Phone Number
+              </Label>
               <div className="relative">
-                <Smartphone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Smartphone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
                 <Input
                   id="phone"
                   type="tel"
                   placeholder="+1 (555) 123-4567"
-                  className={`pl-10 ${phoneError ? "border-red-500 focus-visible:ring-red-500" : ""}`}
+                  className={`pl-10 ${phoneError ? "border-red-600 focus-visible:ring-red-600" : "border-gray-300"}`}
                   value={phoneNumber}
                   onChange={handlePhoneChange}
                   disabled={isSubmitting}
                 />
               </div>
-              {phoneError && <p className="text-sm text-red-500">{phoneError}</p>}
+              {phoneError && <p className="text-sm text-red-600">{phoneError}</p>}
             </div>
 
             <div className="space-y-3">
-              <Label>I want to join as</Label>
+              <Label className="text-black">I want to join as</Label>
               <RadioGroup
-                value={role || ""}
-                onValueChange={(value) => handleRoleChange(value as "USER" | "OWNER")}
+                value={role}
+                onValueChange={handleRoleChange}
                 className="grid grid-cols-2 gap-4"
               >
                 <div>
                   <RadioGroupItem value="USER" id="user" className="peer sr-only" disabled={isSubmitting} />
                   <Label
                     htmlFor="user"
-                    className={`flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-gray-50 hover:border-gray-200 peer-data-[state=checked]:border-pink-500 [&:has([data-state=checked])]:border-pink-500 ${roleError ? "border-red-200" : ""}`}
+                    className={`flex flex-col items-center justify-between rounded-md border-2 bg-transparent p-4 hover:bg-gray-50 ${
+                      role === "USER" 
+                        ? "border-red-600 bg-red-50" 
+                        : "border-gray-300"
+                    } ${
+                      roleError ? "border-red-600" : ""
+                    }`}
                   >
-                    <User className="mb-3 h-6 w-6 text-gray-600" />
-                    <span className="text-sm font-medium">Tenant/User</span>
+                    <User className="mb-3 h-6 w-6 text-gray-700" />
+                    <span className="text-sm font-medium text-black">Tenant/User</span>
                   </Label>
                 </div>
 
@@ -135,65 +134,52 @@ export default function OnboardingPage({ isOpen, handleUpdate }: OnboardingProps
                   <RadioGroupItem value="OWNER" id="owner" className="peer sr-only" disabled={isSubmitting} />
                   <Label
                     htmlFor="owner"
-                    className={`flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-gray-50 hover:border-gray-200 peer-data-[state=checked]:border-pink-500 [&:has([data-state=checked])]:border-pink-500 ${roleError ? "border-red-200" : ""}`}
+                    className={`flex flex-col items-center justify-between rounded-md border-2 bg-transparent p-4 hover:bg-gray-50 ${
+                      role === "OWNER" 
+                        ? "border-red-600 bg-red-50" 
+                        : "border-gray-300"
+                    } ${
+                      roleError ? "border-red-600" : ""
+                    }`}
                   >
-                    <Building2 className="mb-3 h-6 w-6 text-gray-600" />
-                    <span className="text-sm font-medium">Owner/Manager</span>
+                    <Building2 className="mb-3 h-6 w-6 text-gray-700" />
+                    <span className="text-sm font-medium text-black">Owner/Manager</span>
                   </Label>
                 </div>
               </RadioGroup>
-              {roleError && <p className="text-sm text-red-500">{roleError}</p>}
+              {roleError && <p className="text-sm text-red-600">{roleError}</p>}
             </div>
 
             <DialogFooter className="flex flex-col gap-2">
               <div className="space-y-4">
-              <Button
-                type="submit"
-                className="w-full bg-gradient-to-r from-pink-500 to-orange-500 text-white hover:opacity-90"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <div className="flex items-center">
-                    <svg
-                      className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                    Processing...
-                  </div>
-                ) : (
-                  <div className="flex items-center">
-                    Continue
-                    <CheckCircle2 className="ml-2 h-4 w-4" />
-                  </div>
-                )}
-              </Button>
+                <Button
+                  type="submit"
+                  className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-2"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <div className="flex items-center gap-2">
+                      <SpinningLoader  />
+                      Processing...
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      Continue
+                      <CheckCircle2 className="h-4 w-4" />
+                    </div>
+                  )}
+                </Button>
 
-              <p className="text-center text-sm text-gray-500">
-                By continuing, you agree to our{" "}
-                <Link href="#" className="text-pink-600 hover:text-pink-700 font-medium">
-                  Terms of Service
-                </Link>{" "}
-                and{" "}
-                <Link href="#" className="text-pink-600 hover:text-pink-700 font-medium">
-                  Privacy Policy
-                </Link>
-              </p>
+                <p className="text-center text-sm text-gray-600">
+                  By continuing, you agree to our{" "}
+                  <Link href="#" className="text-red-600 hover:text-red-700 font-medium">
+                    Terms of Service
+                  </Link>{" "}
+                  and{" "}
+                  <Link href="#" className="text-red-600 hover:text-red-700 font-medium">
+                    Privacy Policy
+                  </Link>
+                </p>
               </div>
             </DialogFooter>
           </form>

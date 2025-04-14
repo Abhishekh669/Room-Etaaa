@@ -1,10 +1,10 @@
 import { Separator } from "@/components/ui/separator";
 import { Home, Users, Calendar } from "lucide-react";
-import { formatDate } from "date-fns";
-import { Room } from "@/utils/types/type";
+// import { formatDate } from "date-fns";
+import { RoomType, RoomWithClientDataType } from "@/features/schemas/room/room.type";
 
 interface RoomDetailsTabProps {
-  room: Room;
+  room: RoomType;
 }
 
 export const RoomDetailsTab = ({ room }: RoomDetailsTabProps) => {
@@ -36,7 +36,7 @@ export const RoomDetailsTab = ({ room }: RoomDetailsTabProps) => {
           <Users className="h-5 w-5 mr-2 text-muted-foreground" />
           <div>
             <p className="text-sm text-muted-foreground">Maximum Clients</p>
-            <p className="font-medium">{room.maxNoOfClient}</p>
+            <p className="font-medium">{room.roomCapacity}</p>
           </div>
         </div>
 
@@ -45,7 +45,7 @@ export const RoomDetailsTab = ({ room }: RoomDetailsTabProps) => {
           <div>
             <p className="text-sm text-muted-foreground">Clients Living</p>
             <p className="font-medium">
-              {room.noOfClientLiving || 0} of {room.maxNoOfClient}
+              {room.clients.length || 0} of {room.roomCapacity}
             </p>
           </div>
         </div>
@@ -57,7 +57,8 @@ export const RoomDetailsTab = ({ room }: RoomDetailsTabProps) => {
             <p className="font-medium">{
                 room.clientInitationDate ? (
                     <>
-                    {formatDate(room.clientInitationDate,"eeee, MMMM do yyyy, h:mm:ss a")}
+                    {/* TODO : Here add the data  */}
+                    {/* {formatDate(room.clientInitationDate,"eeee, MMMM do yyyy, h:mm:ss a")} */}
                     </>
                 ) : (
                     <span>
