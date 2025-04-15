@@ -180,7 +180,6 @@ exports.Prisma.RoomScalarFieldEnum = {
   toilet: 'toilet',
   clients: 'clients',
   roomCapacity: 'roomCapacity',
-  payedAmount: 'payedAmount',
   dueAmount: 'dueAmount',
   clientInitationData: 'clientInitationData',
   startedPriceFromDate: 'startedPriceFromDate',
@@ -196,6 +195,20 @@ exports.Prisma.RoomBillingScalarFieldEnum = {
   electricity: 'electricity',
   internet: 'internet',
   roomCost: 'roomCost',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.RoomPaymentRecordScalarFieldEnum = {
+  id: 'id',
+  description: 'description',
+  ownerId: 'ownerId',
+  roomId: 'roomId',
+  payedBy: 'payedBy',
+  amountTotal: 'amountTotal',
+  payedAmount: 'payedAmount',
+  dueAmount: 'dueAmount',
+  paymentStatus: 'paymentStatus',
+  dueMoneyReason: 'dueMoneyReason',
   createdAt: 'createdAt'
 };
 
@@ -245,6 +258,12 @@ exports.RoomStatus = exports.$Enums.RoomStatus = {
   MAINTENANCE: 'MAINTENANCE'
 };
 
+exports.PaymentStatus = exports.$Enums.PaymentStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  OVERDUE: 'OVERDUE'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Account: 'Account',
@@ -252,6 +271,7 @@ exports.Prisma.ModelName = {
   SubscriptionPlan: 'SubscriptionPlan',
   Room: 'Room',
   RoomBilling: 'RoomBilling',
+  RoomPaymentRecord: 'RoomPaymentRecord',
   PaymentHistory: 'PaymentHistory'
 };
 

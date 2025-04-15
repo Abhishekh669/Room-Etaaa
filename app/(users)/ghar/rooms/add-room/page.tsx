@@ -8,7 +8,7 @@ function RoomAddPage() {
    <main className='flex  flex-col  gap-y-2'>
      <HeaderPage title1='Add' title2='Room'/>
      <div className='px-2 md:px-4 lg:px-6 flex justify-between '>
-      <RouteBackButton />
+      <RouteBackButton location={`/ghar/rooms`}/>
       <div></div>
      </div>
     <section>

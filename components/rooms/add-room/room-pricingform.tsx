@@ -120,19 +120,19 @@ export const RoomPricingForm = ({ form }: RoomPricingFormProps) => {
         <h3 className="font-semibold text-lg mb-2">Total Monthly Cost</h3>
         <div className="flex justify-between items-center">
           <span>Room Cost:</span>
-          <span className="font-medium">${form.watch('roomCost') || 0}</span>
+          <span className="font-medium">Rs {form.watch('roomCost') || 0}</span>
         </div>
         <div className="flex justify-between items-center">
           <span>Utilities:</span>
           <span className="font-medium">
-            ${(form.watch('water') || 0) + (form.watch('electricity') || 0) + (form.watch('internet') || 0)}
+            Rs {(form.watch('water') || 0) + (form.watch('electricity') || 0) + (form.watch('internet') || 0)}
           </span>
         </div>
         <Separator className="my-2" />
         <div className="flex justify-between items-center text-lg font-bold">
           <span>Total:</span>
           <span className="text-[#ff0000]">
-            ${(form.watch('roomCost') || 0) + (form.watch('water') || 0) + (form.watch('electricity') || 0) + (form.watch('internet') || 0)}
+            Rs {(form.watch('roomCost') || 0) + (form.watch('water') || 0) + (form.watch('electricity') || 0) + (form.watch('internet') || 0)}
           </span>
         </div>
       </div>

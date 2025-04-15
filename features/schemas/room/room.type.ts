@@ -1,4 +1,4 @@
-import { PaymentHistory, RoomBilling } from "@/generated/prisma";
+import { PaymentHistory, RoomBilling, RoomPaymentRecord } from "@/generated/prisma";
 
 export interface UserType{
     id : string,
@@ -61,6 +61,7 @@ export interface RoomType{
     title : string,
     toilet : number,
     paymentHistory : PaymentHistory[]
+    roomPaymentRecord : RoomPaymentRecord[]
 }
 
 

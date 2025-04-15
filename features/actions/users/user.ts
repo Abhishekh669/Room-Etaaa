@@ -25,11 +25,18 @@ export const getUserFromQuery = async ({ query, page, pageSize }: { query: strin
 
         const users = await db.user.findMany({
             where: {
-                OR: [
-                    { name: { contains: query, mode: "insensitive" } },
-                    { email: { contains: query, mode: "insensitive" } },
-                    { phoneNumber: { contains: query, mode: "insensitive" } },
-                ],
+                AND: [
+                    {
+                        OR: [
+                            { name: { contains: query, mode: "insensitive" } },
+                            { email: { contains: query, mode: "insensitive" } },
+                            { phoneNumber: { contains: query, mode: "insensitive" } },
+                        ],
+                    },
+                    {
+                        id: { not: currentUser.id } 
+                    }
+                ]
             },
             select: {
                 id: true,
@@ -43,6 +50,7 @@ export const getUserFromQuery = async ({ query, page, pageSize }: { query: strin
             orderBy: {
                 name: "asc",
             },
+           
         });
         const data = {
             users,

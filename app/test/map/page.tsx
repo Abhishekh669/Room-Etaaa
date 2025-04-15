@@ -32,7 +32,7 @@ export default function MapSelectionPage() {
     <main className="flex flex-col h-screen">
       <HeaderPage title1="Select" title2="Location" />
       <div className="px-2 md:px-4 lg:px-6 flex justify-between py-2">
-        <RouteBackButton />
+        <RouteBackButton  location={"/ghar/rooms"}/>
         <Button 
           onClick={handleSubmit}
           disabled={!position || !location}

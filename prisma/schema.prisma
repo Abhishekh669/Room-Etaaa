@@ -44,7 +44,8 @@ model User {
   roomBilling      RoomBilling[]      @relation("roomBilling")
   paymentHistory   PaymentHistory[]   @relation("paymentHistory")
   client           PaymentHistory[]   @relation("client")
-  
+  roomPaymentRecord      RoomPaymentRecord[] @relation("roomPaymentRecord")
+  payedBy          RoomPaymentRecord[] @relation("payedBy")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -136,8 +137,7 @@ model Room {
   clients String[]
   roomCapacity  Int        @default(1)
 
-  payedAmount Float @default(0)
-  dueAmount   Float @default(0)
+  dueAmount   Float @default(0) //total due amount till now 
 
   clientInitationData  DateTime?
   startedPriceFromDate DateTime?
@@ -147,6 +147,8 @@ model Room {
   //relations
   roomBilling RoomBilling? @relation("roomBilling")
   roomPayment PaymentHistory[] @relation("roomPayment")
+  roomPaymentRecord      RoomPaymentRecord[] @relation("roomPaymentRecord")
+
 
   createdAt DateTime @default(now())
 
@@ -172,6 +174,38 @@ model RoomBilling {
   @@unique([roomId])
 }
 
+enum PaymentStatus {
+  PENDING
+  PAID
+  OVERDUE
+}
+
+model RoomPaymentRecord{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  description String
+
+  ownerId String @db.ObjectId
+  owner   User   @relation("roomPaymentRecord", fields: [ownerId], references: [id], onDelete: Cascade)
+
+  roomId String @db.ObjectId
+  room   Room   @relation("roomPaymentRecord", fields: [roomId], references: [id], onDelete: Cascade)
+
+  payedBy String @db.ObjectId
+  client  User   @relation("payedBy", fields: [payedBy], references: [id], onDelete: Cascade)
+
+
+  amountTotal Float //total amount to be payed
+
+  payedAmount Float //last date payed amount
+  dueAmount   Float //total due amount till now 
+  paymentStatus PaymentStatus @default(PENDING)
+  dueMoneyReason String?
+
+  createdAt DateTime @default(now())
+
+}
+
 model PaymentHistory {
   id      String @id @default(auto()) @map("_id") @db.ObjectId
   ownerId String @db.ObjectId
@@ -180,13 +214,13 @@ model PaymentHistory {
   payedBy String @db.ObjectId
   client  User   @relation("client", fields: [payedBy], references: [id], onDelete: Cascade)
 
-  totalAmount Float
+  totalAmount Float //each time payment is made , total amount is updated
 
   roomId String @db.ObjectId
-  room  Room  @relation("roomPayment", fields: [roomId], references: [id])
+  room  Room  @relation("roomPayment", fields: [roomId], references: [id], onDelete: Cascade)
 
-  payedamount Float
-  dueAmount   Float
+  payedamount Float //each time payment is made , payed amount is updated
+  dueAmount   Float //each time payment is made , due amount is updated
 
   startedDate DateTime
   createdAt   DateTime @default(now())

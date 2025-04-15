@@ -7,7 +7,7 @@ function HeaderPage({ title1, title2 }: { title1: string, title2 ?: string }) {
   return (
     <header className={cn(
       "flex items-center h-14 px-4 border-b border-gray-200 bg-white",
-      "w-full sticky top-0 z-40"
+      "w-full sticky top-0 z-100"
     )}>
       <div className="flex items-center gap-3">
         <SidebarTrigger className="text-gray-600 hover:text-gray-900" />

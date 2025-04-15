@@ -7,7 +7,7 @@ import RouteBackButton from '@/components/shared/route-back-button';
 import AddButton from '@/components/shared/add-button';
 import { RoomImageGallery } from '@/components/rooms/room-image-card';
 import SpinningLoader from '@/components/shared/SpinningLoader';
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { RoomStatusBadge } from '@/components/shared/room-status-badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { RoomDetailsTab } from '@/components/rooms/room-details-tab';
@@ -17,31 +17,34 @@ import { RoomLocationTab } from '@/components/rooms/room-location-tab';
 import DeleteButton from '@/components/shared/delete-button';
 import { toast } from 'sonner';
 import { useDeleteRoom } from '@/features/hooks/tanstacks/mutate-hooks/rooms/use-delete-room';
+import { RoomSummaryCard } from '@/components/rooms/room-summary-card';
 
 function RoomIdPage() {
     const roomId = useRoomId();
 
     const { data: roomData, isLoading: roomDataLoading } = useGetRoomById(roomId)
-    const {mutate : deleteRoom, isPending : deleteRoomLoading} = useDeleteRoom();
-    const handleDelete = () =>{
-        if(!roomId){
+    const router = useRouter();
+    const { mutate: deleteRoom, isPending: deleteRoomLoading } = useDeleteRoom();
+    const handleDelete = () => {
+        if (!roomId) {
             toast.error("Room not found")
             return;
         }
-        if(deleteRoomLoading){
+        if (deleteRoomLoading) {
             toast.error("Deleting room...")
             return;
         }
+        console.log("this is the room id : ", roomId)
         deleteRoom(roomId, {
-            onSuccess : (res) => {
-               if(res.success && res.message){
-                toast.success(res.message)
-                redirect("/ghar/rooms")
-               } else if(res.error && !res.success){
-                toast.error(res.error)
-               }
+            onSuccess: (res) => {
+                if (res.success && res.message) {
+                    toast.success(res.message)
+                    router.push("/ghar/rooms")
+                } else if (res.error && !res.success) {
+                    toast.error(res.error)
+                }
             },
-            onError : (error) => {
+            onError: (error) => {
                 toast.error(error.message)
             }
         })
@@ -49,25 +52,29 @@ function RoomIdPage() {
     if (roomDataLoading) {
         return <SpinningLoader />
     }
-    
+    if (!roomData?.data) {
+        return <div className=' mochiy-pop-one-regular text-2xl w-full h-full flex items-center justify-center'>Room <span className='text-[#ff0000]'>not</span> found</div>
+    }
+
 
     return (
         <div className='w-full flex flex-col gap-y-4 '>
             <HeaderPage title1="Room" title2="Management" />
             <div className='flex  justify-between px-2'>
-                <RouteBackButton />
+                <RouteBackButton isDisabled={deleteRoomLoading} location={`/ghar/rooms`}/>
                 <div className='flex gap-x-2'>
-                <DeleteButton onDelete={handleDelete} title='Room' />
-                <AddButton isDisabled={deleteRoomLoading} title='edit-room' location={`/ghar/rooms/${roomId}/edit-room`} />
+                    <DeleteButton onDelete={handleDelete} loadingText='Deleting room...' deleting={deleteRoomLoading} title='Room' />
+                    <AddButton isDisabled={deleteRoomLoading} title='edit-room' location={`/ghar/rooms/${roomId}/edit-room`} />
                 </div>
             </div>
-            <div className='p-6 md:p-8 lg:p-10 '>
-                <div className='w-full lg:w-2/3'>
+            <div className='p-6  md:p-8 lg:p-10 flex flex-col lg:flex-row gap-x-4 gap-y-4 '>
+                <div className='w-full flex flex-col gap-y-4'>
                     <div className="flex items-center justify-between mb-4">
-                        <h1 className="text-3xl font-bold">Room {roomData?.data?.roomNumber}</h1>
+                        <h1 className="text-3xl font-bold mochiy-pop-one-regular">Room <span className='text-[#ff0000]'>{roomData?.data?.roomNumber}</span> </h1>
                         <RoomStatusBadge status={roomData?.data.roomStatus} />
                     </div>
                     <RoomImageGallery images={roomData?.data.roomImages} roomNumber={roomData?.data.roomNumber} />
+                    <div className='w-full grid grid-cols-1 lg:grid-cols-2 gap-4 '>
                     <Tabs defaultValue='details' className='mt-6'>
                         <TabsList className='grid grid-cols-4 w-full'>
                             <TabsTrigger value='details'>Details</TabsTrigger>
@@ -75,29 +82,34 @@ function RoomIdPage() {
                             <TabsTrigger value="billing">Billing</TabsTrigger>
                             <TabsTrigger value="location">Location</TabsTrigger>
                         </TabsList>
-                        <TabsContent value='details'>
+                        <TabsContent value='details' >
                             <RoomDetailsTab room={roomData?.data} />
                         </TabsContent>
 
-                        <TabsContent value="clients">
+                        <TabsContent value="clients" >
                             <RoomClientsTab room={roomData?.data} />
                         </TabsContent>
 
-                        <TabsContent value="billing">
+                        <TabsContent value="billing" >
                             <RoomBillingTabs room={roomData?.data} />
                         </TabsContent>
 
-                        <TabsContent value="location">
+                        <TabsContent value="location" >
                             <RoomLocationTab room={roomData?.data} />
                         </TabsContent>
 
 
                     </Tabs>
+                    <div className='w-full lg:mt-20  '>
+                    <RoomSummaryCard room={roomData?.data} />
                 </div>
-                <div>
-                    //summary card
+                    </div>
+
                 </div>
+               
+
             </div>
+
 
         </div>
     )

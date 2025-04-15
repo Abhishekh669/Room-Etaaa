@@ -10,7 +10,7 @@ interface RoomClientsTabProps {
 
 export const RoomClientsTab = ({ room }: RoomClientsTabProps) => {
   return (
-    <div className="p-6 border rounded-lg">
+    <div className="p-6 border rounded-lg bg-white">
       <h3 className="text-lg font-semibold mb-2">Client Information</h3>
 
       <div className="flex items-center mb-4">

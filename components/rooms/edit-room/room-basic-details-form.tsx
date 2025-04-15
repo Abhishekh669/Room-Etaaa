@@ -49,9 +49,6 @@ function RoomBasicDetailsForm({ form, images, previewUrls,  handleImageChange, f
                         control={form.control}
                         name="roomStatus"
                         render={({ field }) => {
-                            // Debug the field value
-                            console.log("Room status field value:", field.value)
-
                             return (
                                 <FormItem>
                                     <FormLabel>Room Status</FormLabel>
@@ -102,6 +99,7 @@ function RoomBasicDetailsForm({ form, images, previewUrls,  handleImageChange, f
                                         type="number"
                                         min={1}
                                         {...field}
+                                        onChange={(e) => field.onChange(Number(e.target.value))}
 
                                     />
                                 </FormControl>

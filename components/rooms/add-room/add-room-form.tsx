@@ -14,7 +14,7 @@ import { RoomBasicInfoForm } from "./room-basic-info"
 import { useUploadThing } from "@/lib/uploadthing-client"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
-import { checkRoomNumber, createRoom } from "@/features/actions/rooms/rooms"
+import { checkRoomNumber, createRoom, removeMultipleRoomImages } from "@/features/actions/rooms/rooms"
 import { useLocationStore } from "@/features/store/location/use-location-store"
 
 const provinces = [
@@ -64,6 +64,7 @@ export default function AddRoomForm() {
   console.log("this is the images  ;",files)
 
   async function onSubmit(values: z.infer<typeof RoomSchema>) {
+    let errorDelete : string[] = []
     try {
       setLoading(true)
       if (values.lat === 0 && values.lon === 0) {
@@ -87,6 +88,7 @@ export default function AddRoomForm() {
         const uploadResults = await startUpload(files)
         console.log("this is the upload results :", uploadResults)
         if (uploadResults) {
+          errorDelete = uploadResults.map(result => result.ufsUrl)
           uploadedImages = uploadResults.map(result => result.ufsUrl)
         }
       }
@@ -107,10 +109,13 @@ export default function AddRoomForm() {
         toast.error(res.error || "Something went wrong")
       }
     } catch (error) {
+      await removeMultipleRoomImages(errorDelete);
+      errorDelete = []
       console.error("Error submitting form:", error)
       toast.error(error instanceof Error ? error.message : "Something went wrong");
     } finally {
       setLoading(false)
+
     }
   }
 

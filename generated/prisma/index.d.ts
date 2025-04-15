@@ -44,6 +44,11 @@ export type Room = $Result.DefaultSelection<Prisma.$RoomPayload>
  */
 export type RoomBilling = $Result.DefaultSelection<Prisma.$RoomBillingPayload>
 /**
+ * Model RoomPaymentRecord
+ * 
+ */
+export type RoomPaymentRecord = $Result.DefaultSelection<Prisma.$RoomPaymentRecordPayload>
+/**
  * Model PaymentHistory
  * 
  */
@@ -89,6 +94,15 @@ export const RoomStatus: {
 
 export type RoomStatus = (typeof RoomStatus)[keyof typeof RoomStatus]
 
+
+export const PaymentStatus: {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  OVERDUE: 'OVERDUE'
+};
+
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -106,6 +120,10 @@ export const SubscriptionStatus: typeof $Enums.SubscriptionStatus
 export type RoomStatus = $Enums.RoomStatus
 
 export const RoomStatus: typeof $Enums.RoomStatus
+
+export type PaymentStatus = $Enums.PaymentStatus
+
+export const PaymentStatus: typeof $Enums.PaymentStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -258,6 +276,16 @@ export class PrismaClient<
     * ```
     */
   get roomBilling(): Prisma.RoomBillingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.roomPaymentRecord`: Exposes CRUD operations for the **RoomPaymentRecord** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RoomPaymentRecords
+    * const roomPaymentRecords = await prisma.roomPaymentRecord.findMany()
+    * ```
+    */
+  get roomPaymentRecord(): Prisma.RoomPaymentRecordDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.paymentHistory`: Exposes CRUD operations for the **PaymentHistory** model.
@@ -714,6 +742,7 @@ export namespace Prisma {
     SubscriptionPlan: 'SubscriptionPlan',
     Room: 'Room',
     RoomBilling: 'RoomBilling',
+    RoomPaymentRecord: 'RoomPaymentRecord',
     PaymentHistory: 'PaymentHistory'
   };
 
@@ -733,7 +762,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "userRequest" | "subscriptionPlan" | "room" | "roomBilling" | "paymentHistory"
+      modelProps: "user" | "account" | "userRequest" | "subscriptionPlan" | "room" | "roomBilling" | "roomPaymentRecord" | "paymentHistory"
       txIsolationLevel: never
     }
     model: {
@@ -1181,6 +1210,80 @@ export namespace Prisma {
           }
         }
       }
+      RoomPaymentRecord: {
+        payload: Prisma.$RoomPaymentRecordPayload<ExtArgs>
+        fields: Prisma.RoomPaymentRecordFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RoomPaymentRecordFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPaymentRecordPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RoomPaymentRecordFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPaymentRecordPayload>
+          }
+          findFirst: {
+            args: Prisma.RoomPaymentRecordFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPaymentRecordPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RoomPaymentRecordFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPaymentRecordPayload>
+          }
+          findMany: {
+            args: Prisma.RoomPaymentRecordFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPaymentRecordPayload>[]
+          }
+          create: {
+            args: Prisma.RoomPaymentRecordCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPaymentRecordPayload>
+          }
+          createMany: {
+            args: Prisma.RoomPaymentRecordCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.RoomPaymentRecordDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPaymentRecordPayload>
+          }
+          update: {
+            args: Prisma.RoomPaymentRecordUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPaymentRecordPayload>
+          }
+          deleteMany: {
+            args: Prisma.RoomPaymentRecordDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RoomPaymentRecordUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.RoomPaymentRecordUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPaymentRecordPayload>
+          }
+          aggregate: {
+            args: Prisma.RoomPaymentRecordAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRoomPaymentRecord>
+          }
+          groupBy: {
+            args: Prisma.RoomPaymentRecordGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RoomPaymentRecordGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.RoomPaymentRecordFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.RoomPaymentRecordAggregateRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          count: {
+            args: Prisma.RoomPaymentRecordCountArgs<ExtArgs>
+            result: $Utils.Optional<RoomPaymentRecordCountAggregateOutputType> | number
+          }
+        }
+      }
       PaymentHistory: {
         payload: Prisma.$PaymentHistoryPayload<ExtArgs>
         fields: Prisma.PaymentHistoryFieldRefs
@@ -1332,6 +1435,7 @@ export namespace Prisma {
     subscriptionPlan?: SubscriptionPlanOmit
     room?: RoomOmit
     roomBilling?: RoomBillingOmit
+    roomPaymentRecord?: RoomPaymentRecordOmit
     paymentHistory?: PaymentHistoryOmit
   }
 
@@ -1434,6 +1538,8 @@ export namespace Prisma {
     roomBilling: number
     paymentHistory: number
     client: number
+    roomPaymentRecord: number
+    payedBy: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1444,6 +1550,8 @@ export namespace Prisma {
     roomBilling?: boolean | UserCountOutputTypeCountRoomBillingArgs
     paymentHistory?: boolean | UserCountOutputTypeCountPaymentHistoryArgs
     client?: boolean | UserCountOutputTypeCountClientArgs
+    roomPaymentRecord?: boolean | UserCountOutputTypeCountRoomPaymentRecordArgs
+    payedBy?: boolean | UserCountOutputTypeCountPayedByArgs
   }
 
   // Custom InputTypes
@@ -1506,6 +1614,20 @@ export namespace Prisma {
     where?: PaymentHistoryWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRoomPaymentRecordArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoomPaymentRecordWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPayedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoomPaymentRecordWhereInput
+  }
+
 
   /**
    * Count Type RoomCountOutputType
@@ -1513,10 +1635,12 @@ export namespace Prisma {
 
   export type RoomCountOutputType = {
     roomPayment: number
+    roomPaymentRecord: number
   }
 
   export type RoomCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     roomPayment?: boolean | RoomCountOutputTypeCountRoomPaymentArgs
+    roomPaymentRecord?: boolean | RoomCountOutputTypeCountRoomPaymentRecordArgs
   }
 
   // Custom InputTypes
@@ -1535,6 +1659,13 @@ export namespace Prisma {
    */
   export type RoomCountOutputTypeCountRoomPaymentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PaymentHistoryWhereInput
+  }
+
+  /**
+   * RoomCountOutputType without action
+   */
+  export type RoomCountOutputTypeCountRoomPaymentRecordArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoomPaymentRecordWhereInput
   }
 
 
@@ -1777,6 +1908,8 @@ export namespace Prisma {
     roomBilling?: boolean | User$roomBillingArgs<ExtArgs>
     paymentHistory?: boolean | User$paymentHistoryArgs<ExtArgs>
     client?: boolean | User$clientArgs<ExtArgs>
+    roomPaymentRecord?: boolean | User$roomPaymentRecordArgs<ExtArgs>
+    payedBy?: boolean | User$payedByArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1807,6 +1940,8 @@ export namespace Prisma {
     roomBilling?: boolean | User$roomBillingArgs<ExtArgs>
     paymentHistory?: boolean | User$paymentHistoryArgs<ExtArgs>
     client?: boolean | User$clientArgs<ExtArgs>
+    roomPaymentRecord?: boolean | User$roomPaymentRecordArgs<ExtArgs>
+    payedBy?: boolean | User$payedByArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -1820,6 +1955,8 @@ export namespace Prisma {
       roomBilling: Prisma.$RoomBillingPayload<ExtArgs>[]
       paymentHistory: Prisma.$PaymentHistoryPayload<ExtArgs>[]
       client: Prisma.$PaymentHistoryPayload<ExtArgs>[]
+      roomPaymentRecord: Prisma.$RoomPaymentRecordPayload<ExtArgs>[]
+      payedBy: Prisma.$RoomPaymentRecordPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2205,6 +2342,8 @@ export namespace Prisma {
     roomBilling<T extends User$roomBillingArgs<ExtArgs> = {}>(args?: Subset<T, User$roomBillingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomBillingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     paymentHistory<T extends User$paymentHistoryArgs<ExtArgs> = {}>(args?: Subset<T, User$paymentHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     client<T extends User$clientArgs<ExtArgs> = {}>(args?: Subset<T, User$clientArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    roomPaymentRecord<T extends User$roomPaymentRecordArgs<ExtArgs> = {}>(args?: Subset<T, User$roomPaymentRecordArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomPaymentRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    payedBy<T extends User$payedByArgs<ExtArgs> = {}>(args?: Subset<T, User$payedByArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomPaymentRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2782,6 +2921,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PaymentHistoryScalarFieldEnum | PaymentHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * User.roomPaymentRecord
+   */
+  export type User$roomPaymentRecordArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomPaymentRecord
+     */
+    select?: RoomPaymentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomPaymentRecord
+     */
+    omit?: RoomPaymentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomPaymentRecordInclude<ExtArgs> | null
+    where?: RoomPaymentRecordWhereInput
+    orderBy?: RoomPaymentRecordOrderByWithRelationInput | RoomPaymentRecordOrderByWithRelationInput[]
+    cursor?: RoomPaymentRecordWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RoomPaymentRecordScalarFieldEnum | RoomPaymentRecordScalarFieldEnum[]
+  }
+
+  /**
+   * User.payedBy
+   */
+  export type User$payedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomPaymentRecord
+     */
+    select?: RoomPaymentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomPaymentRecord
+     */
+    omit?: RoomPaymentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomPaymentRecordInclude<ExtArgs> | null
+    where?: RoomPaymentRecordWhereInput
+    orderBy?: RoomPaymentRecordOrderByWithRelationInput | RoomPaymentRecordOrderByWithRelationInput[]
+    cursor?: RoomPaymentRecordWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RoomPaymentRecordScalarFieldEnum | RoomPaymentRecordScalarFieldEnum[]
   }
 
   /**
@@ -5938,7 +6125,6 @@ export namespace Prisma {
     beds: number | null
     toilet: number | null
     roomCapacity: number | null
-    payedAmount: number | null
     dueAmount: number | null
   }
 
@@ -5951,7 +6137,6 @@ export namespace Prisma {
     beds: number | null
     toilet: number | null
     roomCapacity: number | null
-    payedAmount: number | null
     dueAmount: number | null
   }
 
@@ -5970,7 +6155,6 @@ export namespace Prisma {
     beds: number | null
     toilet: number | null
     roomCapacity: number | null
-    payedAmount: number | null
     dueAmount: number | null
     clientInitationData: Date | null
     startedPriceFromDate: Date | null
@@ -5993,7 +6177,6 @@ export namespace Prisma {
     beds: number | null
     toilet: number | null
     roomCapacity: number | null
-    payedAmount: number | null
     dueAmount: number | null
     clientInitationData: Date | null
     startedPriceFromDate: Date | null
@@ -6018,7 +6201,6 @@ export namespace Prisma {
     toilet: number
     clients: number
     roomCapacity: number
-    payedAmount: number
     dueAmount: number
     clientInitationData: number
     startedPriceFromDate: number
@@ -6037,7 +6219,6 @@ export namespace Prisma {
     beds?: true
     toilet?: true
     roomCapacity?: true
-    payedAmount?: true
     dueAmount?: true
   }
 
@@ -6050,7 +6231,6 @@ export namespace Prisma {
     beds?: true
     toilet?: true
     roomCapacity?: true
-    payedAmount?: true
     dueAmount?: true
   }
 
@@ -6069,7 +6249,6 @@ export namespace Prisma {
     beds?: true
     toilet?: true
     roomCapacity?: true
-    payedAmount?: true
     dueAmount?: true
     clientInitationData?: true
     startedPriceFromDate?: true
@@ -6092,7 +6271,6 @@ export namespace Prisma {
     beds?: true
     toilet?: true
     roomCapacity?: true
-    payedAmount?: true
     dueAmount?: true
     clientInitationData?: true
     startedPriceFromDate?: true
@@ -6117,7 +6295,6 @@ export namespace Prisma {
     toilet?: true
     clients?: true
     roomCapacity?: true
-    payedAmount?: true
     dueAmount?: true
     clientInitationData?: true
     startedPriceFromDate?: true
@@ -6229,7 +6406,6 @@ export namespace Prisma {
     toilet: number
     clients: string[]
     roomCapacity: number
-    payedAmount: number
     dueAmount: number
     clientInitationData: Date | null
     startedPriceFromDate: Date | null
@@ -6273,7 +6449,6 @@ export namespace Prisma {
     toilet?: boolean
     clients?: boolean
     roomCapacity?: boolean
-    payedAmount?: boolean
     dueAmount?: boolean
     clientInitationData?: boolean
     startedPriceFromDate?: boolean
@@ -6282,6 +6457,7 @@ export namespace Prisma {
     owner?: boolean | UserDefaultArgs<ExtArgs>
     roomBilling?: boolean | Room$roomBillingArgs<ExtArgs>
     roomPayment?: boolean | Room$roomPaymentArgs<ExtArgs>
+    roomPaymentRecord?: boolean | Room$roomPaymentRecordArgs<ExtArgs>
     _count?: boolean | RoomCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["room"]>
 
@@ -6304,7 +6480,6 @@ export namespace Prisma {
     toilet?: boolean
     clients?: boolean
     roomCapacity?: boolean
-    payedAmount?: boolean
     dueAmount?: boolean
     clientInitationData?: boolean
     startedPriceFromDate?: boolean
@@ -6312,11 +6487,12 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type RoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ownerId" | "roomStatus" | "province" | "location" | "lon" | "lat" | "roomNumber" | "title" | "description" | "roomImages" | "numberOfRooms" | "beds" | "toilet" | "clients" | "roomCapacity" | "payedAmount" | "dueAmount" | "clientInitationData" | "startedPriceFromDate" | "lastPayedDate" | "createdAt", ExtArgs["result"]["room"]>
+  export type RoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ownerId" | "roomStatus" | "province" | "location" | "lon" | "lat" | "roomNumber" | "title" | "description" | "roomImages" | "numberOfRooms" | "beds" | "toilet" | "clients" | "roomCapacity" | "dueAmount" | "clientInitationData" | "startedPriceFromDate" | "lastPayedDate" | "createdAt", ExtArgs["result"]["room"]>
   export type RoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>
     roomBilling?: boolean | Room$roomBillingArgs<ExtArgs>
     roomPayment?: boolean | Room$roomPaymentArgs<ExtArgs>
+    roomPaymentRecord?: boolean | Room$roomPaymentRecordArgs<ExtArgs>
     _count?: boolean | RoomCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -6326,6 +6502,7 @@ export namespace Prisma {
       owner: Prisma.$UserPayload<ExtArgs>
       roomBilling: Prisma.$RoomBillingPayload<ExtArgs> | null
       roomPayment: Prisma.$PaymentHistoryPayload<ExtArgs>[]
+      roomPaymentRecord: Prisma.$RoomPaymentRecordPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6344,7 +6521,6 @@ export namespace Prisma {
       toilet: number
       clients: string[]
       roomCapacity: number
-      payedAmount: number
       dueAmount: number
       clientInitationData: Date | null
       startedPriceFromDate: Date | null
@@ -6716,6 +6892,7 @@ export namespace Prisma {
     owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     roomBilling<T extends Room$roomBillingArgs<ExtArgs> = {}>(args?: Subset<T, Room$roomBillingArgs<ExtArgs>>): Prisma__RoomBillingClient<$Result.GetResult<Prisma.$RoomBillingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     roomPayment<T extends Room$roomPaymentArgs<ExtArgs> = {}>(args?: Subset<T, Room$roomPaymentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    roomPaymentRecord<T extends Room$roomPaymentRecordArgs<ExtArgs> = {}>(args?: Subset<T, Room$roomPaymentRecordArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomPaymentRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6761,7 +6938,6 @@ export namespace Prisma {
     readonly toilet: FieldRef<"Room", 'Int'>
     readonly clients: FieldRef<"Room", 'String[]'>
     readonly roomCapacity: FieldRef<"Room", 'Int'>
-    readonly payedAmount: FieldRef<"Room", 'Float'>
     readonly dueAmount: FieldRef<"Room", 'Float'>
     readonly clientInitationData: FieldRef<"Room", 'DateTime'>
     readonly startedPriceFromDate: FieldRef<"Room", 'DateTime'>
@@ -7177,6 +7353,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PaymentHistoryScalarFieldEnum | PaymentHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * Room.roomPaymentRecord
+   */
+  export type Room$roomPaymentRecordArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomPaymentRecord
+     */
+    select?: RoomPaymentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomPaymentRecord
+     */
+    omit?: RoomPaymentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomPaymentRecordInclude<ExtArgs> | null
+    where?: RoomPaymentRecordWhereInput
+    orderBy?: RoomPaymentRecordOrderByWithRelationInput | RoomPaymentRecordOrderByWithRelationInput[]
+    cursor?: RoomPaymentRecordWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RoomPaymentRecordScalarFieldEnum | RoomPaymentRecordScalarFieldEnum[]
   }
 
   /**
@@ -8257,6 +8457,1101 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: RoomBillingInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model RoomPaymentRecord
+   */
+
+  export type AggregateRoomPaymentRecord = {
+    _count: RoomPaymentRecordCountAggregateOutputType | null
+    _avg: RoomPaymentRecordAvgAggregateOutputType | null
+    _sum: RoomPaymentRecordSumAggregateOutputType | null
+    _min: RoomPaymentRecordMinAggregateOutputType | null
+    _max: RoomPaymentRecordMaxAggregateOutputType | null
+  }
+
+  export type RoomPaymentRecordAvgAggregateOutputType = {
+    amountTotal: number | null
+    payedAmount: number | null
+    dueAmount: number | null
+  }
+
+  export type RoomPaymentRecordSumAggregateOutputType = {
+    amountTotal: number | null
+    payedAmount: number | null
+    dueAmount: number | null
+  }
+
+  export type RoomPaymentRecordMinAggregateOutputType = {
+    id: string | null
+    description: string | null
+    ownerId: string | null
+    roomId: string | null
+    payedBy: string | null
+    amountTotal: number | null
+    payedAmount: number | null
+    dueAmount: number | null
+    paymentStatus: $Enums.PaymentStatus | null
+    dueMoneyReason: string | null
+    createdAt: Date | null
+  }
+
+  export type RoomPaymentRecordMaxAggregateOutputType = {
+    id: string | null
+    description: string | null
+    ownerId: string | null
+    roomId: string | null
+    payedBy: string | null
+    amountTotal: number | null
+    payedAmount: number | null
+    dueAmount: number | null
+    paymentStatus: $Enums.PaymentStatus | null
+    dueMoneyReason: string | null
+    createdAt: Date | null
+  }
+
+  export type RoomPaymentRecordCountAggregateOutputType = {
+    id: number
+    description: number
+    ownerId: number
+    roomId: number
+    payedBy: number
+    amountTotal: number
+    payedAmount: number
+    dueAmount: number
+    paymentStatus: number
+    dueMoneyReason: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type RoomPaymentRecordAvgAggregateInputType = {
+    amountTotal?: true
+    payedAmount?: true
+    dueAmount?: true
+  }
+
+  export type RoomPaymentRecordSumAggregateInputType = {
+    amountTotal?: true
+    payedAmount?: true
+    dueAmount?: true
+  }
+
+  export type RoomPaymentRecordMinAggregateInputType = {
+    id?: true
+    description?: true
+    ownerId?: true
+    roomId?: true
+    payedBy?: true
+    amountTotal?: true
+    payedAmount?: true
+    dueAmount?: true
+    paymentStatus?: true
+    dueMoneyReason?: true
+    createdAt?: true
+  }
+
+  export type RoomPaymentRecordMaxAggregateInputType = {
+    id?: true
+    description?: true
+    ownerId?: true
+    roomId?: true
+    payedBy?: true
+    amountTotal?: true
+    payedAmount?: true
+    dueAmount?: true
+    paymentStatus?: true
+    dueMoneyReason?: true
+    createdAt?: true
+  }
+
+  export type RoomPaymentRecordCountAggregateInputType = {
+    id?: true
+    description?: true
+    ownerId?: true
+    roomId?: true
+    payedBy?: true
+    amountTotal?: true
+    payedAmount?: true
+    dueAmount?: true
+    paymentStatus?: true
+    dueMoneyReason?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type RoomPaymentRecordAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RoomPaymentRecord to aggregate.
+     */
+    where?: RoomPaymentRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoomPaymentRecords to fetch.
+     */
+    orderBy?: RoomPaymentRecordOrderByWithRelationInput | RoomPaymentRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RoomPaymentRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoomPaymentRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoomPaymentRecords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RoomPaymentRecords
+    **/
+    _count?: true | RoomPaymentRecordCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RoomPaymentRecordAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RoomPaymentRecordSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RoomPaymentRecordMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RoomPaymentRecordMaxAggregateInputType
+  }
+
+  export type GetRoomPaymentRecordAggregateType<T extends RoomPaymentRecordAggregateArgs> = {
+        [P in keyof T & keyof AggregateRoomPaymentRecord]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRoomPaymentRecord[P]>
+      : GetScalarType<T[P], AggregateRoomPaymentRecord[P]>
+  }
+
+
+
+
+  export type RoomPaymentRecordGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoomPaymentRecordWhereInput
+    orderBy?: RoomPaymentRecordOrderByWithAggregationInput | RoomPaymentRecordOrderByWithAggregationInput[]
+    by: RoomPaymentRecordScalarFieldEnum[] | RoomPaymentRecordScalarFieldEnum
+    having?: RoomPaymentRecordScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RoomPaymentRecordCountAggregateInputType | true
+    _avg?: RoomPaymentRecordAvgAggregateInputType
+    _sum?: RoomPaymentRecordSumAggregateInputType
+    _min?: RoomPaymentRecordMinAggregateInputType
+    _max?: RoomPaymentRecordMaxAggregateInputType
+  }
+
+  export type RoomPaymentRecordGroupByOutputType = {
+    id: string
+    description: string
+    ownerId: string
+    roomId: string
+    payedBy: string
+    amountTotal: number
+    payedAmount: number
+    dueAmount: number
+    paymentStatus: $Enums.PaymentStatus
+    dueMoneyReason: string | null
+    createdAt: Date
+    _count: RoomPaymentRecordCountAggregateOutputType | null
+    _avg: RoomPaymentRecordAvgAggregateOutputType | null
+    _sum: RoomPaymentRecordSumAggregateOutputType | null
+    _min: RoomPaymentRecordMinAggregateOutputType | null
+    _max: RoomPaymentRecordMaxAggregateOutputType | null
+  }
+
+  type GetRoomPaymentRecordGroupByPayload<T extends RoomPaymentRecordGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RoomPaymentRecordGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RoomPaymentRecordGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RoomPaymentRecordGroupByOutputType[P]>
+            : GetScalarType<T[P], RoomPaymentRecordGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RoomPaymentRecordSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    description?: boolean
+    ownerId?: boolean
+    roomId?: boolean
+    payedBy?: boolean
+    amountTotal?: boolean
+    payedAmount?: boolean
+    dueAmount?: boolean
+    paymentStatus?: boolean
+    dueMoneyReason?: boolean
+    createdAt?: boolean
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    client?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["roomPaymentRecord"]>
+
+
+
+  export type RoomPaymentRecordSelectScalar = {
+    id?: boolean
+    description?: boolean
+    ownerId?: boolean
+    roomId?: boolean
+    payedBy?: boolean
+    amountTotal?: boolean
+    payedAmount?: boolean
+    dueAmount?: boolean
+    paymentStatus?: boolean
+    dueMoneyReason?: boolean
+    createdAt?: boolean
+  }
+
+  export type RoomPaymentRecordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "description" | "ownerId" | "roomId" | "payedBy" | "amountTotal" | "payedAmount" | "dueAmount" | "paymentStatus" | "dueMoneyReason" | "createdAt", ExtArgs["result"]["roomPaymentRecord"]>
+  export type RoomPaymentRecordInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    client?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $RoomPaymentRecordPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RoomPaymentRecord"
+    objects: {
+      owner: Prisma.$UserPayload<ExtArgs>
+      room: Prisma.$RoomPayload<ExtArgs>
+      client: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      description: string
+      ownerId: string
+      roomId: string
+      payedBy: string
+      amountTotal: number
+      payedAmount: number
+      dueAmount: number
+      paymentStatus: $Enums.PaymentStatus
+      dueMoneyReason: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["roomPaymentRecord"]>
+    composites: {}
+  }
+
+  type RoomPaymentRecordGetPayload<S extends boolean | null | undefined | RoomPaymentRecordDefaultArgs> = $Result.GetResult<Prisma.$RoomPaymentRecordPayload, S>
+
+  type RoomPaymentRecordCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RoomPaymentRecordFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RoomPaymentRecordCountAggregateInputType | true
+    }
+
+  export interface RoomPaymentRecordDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RoomPaymentRecord'], meta: { name: 'RoomPaymentRecord' } }
+    /**
+     * Find zero or one RoomPaymentRecord that matches the filter.
+     * @param {RoomPaymentRecordFindUniqueArgs} args - Arguments to find a RoomPaymentRecord
+     * @example
+     * // Get one RoomPaymentRecord
+     * const roomPaymentRecord = await prisma.roomPaymentRecord.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RoomPaymentRecordFindUniqueArgs>(args: SelectSubset<T, RoomPaymentRecordFindUniqueArgs<ExtArgs>>): Prisma__RoomPaymentRecordClient<$Result.GetResult<Prisma.$RoomPaymentRecordPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one RoomPaymentRecord that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RoomPaymentRecordFindUniqueOrThrowArgs} args - Arguments to find a RoomPaymentRecord
+     * @example
+     * // Get one RoomPaymentRecord
+     * const roomPaymentRecord = await prisma.roomPaymentRecord.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RoomPaymentRecordFindUniqueOrThrowArgs>(args: SelectSubset<T, RoomPaymentRecordFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RoomPaymentRecordClient<$Result.GetResult<Prisma.$RoomPaymentRecordPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RoomPaymentRecord that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomPaymentRecordFindFirstArgs} args - Arguments to find a RoomPaymentRecord
+     * @example
+     * // Get one RoomPaymentRecord
+     * const roomPaymentRecord = await prisma.roomPaymentRecord.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RoomPaymentRecordFindFirstArgs>(args?: SelectSubset<T, RoomPaymentRecordFindFirstArgs<ExtArgs>>): Prisma__RoomPaymentRecordClient<$Result.GetResult<Prisma.$RoomPaymentRecordPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RoomPaymentRecord that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomPaymentRecordFindFirstOrThrowArgs} args - Arguments to find a RoomPaymentRecord
+     * @example
+     * // Get one RoomPaymentRecord
+     * const roomPaymentRecord = await prisma.roomPaymentRecord.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RoomPaymentRecordFindFirstOrThrowArgs>(args?: SelectSubset<T, RoomPaymentRecordFindFirstOrThrowArgs<ExtArgs>>): Prisma__RoomPaymentRecordClient<$Result.GetResult<Prisma.$RoomPaymentRecordPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more RoomPaymentRecords that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomPaymentRecordFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RoomPaymentRecords
+     * const roomPaymentRecords = await prisma.roomPaymentRecord.findMany()
+     * 
+     * // Get first 10 RoomPaymentRecords
+     * const roomPaymentRecords = await prisma.roomPaymentRecord.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const roomPaymentRecordWithIdOnly = await prisma.roomPaymentRecord.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RoomPaymentRecordFindManyArgs>(args?: SelectSubset<T, RoomPaymentRecordFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomPaymentRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a RoomPaymentRecord.
+     * @param {RoomPaymentRecordCreateArgs} args - Arguments to create a RoomPaymentRecord.
+     * @example
+     * // Create one RoomPaymentRecord
+     * const RoomPaymentRecord = await prisma.roomPaymentRecord.create({
+     *   data: {
+     *     // ... data to create a RoomPaymentRecord
+     *   }
+     * })
+     * 
+     */
+    create<T extends RoomPaymentRecordCreateArgs>(args: SelectSubset<T, RoomPaymentRecordCreateArgs<ExtArgs>>): Prisma__RoomPaymentRecordClient<$Result.GetResult<Prisma.$RoomPaymentRecordPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many RoomPaymentRecords.
+     * @param {RoomPaymentRecordCreateManyArgs} args - Arguments to create many RoomPaymentRecords.
+     * @example
+     * // Create many RoomPaymentRecords
+     * const roomPaymentRecord = await prisma.roomPaymentRecord.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RoomPaymentRecordCreateManyArgs>(args?: SelectSubset<T, RoomPaymentRecordCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a RoomPaymentRecord.
+     * @param {RoomPaymentRecordDeleteArgs} args - Arguments to delete one RoomPaymentRecord.
+     * @example
+     * // Delete one RoomPaymentRecord
+     * const RoomPaymentRecord = await prisma.roomPaymentRecord.delete({
+     *   where: {
+     *     // ... filter to delete one RoomPaymentRecord
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RoomPaymentRecordDeleteArgs>(args: SelectSubset<T, RoomPaymentRecordDeleteArgs<ExtArgs>>): Prisma__RoomPaymentRecordClient<$Result.GetResult<Prisma.$RoomPaymentRecordPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one RoomPaymentRecord.
+     * @param {RoomPaymentRecordUpdateArgs} args - Arguments to update one RoomPaymentRecord.
+     * @example
+     * // Update one RoomPaymentRecord
+     * const roomPaymentRecord = await prisma.roomPaymentRecord.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RoomPaymentRecordUpdateArgs>(args: SelectSubset<T, RoomPaymentRecordUpdateArgs<ExtArgs>>): Prisma__RoomPaymentRecordClient<$Result.GetResult<Prisma.$RoomPaymentRecordPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more RoomPaymentRecords.
+     * @param {RoomPaymentRecordDeleteManyArgs} args - Arguments to filter RoomPaymentRecords to delete.
+     * @example
+     * // Delete a few RoomPaymentRecords
+     * const { count } = await prisma.roomPaymentRecord.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RoomPaymentRecordDeleteManyArgs>(args?: SelectSubset<T, RoomPaymentRecordDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RoomPaymentRecords.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomPaymentRecordUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RoomPaymentRecords
+     * const roomPaymentRecord = await prisma.roomPaymentRecord.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RoomPaymentRecordUpdateManyArgs>(args: SelectSubset<T, RoomPaymentRecordUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one RoomPaymentRecord.
+     * @param {RoomPaymentRecordUpsertArgs} args - Arguments to update or create a RoomPaymentRecord.
+     * @example
+     * // Update or create a RoomPaymentRecord
+     * const roomPaymentRecord = await prisma.roomPaymentRecord.upsert({
+     *   create: {
+     *     // ... data to create a RoomPaymentRecord
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RoomPaymentRecord we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RoomPaymentRecordUpsertArgs>(args: SelectSubset<T, RoomPaymentRecordUpsertArgs<ExtArgs>>): Prisma__RoomPaymentRecordClient<$Result.GetResult<Prisma.$RoomPaymentRecordPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more RoomPaymentRecords that matches the filter.
+     * @param {RoomPaymentRecordFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const roomPaymentRecord = await prisma.roomPaymentRecord.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: RoomPaymentRecordFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a RoomPaymentRecord.
+     * @param {RoomPaymentRecordAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const roomPaymentRecord = await prisma.roomPaymentRecord.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: RoomPaymentRecordAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
+
+
+    /**
+     * Count the number of RoomPaymentRecords.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomPaymentRecordCountArgs} args - Arguments to filter RoomPaymentRecords to count.
+     * @example
+     * // Count the number of RoomPaymentRecords
+     * const count = await prisma.roomPaymentRecord.count({
+     *   where: {
+     *     // ... the filter for the RoomPaymentRecords we want to count
+     *   }
+     * })
+    **/
+    count<T extends RoomPaymentRecordCountArgs>(
+      args?: Subset<T, RoomPaymentRecordCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RoomPaymentRecordCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RoomPaymentRecord.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomPaymentRecordAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RoomPaymentRecordAggregateArgs>(args: Subset<T, RoomPaymentRecordAggregateArgs>): Prisma.PrismaPromise<GetRoomPaymentRecordAggregateType<T>>
+
+    /**
+     * Group by RoomPaymentRecord.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomPaymentRecordGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RoomPaymentRecordGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RoomPaymentRecordGroupByArgs['orderBy'] }
+        : { orderBy?: RoomPaymentRecordGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RoomPaymentRecordGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRoomPaymentRecordGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RoomPaymentRecord model
+   */
+  readonly fields: RoomPaymentRecordFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RoomPaymentRecord.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RoomPaymentRecordClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    room<T extends RoomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoomDefaultArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    client<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RoomPaymentRecord model
+   */
+  interface RoomPaymentRecordFieldRefs {
+    readonly id: FieldRef<"RoomPaymentRecord", 'String'>
+    readonly description: FieldRef<"RoomPaymentRecord", 'String'>
+    readonly ownerId: FieldRef<"RoomPaymentRecord", 'String'>
+    readonly roomId: FieldRef<"RoomPaymentRecord", 'String'>
+    readonly payedBy: FieldRef<"RoomPaymentRecord", 'String'>
+    readonly amountTotal: FieldRef<"RoomPaymentRecord", 'Float'>
+    readonly payedAmount: FieldRef<"RoomPaymentRecord", 'Float'>
+    readonly dueAmount: FieldRef<"RoomPaymentRecord", 'Float'>
+    readonly paymentStatus: FieldRef<"RoomPaymentRecord", 'PaymentStatus'>
+    readonly dueMoneyReason: FieldRef<"RoomPaymentRecord", 'String'>
+    readonly createdAt: FieldRef<"RoomPaymentRecord", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RoomPaymentRecord findUnique
+   */
+  export type RoomPaymentRecordFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomPaymentRecord
+     */
+    select?: RoomPaymentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomPaymentRecord
+     */
+    omit?: RoomPaymentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomPaymentRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which RoomPaymentRecord to fetch.
+     */
+    where: RoomPaymentRecordWhereUniqueInput
+  }
+
+  /**
+   * RoomPaymentRecord findUniqueOrThrow
+   */
+  export type RoomPaymentRecordFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomPaymentRecord
+     */
+    select?: RoomPaymentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomPaymentRecord
+     */
+    omit?: RoomPaymentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomPaymentRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which RoomPaymentRecord to fetch.
+     */
+    where: RoomPaymentRecordWhereUniqueInput
+  }
+
+  /**
+   * RoomPaymentRecord findFirst
+   */
+  export type RoomPaymentRecordFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomPaymentRecord
+     */
+    select?: RoomPaymentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomPaymentRecord
+     */
+    omit?: RoomPaymentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomPaymentRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which RoomPaymentRecord to fetch.
+     */
+    where?: RoomPaymentRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoomPaymentRecords to fetch.
+     */
+    orderBy?: RoomPaymentRecordOrderByWithRelationInput | RoomPaymentRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RoomPaymentRecords.
+     */
+    cursor?: RoomPaymentRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoomPaymentRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoomPaymentRecords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RoomPaymentRecords.
+     */
+    distinct?: RoomPaymentRecordScalarFieldEnum | RoomPaymentRecordScalarFieldEnum[]
+  }
+
+  /**
+   * RoomPaymentRecord findFirstOrThrow
+   */
+  export type RoomPaymentRecordFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomPaymentRecord
+     */
+    select?: RoomPaymentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomPaymentRecord
+     */
+    omit?: RoomPaymentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomPaymentRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which RoomPaymentRecord to fetch.
+     */
+    where?: RoomPaymentRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoomPaymentRecords to fetch.
+     */
+    orderBy?: RoomPaymentRecordOrderByWithRelationInput | RoomPaymentRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RoomPaymentRecords.
+     */
+    cursor?: RoomPaymentRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoomPaymentRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoomPaymentRecords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RoomPaymentRecords.
+     */
+    distinct?: RoomPaymentRecordScalarFieldEnum | RoomPaymentRecordScalarFieldEnum[]
+  }
+
+  /**
+   * RoomPaymentRecord findMany
+   */
+  export type RoomPaymentRecordFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomPaymentRecord
+     */
+    select?: RoomPaymentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomPaymentRecord
+     */
+    omit?: RoomPaymentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomPaymentRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which RoomPaymentRecords to fetch.
+     */
+    where?: RoomPaymentRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoomPaymentRecords to fetch.
+     */
+    orderBy?: RoomPaymentRecordOrderByWithRelationInput | RoomPaymentRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RoomPaymentRecords.
+     */
+    cursor?: RoomPaymentRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoomPaymentRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoomPaymentRecords.
+     */
+    skip?: number
+    distinct?: RoomPaymentRecordScalarFieldEnum | RoomPaymentRecordScalarFieldEnum[]
+  }
+
+  /**
+   * RoomPaymentRecord create
+   */
+  export type RoomPaymentRecordCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomPaymentRecord
+     */
+    select?: RoomPaymentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomPaymentRecord
+     */
+    omit?: RoomPaymentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomPaymentRecordInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RoomPaymentRecord.
+     */
+    data: XOR<RoomPaymentRecordCreateInput, RoomPaymentRecordUncheckedCreateInput>
+  }
+
+  /**
+   * RoomPaymentRecord createMany
+   */
+  export type RoomPaymentRecordCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RoomPaymentRecords.
+     */
+    data: RoomPaymentRecordCreateManyInput | RoomPaymentRecordCreateManyInput[]
+  }
+
+  /**
+   * RoomPaymentRecord update
+   */
+  export type RoomPaymentRecordUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomPaymentRecord
+     */
+    select?: RoomPaymentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomPaymentRecord
+     */
+    omit?: RoomPaymentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomPaymentRecordInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RoomPaymentRecord.
+     */
+    data: XOR<RoomPaymentRecordUpdateInput, RoomPaymentRecordUncheckedUpdateInput>
+    /**
+     * Choose, which RoomPaymentRecord to update.
+     */
+    where: RoomPaymentRecordWhereUniqueInput
+  }
+
+  /**
+   * RoomPaymentRecord updateMany
+   */
+  export type RoomPaymentRecordUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RoomPaymentRecords.
+     */
+    data: XOR<RoomPaymentRecordUpdateManyMutationInput, RoomPaymentRecordUncheckedUpdateManyInput>
+    /**
+     * Filter which RoomPaymentRecords to update
+     */
+    where?: RoomPaymentRecordWhereInput
+    /**
+     * Limit how many RoomPaymentRecords to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * RoomPaymentRecord upsert
+   */
+  export type RoomPaymentRecordUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomPaymentRecord
+     */
+    select?: RoomPaymentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomPaymentRecord
+     */
+    omit?: RoomPaymentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomPaymentRecordInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RoomPaymentRecord to update in case it exists.
+     */
+    where: RoomPaymentRecordWhereUniqueInput
+    /**
+     * In case the RoomPaymentRecord found by the `where` argument doesn't exist, create a new RoomPaymentRecord with this data.
+     */
+    create: XOR<RoomPaymentRecordCreateInput, RoomPaymentRecordUncheckedCreateInput>
+    /**
+     * In case the RoomPaymentRecord was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RoomPaymentRecordUpdateInput, RoomPaymentRecordUncheckedUpdateInput>
+  }
+
+  /**
+   * RoomPaymentRecord delete
+   */
+  export type RoomPaymentRecordDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomPaymentRecord
+     */
+    select?: RoomPaymentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomPaymentRecord
+     */
+    omit?: RoomPaymentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomPaymentRecordInclude<ExtArgs> | null
+    /**
+     * Filter which RoomPaymentRecord to delete.
+     */
+    where: RoomPaymentRecordWhereUniqueInput
+  }
+
+  /**
+   * RoomPaymentRecord deleteMany
+   */
+  export type RoomPaymentRecordDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RoomPaymentRecords to delete
+     */
+    where?: RoomPaymentRecordWhereInput
+    /**
+     * Limit how many RoomPaymentRecords to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * RoomPaymentRecord findRaw
+   */
+  export type RoomPaymentRecordFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * RoomPaymentRecord aggregateRaw
+   */
+  export type RoomPaymentRecordAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * RoomPaymentRecord without action
+   */
+  export type RoomPaymentRecordDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomPaymentRecord
+     */
+    select?: RoomPaymentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomPaymentRecord
+     */
+    omit?: RoomPaymentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomPaymentRecordInclude<ExtArgs> | null
   }
 
 
@@ -9419,7 +10714,6 @@ export namespace Prisma {
     toilet: 'toilet',
     clients: 'clients',
     roomCapacity: 'roomCapacity',
-    payedAmount: 'payedAmount',
     dueAmount: 'dueAmount',
     clientInitationData: 'clientInitationData',
     startedPriceFromDate: 'startedPriceFromDate',
@@ -9442,6 +10736,23 @@ export namespace Prisma {
   };
 
   export type RoomBillingScalarFieldEnum = (typeof RoomBillingScalarFieldEnum)[keyof typeof RoomBillingScalarFieldEnum]
+
+
+  export const RoomPaymentRecordScalarFieldEnum: {
+    id: 'id',
+    description: 'description',
+    ownerId: 'ownerId',
+    roomId: 'roomId',
+    payedBy: 'payedBy',
+    amountTotal: 'amountTotal',
+    payedAmount: 'payedAmount',
+    dueAmount: 'dueAmount',
+    paymentStatus: 'paymentStatus',
+    dueMoneyReason: 'dueMoneyReason',
+    createdAt: 'createdAt'
+  };
+
+  export type RoomPaymentRecordScalarFieldEnum = (typeof RoomPaymentRecordScalarFieldEnum)[keyof typeof RoomPaymentRecordScalarFieldEnum]
 
 
   export const PaymentHistoryScalarFieldEnum: {
@@ -9597,6 +10908,20 @@ export namespace Prisma {
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
+
+
+  /**
+   * Reference to a field of type 'PaymentStatus'
+   */
+  export type EnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'PaymentStatus[]'
+   */
+  export type ListEnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus[]'>
+    
   /**
    * Deep Input Types
    */
@@ -9626,6 +10951,8 @@ export namespace Prisma {
     roomBilling?: RoomBillingListRelationFilter
     paymentHistory?: PaymentHistoryListRelationFilter
     client?: PaymentHistoryListRelationFilter
+    roomPaymentRecord?: RoomPaymentRecordListRelationFilter
+    payedBy?: RoomPaymentRecordListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -9649,6 +10976,8 @@ export namespace Prisma {
     roomBilling?: RoomBillingOrderByRelationAggregateInput
     paymentHistory?: PaymentHistoryOrderByRelationAggregateInput
     client?: PaymentHistoryOrderByRelationAggregateInput
+    roomPaymentRecord?: RoomPaymentRecordOrderByRelationAggregateInput
+    payedBy?: RoomPaymentRecordOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -9675,6 +11004,8 @@ export namespace Prisma {
     roomBilling?: RoomBillingListRelationFilter
     paymentHistory?: PaymentHistoryListRelationFilter
     client?: PaymentHistoryListRelationFilter
+    roomPaymentRecord?: RoomPaymentRecordListRelationFilter
+    payedBy?: RoomPaymentRecordListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -9968,7 +11299,6 @@ export namespace Prisma {
     toilet?: IntFilter<"Room"> | number
     clients?: StringNullableListFilter<"Room">
     roomCapacity?: IntFilter<"Room"> | number
-    payedAmount?: FloatFilter<"Room"> | number
     dueAmount?: FloatFilter<"Room"> | number
     clientInitationData?: DateTimeNullableFilter<"Room"> | Date | string | null
     startedPriceFromDate?: DateTimeNullableFilter<"Room"> | Date | string | null
@@ -9977,6 +11307,7 @@ export namespace Prisma {
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     roomBilling?: XOR<RoomBillingNullableScalarRelationFilter, RoomBillingWhereInput> | null
     roomPayment?: PaymentHistoryListRelationFilter
+    roomPaymentRecord?: RoomPaymentRecordListRelationFilter
   }
 
   export type RoomOrderByWithRelationInput = {
@@ -9996,7 +11327,6 @@ export namespace Prisma {
     toilet?: SortOrder
     clients?: SortOrder
     roomCapacity?: SortOrder
-    payedAmount?: SortOrder
     dueAmount?: SortOrder
     clientInitationData?: SortOrder
     startedPriceFromDate?: SortOrder
@@ -10005,6 +11335,7 @@ export namespace Prisma {
     owner?: UserOrderByWithRelationInput
     roomBilling?: RoomBillingOrderByWithRelationInput
     roomPayment?: PaymentHistoryOrderByRelationAggregateInput
+    roomPaymentRecord?: RoomPaymentRecordOrderByRelationAggregateInput
   }
 
   export type RoomWhereUniqueInput = Prisma.AtLeast<{
@@ -10027,7 +11358,6 @@ export namespace Prisma {
     toilet?: IntFilter<"Room"> | number
     clients?: StringNullableListFilter<"Room">
     roomCapacity?: IntFilter<"Room"> | number
-    payedAmount?: FloatFilter<"Room"> | number
     dueAmount?: FloatFilter<"Room"> | number
     clientInitationData?: DateTimeNullableFilter<"Room"> | Date | string | null
     startedPriceFromDate?: DateTimeNullableFilter<"Room"> | Date | string | null
@@ -10036,6 +11366,7 @@ export namespace Prisma {
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     roomBilling?: XOR<RoomBillingNullableScalarRelationFilter, RoomBillingWhereInput> | null
     roomPayment?: PaymentHistoryListRelationFilter
+    roomPaymentRecord?: RoomPaymentRecordListRelationFilter
   }, "id" | "roomNumber">
 
   export type RoomOrderByWithAggregationInput = {
@@ -10055,7 +11386,6 @@ export namespace Prisma {
     toilet?: SortOrder
     clients?: SortOrder
     roomCapacity?: SortOrder
-    payedAmount?: SortOrder
     dueAmount?: SortOrder
     clientInitationData?: SortOrder
     startedPriceFromDate?: SortOrder
@@ -10088,7 +11418,6 @@ export namespace Prisma {
     toilet?: IntWithAggregatesFilter<"Room"> | number
     clients?: StringNullableListFilter<"Room">
     roomCapacity?: IntWithAggregatesFilter<"Room"> | number
-    payedAmount?: FloatWithAggregatesFilter<"Room"> | number
     dueAmount?: FloatWithAggregatesFilter<"Room"> | number
     clientInitationData?: DateTimeNullableWithAggregatesFilter<"Room"> | Date | string | null
     startedPriceFromDate?: DateTimeNullableWithAggregatesFilter<"Room"> | Date | string | null
@@ -10169,6 +11498,99 @@ export namespace Prisma {
     internet?: FloatWithAggregatesFilter<"RoomBilling"> | number
     roomCost?: FloatWithAggregatesFilter<"RoomBilling"> | number
     createdAt?: DateTimeWithAggregatesFilter<"RoomBilling"> | Date | string
+  }
+
+  export type RoomPaymentRecordWhereInput = {
+    AND?: RoomPaymentRecordWhereInput | RoomPaymentRecordWhereInput[]
+    OR?: RoomPaymentRecordWhereInput[]
+    NOT?: RoomPaymentRecordWhereInput | RoomPaymentRecordWhereInput[]
+    id?: StringFilter<"RoomPaymentRecord"> | string
+    description?: StringFilter<"RoomPaymentRecord"> | string
+    ownerId?: StringFilter<"RoomPaymentRecord"> | string
+    roomId?: StringFilter<"RoomPaymentRecord"> | string
+    payedBy?: StringFilter<"RoomPaymentRecord"> | string
+    amountTotal?: FloatFilter<"RoomPaymentRecord"> | number
+    payedAmount?: FloatFilter<"RoomPaymentRecord"> | number
+    dueAmount?: FloatFilter<"RoomPaymentRecord"> | number
+    paymentStatus?: EnumPaymentStatusFilter<"RoomPaymentRecord"> | $Enums.PaymentStatus
+    dueMoneyReason?: StringNullableFilter<"RoomPaymentRecord"> | string | null
+    createdAt?: DateTimeFilter<"RoomPaymentRecord"> | Date | string
+    owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+    room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
+    client?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type RoomPaymentRecordOrderByWithRelationInput = {
+    id?: SortOrder
+    description?: SortOrder
+    ownerId?: SortOrder
+    roomId?: SortOrder
+    payedBy?: SortOrder
+    amountTotal?: SortOrder
+    payedAmount?: SortOrder
+    dueAmount?: SortOrder
+    paymentStatus?: SortOrder
+    dueMoneyReason?: SortOrder
+    createdAt?: SortOrder
+    owner?: UserOrderByWithRelationInput
+    room?: RoomOrderByWithRelationInput
+    client?: UserOrderByWithRelationInput
+  }
+
+  export type RoomPaymentRecordWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RoomPaymentRecordWhereInput | RoomPaymentRecordWhereInput[]
+    OR?: RoomPaymentRecordWhereInput[]
+    NOT?: RoomPaymentRecordWhereInput | RoomPaymentRecordWhereInput[]
+    description?: StringFilter<"RoomPaymentRecord"> | string
+    ownerId?: StringFilter<"RoomPaymentRecord"> | string
+    roomId?: StringFilter<"RoomPaymentRecord"> | string
+    payedBy?: StringFilter<"RoomPaymentRecord"> | string
+    amountTotal?: FloatFilter<"RoomPaymentRecord"> | number
+    payedAmount?: FloatFilter<"RoomPaymentRecord"> | number
+    dueAmount?: FloatFilter<"RoomPaymentRecord"> | number
+    paymentStatus?: EnumPaymentStatusFilter<"RoomPaymentRecord"> | $Enums.PaymentStatus
+    dueMoneyReason?: StringNullableFilter<"RoomPaymentRecord"> | string | null
+    createdAt?: DateTimeFilter<"RoomPaymentRecord"> | Date | string
+    owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+    room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
+    client?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type RoomPaymentRecordOrderByWithAggregationInput = {
+    id?: SortOrder
+    description?: SortOrder
+    ownerId?: SortOrder
+    roomId?: SortOrder
+    payedBy?: SortOrder
+    amountTotal?: SortOrder
+    payedAmount?: SortOrder
+    dueAmount?: SortOrder
+    paymentStatus?: SortOrder
+    dueMoneyReason?: SortOrder
+    createdAt?: SortOrder
+    _count?: RoomPaymentRecordCountOrderByAggregateInput
+    _avg?: RoomPaymentRecordAvgOrderByAggregateInput
+    _max?: RoomPaymentRecordMaxOrderByAggregateInput
+    _min?: RoomPaymentRecordMinOrderByAggregateInput
+    _sum?: RoomPaymentRecordSumOrderByAggregateInput
+  }
+
+  export type RoomPaymentRecordScalarWhereWithAggregatesInput = {
+    AND?: RoomPaymentRecordScalarWhereWithAggregatesInput | RoomPaymentRecordScalarWhereWithAggregatesInput[]
+    OR?: RoomPaymentRecordScalarWhereWithAggregatesInput[]
+    NOT?: RoomPaymentRecordScalarWhereWithAggregatesInput | RoomPaymentRecordScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RoomPaymentRecord"> | string
+    description?: StringWithAggregatesFilter<"RoomPaymentRecord"> | string
+    ownerId?: StringWithAggregatesFilter<"RoomPaymentRecord"> | string
+    roomId?: StringWithAggregatesFilter<"RoomPaymentRecord"> | string
+    payedBy?: StringWithAggregatesFilter<"RoomPaymentRecord"> | string
+    amountTotal?: FloatWithAggregatesFilter<"RoomPaymentRecord"> | number
+    payedAmount?: FloatWithAggregatesFilter<"RoomPaymentRecord"> | number
+    dueAmount?: FloatWithAggregatesFilter<"RoomPaymentRecord"> | number
+    paymentStatus?: EnumPaymentStatusWithAggregatesFilter<"RoomPaymentRecord"> | $Enums.PaymentStatus
+    dueMoneyReason?: StringNullableWithAggregatesFilter<"RoomPaymentRecord"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"RoomPaymentRecord"> | Date | string
   }
 
   export type PaymentHistoryWhereInput = {
@@ -10275,6 +11697,8 @@ export namespace Prisma {
     roomBilling?: RoomBillingCreateNestedManyWithoutOwnerInput
     paymentHistory?: PaymentHistoryCreateNestedManyWithoutOwnerInput
     client?: PaymentHistoryCreateNestedManyWithoutClientInput
+    roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
+    payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -10298,6 +11722,8 @@ export namespace Prisma {
     roomBilling?: RoomBillingUncheckedCreateNestedManyWithoutOwnerInput
     paymentHistory?: PaymentHistoryUncheckedCreateNestedManyWithoutOwnerInput
     client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
+    payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type UserUpdateInput = {
@@ -10320,6 +11746,8 @@ export namespace Prisma {
     roomBilling?: RoomBillingUpdateManyWithoutOwnerNestedInput
     paymentHistory?: PaymentHistoryUpdateManyWithoutOwnerNestedInput
     client?: PaymentHistoryUpdateManyWithoutClientNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
+    payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -10342,6 +11770,8 @@ export namespace Prisma {
     roomBilling?: RoomBillingUncheckedUpdateManyWithoutOwnerNestedInput
     paymentHistory?: PaymentHistoryUncheckedUpdateManyWithoutOwnerNestedInput
     client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
+    payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -10650,7 +12080,6 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
-    payedAmount?: number
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
@@ -10659,6 +12088,7 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutRoomInput
     roomBilling?: RoomBillingCreateNestedOneWithoutRoomInput
     roomPayment?: PaymentHistoryCreateNestedManyWithoutRoomInput
+    roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateInput = {
@@ -10678,7 +12108,6 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
-    payedAmount?: number
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
@@ -10686,6 +12115,7 @@ export namespace Prisma {
     createdAt?: Date | string
     roomBilling?: RoomBillingUncheckedCreateNestedOneWithoutRoomInput
     roomPayment?: PaymentHistoryUncheckedCreateNestedManyWithoutRoomInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUpdateInput = {
@@ -10703,7 +12133,6 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
-    payedAmount?: FloatFieldUpdateOperationsInput | number
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10712,6 +12141,7 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutRoomNestedInput
     roomBilling?: RoomBillingUpdateOneWithoutRoomNestedInput
     roomPayment?: PaymentHistoryUpdateManyWithoutRoomNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateInput = {
@@ -10730,7 +12160,6 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
-    payedAmount?: FloatFieldUpdateOperationsInput | number
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10738,6 +12167,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roomBilling?: RoomBillingUncheckedUpdateOneWithoutRoomNestedInput
     roomPayment?: PaymentHistoryUncheckedUpdateManyWithoutRoomNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomCreateManyInput = {
@@ -10757,7 +12187,6 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
-    payedAmount?: number
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
@@ -10780,7 +12209,6 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
-    payedAmount?: FloatFieldUpdateOperationsInput | number
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10804,7 +12232,6 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
-    payedAmount?: FloatFieldUpdateOperationsInput | number
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10880,6 +12307,97 @@ export namespace Prisma {
     electricity?: FloatFieldUpdateOperationsInput | number
     internet?: FloatFieldUpdateOperationsInput | number
     roomCost?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomPaymentRecordCreateInput = {
+    id?: string
+    description: string
+    amountTotal: number
+    payedAmount: number
+    dueAmount: number
+    paymentStatus?: $Enums.PaymentStatus
+    dueMoneyReason?: string | null
+    createdAt?: Date | string
+    owner: UserCreateNestedOneWithoutRoomPaymentRecordInput
+    room: RoomCreateNestedOneWithoutRoomPaymentRecordInput
+    client: UserCreateNestedOneWithoutPayedByInput
+  }
+
+  export type RoomPaymentRecordUncheckedCreateInput = {
+    id?: string
+    description: string
+    ownerId: string
+    roomId: string
+    payedBy: string
+    amountTotal: number
+    payedAmount: number
+    dueAmount: number
+    paymentStatus?: $Enums.PaymentStatus
+    dueMoneyReason?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RoomPaymentRecordUpdateInput = {
+    description?: StringFieldUpdateOperationsInput | string
+    amountTotal?: FloatFieldUpdateOperationsInput | number
+    payedAmount?: FloatFieldUpdateOperationsInput | number
+    dueAmount?: FloatFieldUpdateOperationsInput | number
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    dueMoneyReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutRoomPaymentRecordNestedInput
+    room?: RoomUpdateOneRequiredWithoutRoomPaymentRecordNestedInput
+    client?: UserUpdateOneRequiredWithoutPayedByNestedInput
+  }
+
+  export type RoomPaymentRecordUncheckedUpdateInput = {
+    description?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    payedBy?: StringFieldUpdateOperationsInput | string
+    amountTotal?: FloatFieldUpdateOperationsInput | number
+    payedAmount?: FloatFieldUpdateOperationsInput | number
+    dueAmount?: FloatFieldUpdateOperationsInput | number
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    dueMoneyReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomPaymentRecordCreateManyInput = {
+    id?: string
+    description: string
+    ownerId: string
+    roomId: string
+    payedBy: string
+    amountTotal: number
+    payedAmount: number
+    dueAmount: number
+    paymentStatus?: $Enums.PaymentStatus
+    dueMoneyReason?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RoomPaymentRecordUpdateManyMutationInput = {
+    description?: StringFieldUpdateOperationsInput | string
+    amountTotal?: FloatFieldUpdateOperationsInput | number
+    payedAmount?: FloatFieldUpdateOperationsInput | number
+    dueAmount?: FloatFieldUpdateOperationsInput | number
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    dueMoneyReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomPaymentRecordUncheckedUpdateManyInput = {
+    description?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    payedBy?: StringFieldUpdateOperationsInput | string
+    amountTotal?: FloatFieldUpdateOperationsInput | number
+    payedAmount?: FloatFieldUpdateOperationsInput | number
+    dueAmount?: FloatFieldUpdateOperationsInput | number
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    dueMoneyReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -11062,6 +12580,12 @@ export namespace Prisma {
     none?: PaymentHistoryWhereInput
   }
 
+  export type RoomPaymentRecordListRelationFilter = {
+    every?: RoomPaymentRecordWhereInput
+    some?: RoomPaymentRecordWhereInput
+    none?: RoomPaymentRecordWhereInput
+  }
+
   export type AccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -11083,6 +12607,10 @@ export namespace Prisma {
   }
 
   export type PaymentHistoryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RoomPaymentRecordOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -11481,7 +13009,6 @@ export namespace Prisma {
     toilet?: SortOrder
     clients?: SortOrder
     roomCapacity?: SortOrder
-    payedAmount?: SortOrder
     dueAmount?: SortOrder
     clientInitationData?: SortOrder
     startedPriceFromDate?: SortOrder
@@ -11498,7 +13025,6 @@ export namespace Prisma {
     beds?: SortOrder
     toilet?: SortOrder
     roomCapacity?: SortOrder
-    payedAmount?: SortOrder
     dueAmount?: SortOrder
   }
 
@@ -11517,7 +13043,6 @@ export namespace Prisma {
     beds?: SortOrder
     toilet?: SortOrder
     roomCapacity?: SortOrder
-    payedAmount?: SortOrder
     dueAmount?: SortOrder
     clientInitationData?: SortOrder
     startedPriceFromDate?: SortOrder
@@ -11540,7 +13065,6 @@ export namespace Prisma {
     beds?: SortOrder
     toilet?: SortOrder
     roomCapacity?: SortOrder
-    payedAmount?: SortOrder
     dueAmount?: SortOrder
     clientInitationData?: SortOrder
     startedPriceFromDate?: SortOrder
@@ -11557,7 +13081,6 @@ export namespace Prisma {
     beds?: SortOrder
     toilet?: SortOrder
     roomCapacity?: SortOrder
-    payedAmount?: SortOrder
     dueAmount?: SortOrder
   }
 
@@ -11672,6 +13195,77 @@ export namespace Prisma {
     roomCost?: SortOrder
   }
 
+  export type EnumPaymentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPaymentStatusFilter<$PrismaModel> | $Enums.PaymentStatus
+  }
+
+  export type RoomPaymentRecordCountOrderByAggregateInput = {
+    id?: SortOrder
+    description?: SortOrder
+    ownerId?: SortOrder
+    roomId?: SortOrder
+    payedBy?: SortOrder
+    amountTotal?: SortOrder
+    payedAmount?: SortOrder
+    dueAmount?: SortOrder
+    paymentStatus?: SortOrder
+    dueMoneyReason?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RoomPaymentRecordAvgOrderByAggregateInput = {
+    amountTotal?: SortOrder
+    payedAmount?: SortOrder
+    dueAmount?: SortOrder
+  }
+
+  export type RoomPaymentRecordMaxOrderByAggregateInput = {
+    id?: SortOrder
+    description?: SortOrder
+    ownerId?: SortOrder
+    roomId?: SortOrder
+    payedBy?: SortOrder
+    amountTotal?: SortOrder
+    payedAmount?: SortOrder
+    dueAmount?: SortOrder
+    paymentStatus?: SortOrder
+    dueMoneyReason?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RoomPaymentRecordMinOrderByAggregateInput = {
+    id?: SortOrder
+    description?: SortOrder
+    ownerId?: SortOrder
+    roomId?: SortOrder
+    payedBy?: SortOrder
+    amountTotal?: SortOrder
+    payedAmount?: SortOrder
+    dueAmount?: SortOrder
+    paymentStatus?: SortOrder
+    dueMoneyReason?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RoomPaymentRecordSumOrderByAggregateInput = {
+    amountTotal?: SortOrder
+    payedAmount?: SortOrder
+    dueAmount?: SortOrder
+  }
+
+  export type EnumPaymentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPaymentStatusWithAggregatesFilter<$PrismaModel> | $Enums.PaymentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPaymentStatusFilter<$PrismaModel>
+    _max?: NestedEnumPaymentStatusFilter<$PrismaModel>
+  }
+
   export type PaymentHistoryCountOrderByAggregateInput = {
     id?: SortOrder
     ownerId?: SortOrder
@@ -11769,6 +13363,20 @@ export namespace Prisma {
     connect?: PaymentHistoryWhereUniqueInput | PaymentHistoryWhereUniqueInput[]
   }
 
+  export type RoomPaymentRecordCreateNestedManyWithoutOwnerInput = {
+    create?: XOR<RoomPaymentRecordCreateWithoutOwnerInput, RoomPaymentRecordUncheckedCreateWithoutOwnerInput> | RoomPaymentRecordCreateWithoutOwnerInput[] | RoomPaymentRecordUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: RoomPaymentRecordCreateOrConnectWithoutOwnerInput | RoomPaymentRecordCreateOrConnectWithoutOwnerInput[]
+    createMany?: RoomPaymentRecordCreateManyOwnerInputEnvelope
+    connect?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+  }
+
+  export type RoomPaymentRecordCreateNestedManyWithoutClientInput = {
+    create?: XOR<RoomPaymentRecordCreateWithoutClientInput, RoomPaymentRecordUncheckedCreateWithoutClientInput> | RoomPaymentRecordCreateWithoutClientInput[] | RoomPaymentRecordUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: RoomPaymentRecordCreateOrConnectWithoutClientInput | RoomPaymentRecordCreateOrConnectWithoutClientInput[]
+    createMany?: RoomPaymentRecordCreateManyClientInputEnvelope
+    connect?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -11816,6 +13424,20 @@ export namespace Prisma {
     connectOrCreate?: PaymentHistoryCreateOrConnectWithoutClientInput | PaymentHistoryCreateOrConnectWithoutClientInput[]
     createMany?: PaymentHistoryCreateManyClientInputEnvelope
     connect?: PaymentHistoryWhereUniqueInput | PaymentHistoryWhereUniqueInput[]
+  }
+
+  export type RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput = {
+    create?: XOR<RoomPaymentRecordCreateWithoutOwnerInput, RoomPaymentRecordUncheckedCreateWithoutOwnerInput> | RoomPaymentRecordCreateWithoutOwnerInput[] | RoomPaymentRecordUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: RoomPaymentRecordCreateOrConnectWithoutOwnerInput | RoomPaymentRecordCreateOrConnectWithoutOwnerInput[]
+    createMany?: RoomPaymentRecordCreateManyOwnerInputEnvelope
+    connect?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+  }
+
+  export type RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput = {
+    create?: XOR<RoomPaymentRecordCreateWithoutClientInput, RoomPaymentRecordUncheckedCreateWithoutClientInput> | RoomPaymentRecordCreateWithoutClientInput[] | RoomPaymentRecordUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: RoomPaymentRecordCreateOrConnectWithoutClientInput | RoomPaymentRecordCreateOrConnectWithoutClientInput[]
+    createMany?: RoomPaymentRecordCreateManyClientInputEnvelope
+    connect?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -11938,6 +13560,34 @@ export namespace Prisma {
     deleteMany?: PaymentHistoryScalarWhereInput | PaymentHistoryScalarWhereInput[]
   }
 
+  export type RoomPaymentRecordUpdateManyWithoutOwnerNestedInput = {
+    create?: XOR<RoomPaymentRecordCreateWithoutOwnerInput, RoomPaymentRecordUncheckedCreateWithoutOwnerInput> | RoomPaymentRecordCreateWithoutOwnerInput[] | RoomPaymentRecordUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: RoomPaymentRecordCreateOrConnectWithoutOwnerInput | RoomPaymentRecordCreateOrConnectWithoutOwnerInput[]
+    upsert?: RoomPaymentRecordUpsertWithWhereUniqueWithoutOwnerInput | RoomPaymentRecordUpsertWithWhereUniqueWithoutOwnerInput[]
+    createMany?: RoomPaymentRecordCreateManyOwnerInputEnvelope
+    set?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    disconnect?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    delete?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    connect?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    update?: RoomPaymentRecordUpdateWithWhereUniqueWithoutOwnerInput | RoomPaymentRecordUpdateWithWhereUniqueWithoutOwnerInput[]
+    updateMany?: RoomPaymentRecordUpdateManyWithWhereWithoutOwnerInput | RoomPaymentRecordUpdateManyWithWhereWithoutOwnerInput[]
+    deleteMany?: RoomPaymentRecordScalarWhereInput | RoomPaymentRecordScalarWhereInput[]
+  }
+
+  export type RoomPaymentRecordUpdateManyWithoutClientNestedInput = {
+    create?: XOR<RoomPaymentRecordCreateWithoutClientInput, RoomPaymentRecordUncheckedCreateWithoutClientInput> | RoomPaymentRecordCreateWithoutClientInput[] | RoomPaymentRecordUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: RoomPaymentRecordCreateOrConnectWithoutClientInput | RoomPaymentRecordCreateOrConnectWithoutClientInput[]
+    upsert?: RoomPaymentRecordUpsertWithWhereUniqueWithoutClientInput | RoomPaymentRecordUpsertWithWhereUniqueWithoutClientInput[]
+    createMany?: RoomPaymentRecordCreateManyClientInputEnvelope
+    set?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    disconnect?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    delete?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    connect?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    update?: RoomPaymentRecordUpdateWithWhereUniqueWithoutClientInput | RoomPaymentRecordUpdateWithWhereUniqueWithoutClientInput[]
+    updateMany?: RoomPaymentRecordUpdateManyWithWhereWithoutClientInput | RoomPaymentRecordUpdateManyWithWhereWithoutClientInput[]
+    deleteMany?: RoomPaymentRecordScalarWhereInput | RoomPaymentRecordScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -12036,6 +13686,34 @@ export namespace Prisma {
     deleteMany?: PaymentHistoryScalarWhereInput | PaymentHistoryScalarWhereInput[]
   }
 
+  export type RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput = {
+    create?: XOR<RoomPaymentRecordCreateWithoutOwnerInput, RoomPaymentRecordUncheckedCreateWithoutOwnerInput> | RoomPaymentRecordCreateWithoutOwnerInput[] | RoomPaymentRecordUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: RoomPaymentRecordCreateOrConnectWithoutOwnerInput | RoomPaymentRecordCreateOrConnectWithoutOwnerInput[]
+    upsert?: RoomPaymentRecordUpsertWithWhereUniqueWithoutOwnerInput | RoomPaymentRecordUpsertWithWhereUniqueWithoutOwnerInput[]
+    createMany?: RoomPaymentRecordCreateManyOwnerInputEnvelope
+    set?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    disconnect?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    delete?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    connect?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    update?: RoomPaymentRecordUpdateWithWhereUniqueWithoutOwnerInput | RoomPaymentRecordUpdateWithWhereUniqueWithoutOwnerInput[]
+    updateMany?: RoomPaymentRecordUpdateManyWithWhereWithoutOwnerInput | RoomPaymentRecordUpdateManyWithWhereWithoutOwnerInput[]
+    deleteMany?: RoomPaymentRecordScalarWhereInput | RoomPaymentRecordScalarWhereInput[]
+  }
+
+  export type RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput = {
+    create?: XOR<RoomPaymentRecordCreateWithoutClientInput, RoomPaymentRecordUncheckedCreateWithoutClientInput> | RoomPaymentRecordCreateWithoutClientInput[] | RoomPaymentRecordUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: RoomPaymentRecordCreateOrConnectWithoutClientInput | RoomPaymentRecordCreateOrConnectWithoutClientInput[]
+    upsert?: RoomPaymentRecordUpsertWithWhereUniqueWithoutClientInput | RoomPaymentRecordUpsertWithWhereUniqueWithoutClientInput[]
+    createMany?: RoomPaymentRecordCreateManyClientInputEnvelope
+    set?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    disconnect?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    delete?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    connect?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    update?: RoomPaymentRecordUpdateWithWhereUniqueWithoutClientInput | RoomPaymentRecordUpdateWithWhereUniqueWithoutClientInput[]
+    updateMany?: RoomPaymentRecordUpdateManyWithWhereWithoutClientInput | RoomPaymentRecordUpdateManyWithWhereWithoutClientInput[]
+    deleteMany?: RoomPaymentRecordScalarWhereInput | RoomPaymentRecordScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutAccountsInput = {
     create?: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAccountsInput
@@ -12126,6 +13804,13 @@ export namespace Prisma {
     connect?: PaymentHistoryWhereUniqueInput | PaymentHistoryWhereUniqueInput[]
   }
 
+  export type RoomPaymentRecordCreateNestedManyWithoutRoomInput = {
+    create?: XOR<RoomPaymentRecordCreateWithoutRoomInput, RoomPaymentRecordUncheckedCreateWithoutRoomInput> | RoomPaymentRecordCreateWithoutRoomInput[] | RoomPaymentRecordUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: RoomPaymentRecordCreateOrConnectWithoutRoomInput | RoomPaymentRecordCreateOrConnectWithoutRoomInput[]
+    createMany?: RoomPaymentRecordCreateManyRoomInputEnvelope
+    connect?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+  }
+
   export type RoomBillingUncheckedCreateNestedOneWithoutRoomInput = {
     create?: XOR<RoomBillingCreateWithoutRoomInput, RoomBillingUncheckedCreateWithoutRoomInput>
     connectOrCreate?: RoomBillingCreateOrConnectWithoutRoomInput
@@ -12137,6 +13822,13 @@ export namespace Prisma {
     connectOrCreate?: PaymentHistoryCreateOrConnectWithoutRoomInput | PaymentHistoryCreateOrConnectWithoutRoomInput[]
     createMany?: PaymentHistoryCreateManyRoomInputEnvelope
     connect?: PaymentHistoryWhereUniqueInput | PaymentHistoryWhereUniqueInput[]
+  }
+
+  export type RoomPaymentRecordUncheckedCreateNestedManyWithoutRoomInput = {
+    create?: XOR<RoomPaymentRecordCreateWithoutRoomInput, RoomPaymentRecordUncheckedCreateWithoutRoomInput> | RoomPaymentRecordCreateWithoutRoomInput[] | RoomPaymentRecordUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: RoomPaymentRecordCreateOrConnectWithoutRoomInput | RoomPaymentRecordCreateOrConnectWithoutRoomInput[]
+    createMany?: RoomPaymentRecordCreateManyRoomInputEnvelope
+    connect?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
   }
 
   export type EnumRoomStatusFieldUpdateOperationsInput = {
@@ -12210,6 +13902,20 @@ export namespace Prisma {
     deleteMany?: PaymentHistoryScalarWhereInput | PaymentHistoryScalarWhereInput[]
   }
 
+  export type RoomPaymentRecordUpdateManyWithoutRoomNestedInput = {
+    create?: XOR<RoomPaymentRecordCreateWithoutRoomInput, RoomPaymentRecordUncheckedCreateWithoutRoomInput> | RoomPaymentRecordCreateWithoutRoomInput[] | RoomPaymentRecordUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: RoomPaymentRecordCreateOrConnectWithoutRoomInput | RoomPaymentRecordCreateOrConnectWithoutRoomInput[]
+    upsert?: RoomPaymentRecordUpsertWithWhereUniqueWithoutRoomInput | RoomPaymentRecordUpsertWithWhereUniqueWithoutRoomInput[]
+    createMany?: RoomPaymentRecordCreateManyRoomInputEnvelope
+    set?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    disconnect?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    delete?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    connect?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    update?: RoomPaymentRecordUpdateWithWhereUniqueWithoutRoomInput | RoomPaymentRecordUpdateWithWhereUniqueWithoutRoomInput[]
+    updateMany?: RoomPaymentRecordUpdateManyWithWhereWithoutRoomInput | RoomPaymentRecordUpdateManyWithWhereWithoutRoomInput[]
+    deleteMany?: RoomPaymentRecordScalarWhereInput | RoomPaymentRecordScalarWhereInput[]
+  }
+
   export type RoomBillingUncheckedUpdateOneWithoutRoomNestedInput = {
     create?: XOR<RoomBillingCreateWithoutRoomInput, RoomBillingUncheckedCreateWithoutRoomInput>
     connectOrCreate?: RoomBillingCreateOrConnectWithoutRoomInput
@@ -12232,6 +13938,20 @@ export namespace Prisma {
     update?: PaymentHistoryUpdateWithWhereUniqueWithoutRoomInput | PaymentHistoryUpdateWithWhereUniqueWithoutRoomInput[]
     updateMany?: PaymentHistoryUpdateManyWithWhereWithoutRoomInput | PaymentHistoryUpdateManyWithWhereWithoutRoomInput[]
     deleteMany?: PaymentHistoryScalarWhereInput | PaymentHistoryScalarWhereInput[]
+  }
+
+  export type RoomPaymentRecordUncheckedUpdateManyWithoutRoomNestedInput = {
+    create?: XOR<RoomPaymentRecordCreateWithoutRoomInput, RoomPaymentRecordUncheckedCreateWithoutRoomInput> | RoomPaymentRecordCreateWithoutRoomInput[] | RoomPaymentRecordUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: RoomPaymentRecordCreateOrConnectWithoutRoomInput | RoomPaymentRecordCreateOrConnectWithoutRoomInput[]
+    upsert?: RoomPaymentRecordUpsertWithWhereUniqueWithoutRoomInput | RoomPaymentRecordUpsertWithWhereUniqueWithoutRoomInput[]
+    createMany?: RoomPaymentRecordCreateManyRoomInputEnvelope
+    set?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    disconnect?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    delete?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    connect?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+    update?: RoomPaymentRecordUpdateWithWhereUniqueWithoutRoomInput | RoomPaymentRecordUpdateWithWhereUniqueWithoutRoomInput[]
+    updateMany?: RoomPaymentRecordUpdateManyWithWhereWithoutRoomInput | RoomPaymentRecordUpdateManyWithWhereWithoutRoomInput[]
+    deleteMany?: RoomPaymentRecordScalarWhereInput | RoomPaymentRecordScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutRoomBillingInput = {
@@ -12260,6 +13980,52 @@ export namespace Prisma {
     upsert?: RoomUpsertWithoutRoomBillingInput
     connect?: RoomWhereUniqueInput
     update?: XOR<XOR<RoomUpdateToOneWithWhereWithoutRoomBillingInput, RoomUpdateWithoutRoomBillingInput>, RoomUncheckedUpdateWithoutRoomBillingInput>
+  }
+
+  export type UserCreateNestedOneWithoutRoomPaymentRecordInput = {
+    create?: XOR<UserCreateWithoutRoomPaymentRecordInput, UserUncheckedCreateWithoutRoomPaymentRecordInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRoomPaymentRecordInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type RoomCreateNestedOneWithoutRoomPaymentRecordInput = {
+    create?: XOR<RoomCreateWithoutRoomPaymentRecordInput, RoomUncheckedCreateWithoutRoomPaymentRecordInput>
+    connectOrCreate?: RoomCreateOrConnectWithoutRoomPaymentRecordInput
+    connect?: RoomWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutPayedByInput = {
+    create?: XOR<UserCreateWithoutPayedByInput, UserUncheckedCreateWithoutPayedByInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPayedByInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumPaymentStatusFieldUpdateOperationsInput = {
+    set?: $Enums.PaymentStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutRoomPaymentRecordNestedInput = {
+    create?: XOR<UserCreateWithoutRoomPaymentRecordInput, UserUncheckedCreateWithoutRoomPaymentRecordInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRoomPaymentRecordInput
+    upsert?: UserUpsertWithoutRoomPaymentRecordInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRoomPaymentRecordInput, UserUpdateWithoutRoomPaymentRecordInput>, UserUncheckedUpdateWithoutRoomPaymentRecordInput>
+  }
+
+  export type RoomUpdateOneRequiredWithoutRoomPaymentRecordNestedInput = {
+    create?: XOR<RoomCreateWithoutRoomPaymentRecordInput, RoomUncheckedCreateWithoutRoomPaymentRecordInput>
+    connectOrCreate?: RoomCreateOrConnectWithoutRoomPaymentRecordInput
+    upsert?: RoomUpsertWithoutRoomPaymentRecordInput
+    connect?: RoomWhereUniqueInput
+    update?: XOR<XOR<RoomUpdateToOneWithWhereWithoutRoomPaymentRecordInput, RoomUpdateWithoutRoomPaymentRecordInput>, RoomUncheckedUpdateWithoutRoomPaymentRecordInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutPayedByNestedInput = {
+    create?: XOR<UserCreateWithoutPayedByInput, UserUncheckedCreateWithoutPayedByInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPayedByInput
+    upsert?: UserUpsertWithoutPayedByInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPayedByInput, UserUpdateWithoutPayedByInput>, UserUncheckedUpdateWithoutPayedByInput>
   }
 
   export type UserCreateNestedOneWithoutPaymentHistoryInput = {
@@ -12613,6 +14379,23 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type NestedEnumPaymentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPaymentStatusFilter<$PrismaModel> | $Enums.PaymentStatus
+  }
+
+  export type NestedEnumPaymentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPaymentStatusWithAggregatesFilter<$PrismaModel> | $Enums.PaymentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPaymentStatusFilter<$PrismaModel>
+    _max?: NestedEnumPaymentStatusFilter<$PrismaModel>
+  }
+
   export type AccountCreateWithoutUserInput = {
     id?: string
     type: string
@@ -12724,7 +14507,6 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
-    payedAmount?: number
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
@@ -12732,6 +14514,7 @@ export namespace Prisma {
     createdAt?: Date | string
     roomBilling?: RoomBillingCreateNestedOneWithoutRoomInput
     roomPayment?: PaymentHistoryCreateNestedManyWithoutRoomInput
+    roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateWithoutOwnerInput = {
@@ -12750,7 +14533,6 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
-    payedAmount?: number
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
@@ -12758,6 +14540,7 @@ export namespace Prisma {
     createdAt?: Date | string
     roomBilling?: RoomBillingUncheckedCreateNestedOneWithoutRoomInput
     roomPayment?: PaymentHistoryUncheckedCreateNestedManyWithoutRoomInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomCreateOrConnectWithoutOwnerInput = {
@@ -12858,6 +14641,76 @@ export namespace Prisma {
 
   export type PaymentHistoryCreateManyClientInputEnvelope = {
     data: PaymentHistoryCreateManyClientInput | PaymentHistoryCreateManyClientInput[]
+  }
+
+  export type RoomPaymentRecordCreateWithoutOwnerInput = {
+    id?: string
+    description: string
+    amountTotal: number
+    payedAmount: number
+    dueAmount: number
+    paymentStatus?: $Enums.PaymentStatus
+    dueMoneyReason?: string | null
+    createdAt?: Date | string
+    room: RoomCreateNestedOneWithoutRoomPaymentRecordInput
+    client: UserCreateNestedOneWithoutPayedByInput
+  }
+
+  export type RoomPaymentRecordUncheckedCreateWithoutOwnerInput = {
+    id?: string
+    description: string
+    roomId: string
+    payedBy: string
+    amountTotal: number
+    payedAmount: number
+    dueAmount: number
+    paymentStatus?: $Enums.PaymentStatus
+    dueMoneyReason?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RoomPaymentRecordCreateOrConnectWithoutOwnerInput = {
+    where: RoomPaymentRecordWhereUniqueInput
+    create: XOR<RoomPaymentRecordCreateWithoutOwnerInput, RoomPaymentRecordUncheckedCreateWithoutOwnerInput>
+  }
+
+  export type RoomPaymentRecordCreateManyOwnerInputEnvelope = {
+    data: RoomPaymentRecordCreateManyOwnerInput | RoomPaymentRecordCreateManyOwnerInput[]
+  }
+
+  export type RoomPaymentRecordCreateWithoutClientInput = {
+    id?: string
+    description: string
+    amountTotal: number
+    payedAmount: number
+    dueAmount: number
+    paymentStatus?: $Enums.PaymentStatus
+    dueMoneyReason?: string | null
+    createdAt?: Date | string
+    owner: UserCreateNestedOneWithoutRoomPaymentRecordInput
+    room: RoomCreateNestedOneWithoutRoomPaymentRecordInput
+  }
+
+  export type RoomPaymentRecordUncheckedCreateWithoutClientInput = {
+    id?: string
+    description: string
+    ownerId: string
+    roomId: string
+    amountTotal: number
+    payedAmount: number
+    dueAmount: number
+    paymentStatus?: $Enums.PaymentStatus
+    dueMoneyReason?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RoomPaymentRecordCreateOrConnectWithoutClientInput = {
+    where: RoomPaymentRecordWhereUniqueInput
+    create: XOR<RoomPaymentRecordCreateWithoutClientInput, RoomPaymentRecordUncheckedCreateWithoutClientInput>
+  }
+
+  export type RoomPaymentRecordCreateManyClientInputEnvelope = {
+    data: RoomPaymentRecordCreateManyClientInput | RoomPaymentRecordCreateManyClientInput[]
   }
 
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
@@ -12990,7 +14843,6 @@ export namespace Prisma {
     toilet?: IntFilter<"Room"> | number
     clients?: StringNullableListFilter<"Room">
     roomCapacity?: IntFilter<"Room"> | number
-    payedAmount?: FloatFilter<"Room"> | number
     dueAmount?: FloatFilter<"Room"> | number
     clientInitationData?: DateTimeNullableFilter<"Room"> | Date | string | null
     startedPriceFromDate?: DateTimeNullableFilter<"Room"> | Date | string | null
@@ -13075,6 +14927,55 @@ export namespace Prisma {
     data: XOR<PaymentHistoryUpdateManyMutationInput, PaymentHistoryUncheckedUpdateManyWithoutClientInput>
   }
 
+  export type RoomPaymentRecordUpsertWithWhereUniqueWithoutOwnerInput = {
+    where: RoomPaymentRecordWhereUniqueInput
+    update: XOR<RoomPaymentRecordUpdateWithoutOwnerInput, RoomPaymentRecordUncheckedUpdateWithoutOwnerInput>
+    create: XOR<RoomPaymentRecordCreateWithoutOwnerInput, RoomPaymentRecordUncheckedCreateWithoutOwnerInput>
+  }
+
+  export type RoomPaymentRecordUpdateWithWhereUniqueWithoutOwnerInput = {
+    where: RoomPaymentRecordWhereUniqueInput
+    data: XOR<RoomPaymentRecordUpdateWithoutOwnerInput, RoomPaymentRecordUncheckedUpdateWithoutOwnerInput>
+  }
+
+  export type RoomPaymentRecordUpdateManyWithWhereWithoutOwnerInput = {
+    where: RoomPaymentRecordScalarWhereInput
+    data: XOR<RoomPaymentRecordUpdateManyMutationInput, RoomPaymentRecordUncheckedUpdateManyWithoutOwnerInput>
+  }
+
+  export type RoomPaymentRecordScalarWhereInput = {
+    AND?: RoomPaymentRecordScalarWhereInput | RoomPaymentRecordScalarWhereInput[]
+    OR?: RoomPaymentRecordScalarWhereInput[]
+    NOT?: RoomPaymentRecordScalarWhereInput | RoomPaymentRecordScalarWhereInput[]
+    id?: StringFilter<"RoomPaymentRecord"> | string
+    description?: StringFilter<"RoomPaymentRecord"> | string
+    ownerId?: StringFilter<"RoomPaymentRecord"> | string
+    roomId?: StringFilter<"RoomPaymentRecord"> | string
+    payedBy?: StringFilter<"RoomPaymentRecord"> | string
+    amountTotal?: FloatFilter<"RoomPaymentRecord"> | number
+    payedAmount?: FloatFilter<"RoomPaymentRecord"> | number
+    dueAmount?: FloatFilter<"RoomPaymentRecord"> | number
+    paymentStatus?: EnumPaymentStatusFilter<"RoomPaymentRecord"> | $Enums.PaymentStatus
+    dueMoneyReason?: StringNullableFilter<"RoomPaymentRecord"> | string | null
+    createdAt?: DateTimeFilter<"RoomPaymentRecord"> | Date | string
+  }
+
+  export type RoomPaymentRecordUpsertWithWhereUniqueWithoutClientInput = {
+    where: RoomPaymentRecordWhereUniqueInput
+    update: XOR<RoomPaymentRecordUpdateWithoutClientInput, RoomPaymentRecordUncheckedUpdateWithoutClientInput>
+    create: XOR<RoomPaymentRecordCreateWithoutClientInput, RoomPaymentRecordUncheckedCreateWithoutClientInput>
+  }
+
+  export type RoomPaymentRecordUpdateWithWhereUniqueWithoutClientInput = {
+    where: RoomPaymentRecordWhereUniqueInput
+    data: XOR<RoomPaymentRecordUpdateWithoutClientInput, RoomPaymentRecordUncheckedUpdateWithoutClientInput>
+  }
+
+  export type RoomPaymentRecordUpdateManyWithWhereWithoutClientInput = {
+    where: RoomPaymentRecordScalarWhereInput
+    data: XOR<RoomPaymentRecordUpdateManyMutationInput, RoomPaymentRecordUncheckedUpdateManyWithoutClientInput>
+  }
+
   export type UserCreateWithoutAccountsInput = {
     id?: string
     name?: string | null
@@ -13095,6 +14996,8 @@ export namespace Prisma {
     roomBilling?: RoomBillingCreateNestedManyWithoutOwnerInput
     paymentHistory?: PaymentHistoryCreateNestedManyWithoutOwnerInput
     client?: PaymentHistoryCreateNestedManyWithoutClientInput
+    roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
+    payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -13117,6 +15020,8 @@ export namespace Prisma {
     roomBilling?: RoomBillingUncheckedCreateNestedManyWithoutOwnerInput
     paymentHistory?: PaymentHistoryUncheckedCreateNestedManyWithoutOwnerInput
     client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
+    payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -13154,6 +15059,8 @@ export namespace Prisma {
     roomBilling?: RoomBillingUpdateManyWithoutOwnerNestedInput
     paymentHistory?: PaymentHistoryUpdateManyWithoutOwnerNestedInput
     client?: PaymentHistoryUpdateManyWithoutClientNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
+    payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -13175,6 +15082,8 @@ export namespace Prisma {
     roomBilling?: RoomBillingUncheckedUpdateManyWithoutOwnerNestedInput
     paymentHistory?: PaymentHistoryUncheckedUpdateManyWithoutOwnerNestedInput
     client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
+    payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
   }
 
   export type UserCreateWithoutUserRequestInput = {
@@ -13197,6 +15106,8 @@ export namespace Prisma {
     roomBilling?: RoomBillingCreateNestedManyWithoutOwnerInput
     paymentHistory?: PaymentHistoryCreateNestedManyWithoutOwnerInput
     client?: PaymentHistoryCreateNestedManyWithoutClientInput
+    roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
+    payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
   }
 
   export type UserUncheckedCreateWithoutUserRequestInput = {
@@ -13219,6 +15130,8 @@ export namespace Prisma {
     roomBilling?: RoomBillingUncheckedCreateNestedManyWithoutOwnerInput
     paymentHistory?: PaymentHistoryUncheckedCreateNestedManyWithoutOwnerInput
     client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
+    payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type UserCreateOrConnectWithoutUserRequestInput = {
@@ -13256,6 +15169,8 @@ export namespace Prisma {
     roomBilling?: RoomBillingUpdateManyWithoutOwnerNestedInput
     paymentHistory?: PaymentHistoryUpdateManyWithoutOwnerNestedInput
     client?: PaymentHistoryUpdateManyWithoutClientNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
+    payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserRequestInput = {
@@ -13277,6 +15192,8 @@ export namespace Prisma {
     roomBilling?: RoomBillingUncheckedUpdateManyWithoutOwnerNestedInput
     paymentHistory?: PaymentHistoryUncheckedUpdateManyWithoutOwnerNestedInput
     client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
+    payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
   }
 
   export type UserCreateWithoutSubscriptionPlanInput = {
@@ -13299,6 +15216,8 @@ export namespace Prisma {
     roomBilling?: RoomBillingCreateNestedManyWithoutOwnerInput
     paymentHistory?: PaymentHistoryCreateNestedManyWithoutOwnerInput
     client?: PaymentHistoryCreateNestedManyWithoutClientInput
+    roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
+    payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
   }
 
   export type UserUncheckedCreateWithoutSubscriptionPlanInput = {
@@ -13321,6 +15240,8 @@ export namespace Prisma {
     roomBilling?: RoomBillingUncheckedCreateNestedManyWithoutOwnerInput
     paymentHistory?: PaymentHistoryUncheckedCreateNestedManyWithoutOwnerInput
     client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
+    payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type UserCreateOrConnectWithoutSubscriptionPlanInput = {
@@ -13358,6 +15279,8 @@ export namespace Prisma {
     roomBilling?: RoomBillingUpdateManyWithoutOwnerNestedInput
     paymentHistory?: PaymentHistoryUpdateManyWithoutOwnerNestedInput
     client?: PaymentHistoryUpdateManyWithoutClientNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
+    payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubscriptionPlanInput = {
@@ -13379,6 +15302,8 @@ export namespace Prisma {
     roomBilling?: RoomBillingUncheckedUpdateManyWithoutOwnerNestedInput
     paymentHistory?: PaymentHistoryUncheckedUpdateManyWithoutOwnerNestedInput
     client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
+    payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
   }
 
   export type UserCreateWithoutRoomInput = {
@@ -13401,6 +15326,8 @@ export namespace Prisma {
     roomBilling?: RoomBillingCreateNestedManyWithoutOwnerInput
     paymentHistory?: PaymentHistoryCreateNestedManyWithoutOwnerInput
     client?: PaymentHistoryCreateNestedManyWithoutClientInput
+    roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
+    payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
   }
 
   export type UserUncheckedCreateWithoutRoomInput = {
@@ -13423,6 +15350,8 @@ export namespace Prisma {
     roomBilling?: RoomBillingUncheckedCreateNestedManyWithoutOwnerInput
     paymentHistory?: PaymentHistoryUncheckedCreateNestedManyWithoutOwnerInput
     client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
+    payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type UserCreateOrConnectWithoutRoomInput = {
@@ -13486,6 +15415,41 @@ export namespace Prisma {
     data: PaymentHistoryCreateManyRoomInput | PaymentHistoryCreateManyRoomInput[]
   }
 
+  export type RoomPaymentRecordCreateWithoutRoomInput = {
+    id?: string
+    description: string
+    amountTotal: number
+    payedAmount: number
+    dueAmount: number
+    paymentStatus?: $Enums.PaymentStatus
+    dueMoneyReason?: string | null
+    createdAt?: Date | string
+    owner: UserCreateNestedOneWithoutRoomPaymentRecordInput
+    client: UserCreateNestedOneWithoutPayedByInput
+  }
+
+  export type RoomPaymentRecordUncheckedCreateWithoutRoomInput = {
+    id?: string
+    description: string
+    ownerId: string
+    payedBy: string
+    amountTotal: number
+    payedAmount: number
+    dueAmount: number
+    paymentStatus?: $Enums.PaymentStatus
+    dueMoneyReason?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RoomPaymentRecordCreateOrConnectWithoutRoomInput = {
+    where: RoomPaymentRecordWhereUniqueInput
+    create: XOR<RoomPaymentRecordCreateWithoutRoomInput, RoomPaymentRecordUncheckedCreateWithoutRoomInput>
+  }
+
+  export type RoomPaymentRecordCreateManyRoomInputEnvelope = {
+    data: RoomPaymentRecordCreateManyRoomInput | RoomPaymentRecordCreateManyRoomInput[]
+  }
+
   export type UserUpsertWithoutRoomInput = {
     update: XOR<UserUpdateWithoutRoomInput, UserUncheckedUpdateWithoutRoomInput>
     create: XOR<UserCreateWithoutRoomInput, UserUncheckedCreateWithoutRoomInput>
@@ -13516,6 +15480,8 @@ export namespace Prisma {
     roomBilling?: RoomBillingUpdateManyWithoutOwnerNestedInput
     paymentHistory?: PaymentHistoryUpdateManyWithoutOwnerNestedInput
     client?: PaymentHistoryUpdateManyWithoutClientNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
+    payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoomInput = {
@@ -13537,6 +15503,8 @@ export namespace Prisma {
     roomBilling?: RoomBillingUncheckedUpdateManyWithoutOwnerNestedInput
     paymentHistory?: PaymentHistoryUncheckedUpdateManyWithoutOwnerNestedInput
     client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
+    payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
   }
 
   export type RoomBillingUpsertWithoutRoomInput = {
@@ -13584,6 +15552,22 @@ export namespace Prisma {
     data: XOR<PaymentHistoryUpdateManyMutationInput, PaymentHistoryUncheckedUpdateManyWithoutRoomInput>
   }
 
+  export type RoomPaymentRecordUpsertWithWhereUniqueWithoutRoomInput = {
+    where: RoomPaymentRecordWhereUniqueInput
+    update: XOR<RoomPaymentRecordUpdateWithoutRoomInput, RoomPaymentRecordUncheckedUpdateWithoutRoomInput>
+    create: XOR<RoomPaymentRecordCreateWithoutRoomInput, RoomPaymentRecordUncheckedCreateWithoutRoomInput>
+  }
+
+  export type RoomPaymentRecordUpdateWithWhereUniqueWithoutRoomInput = {
+    where: RoomPaymentRecordWhereUniqueInput
+    data: XOR<RoomPaymentRecordUpdateWithoutRoomInput, RoomPaymentRecordUncheckedUpdateWithoutRoomInput>
+  }
+
+  export type RoomPaymentRecordUpdateManyWithWhereWithoutRoomInput = {
+    where: RoomPaymentRecordScalarWhereInput
+    data: XOR<RoomPaymentRecordUpdateManyMutationInput, RoomPaymentRecordUncheckedUpdateManyWithoutRoomInput>
+  }
+
   export type UserCreateWithoutRoomBillingInput = {
     id?: string
     name?: string | null
@@ -13604,6 +15588,8 @@ export namespace Prisma {
     room?: RoomCreateNestedManyWithoutOwnerInput
     paymentHistory?: PaymentHistoryCreateNestedManyWithoutOwnerInput
     client?: PaymentHistoryCreateNestedManyWithoutClientInput
+    roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
+    payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
   }
 
   export type UserUncheckedCreateWithoutRoomBillingInput = {
@@ -13626,6 +15612,8 @@ export namespace Prisma {
     room?: RoomUncheckedCreateNestedManyWithoutOwnerInput
     paymentHistory?: PaymentHistoryUncheckedCreateNestedManyWithoutOwnerInput
     client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
+    payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type UserCreateOrConnectWithoutRoomBillingInput = {
@@ -13649,7 +15637,6 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
-    payedAmount?: number
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
@@ -13657,6 +15644,7 @@ export namespace Prisma {
     createdAt?: Date | string
     owner: UserCreateNestedOneWithoutRoomInput
     roomPayment?: PaymentHistoryCreateNestedManyWithoutRoomInput
+    roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateWithoutRoomBillingInput = {
@@ -13676,13 +15664,13 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
-    payedAmount?: number
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
     lastPayedDate?: Date | string | null
     createdAt?: Date | string
     roomPayment?: PaymentHistoryUncheckedCreateNestedManyWithoutRoomInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomCreateOrConnectWithoutRoomBillingInput = {
@@ -13720,6 +15708,8 @@ export namespace Prisma {
     room?: RoomUpdateManyWithoutOwnerNestedInput
     paymentHistory?: PaymentHistoryUpdateManyWithoutOwnerNestedInput
     client?: PaymentHistoryUpdateManyWithoutClientNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
+    payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoomBillingInput = {
@@ -13741,6 +15731,8 @@ export namespace Prisma {
     room?: RoomUncheckedUpdateManyWithoutOwnerNestedInput
     paymentHistory?: PaymentHistoryUncheckedUpdateManyWithoutOwnerNestedInput
     client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
+    payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
   }
 
   export type RoomUpsertWithoutRoomBillingInput = {
@@ -13769,7 +15761,6 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
-    payedAmount?: FloatFieldUpdateOperationsInput | number
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13777,6 +15768,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutRoomNestedInput
     roomPayment?: PaymentHistoryUpdateManyWithoutRoomNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateWithoutRoomBillingInput = {
@@ -13795,13 +15787,351 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
-    payedAmount?: FloatFieldUpdateOperationsInput | number
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastPayedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roomPayment?: PaymentHistoryUncheckedUpdateManyWithoutRoomNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutRoomNestedInput
+  }
+
+  export type UserCreateWithoutRoomPaymentRecordInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    phoneNumber?: string | null
+    role?: $Enums.UserRole
+    isOnboarded?: boolean
+    isVerified?: boolean
+    isAssignedOwner?: boolean
+    isAdmin?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    userRequest?: UserRequestCreateNestedManyWithoutUserInput
+    subscriptionPlan?: SubscriptionPlanCreateNestedManyWithoutUserInput
+    room?: RoomCreateNestedManyWithoutOwnerInput
+    roomBilling?: RoomBillingCreateNestedManyWithoutOwnerInput
+    paymentHistory?: PaymentHistoryCreateNestedManyWithoutOwnerInput
+    client?: PaymentHistoryCreateNestedManyWithoutClientInput
+    payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
+  }
+
+  export type UserUncheckedCreateWithoutRoomPaymentRecordInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    phoneNumber?: string | null
+    role?: $Enums.UserRole
+    isOnboarded?: boolean
+    isVerified?: boolean
+    isAssignedOwner?: boolean
+    isAdmin?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    userRequest?: UserRequestUncheckedCreateNestedManyWithoutUserInput
+    subscriptionPlan?: SubscriptionPlanUncheckedCreateNestedManyWithoutUserInput
+    room?: RoomUncheckedCreateNestedManyWithoutOwnerInput
+    roomBilling?: RoomBillingUncheckedCreateNestedManyWithoutOwnerInput
+    paymentHistory?: PaymentHistoryUncheckedCreateNestedManyWithoutOwnerInput
+    client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
+    payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
+  }
+
+  export type UserCreateOrConnectWithoutRoomPaymentRecordInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutRoomPaymentRecordInput, UserUncheckedCreateWithoutRoomPaymentRecordInput>
+  }
+
+  export type RoomCreateWithoutRoomPaymentRecordInput = {
+    id?: string
+    roomStatus?: $Enums.RoomStatus
+    province: number
+    location: string
+    lon?: number | null
+    lat?: number | null
+    roomNumber: number
+    title: string
+    description: string
+    roomImages?: RoomCreateroomImagesInput | string[]
+    numberOfRooms: number
+    beds: number
+    toilet: number
+    clients?: RoomCreateclientsInput | string[]
+    roomCapacity?: number
+    dueAmount?: number
+    clientInitationData?: Date | string | null
+    startedPriceFromDate?: Date | string | null
+    lastPayedDate?: Date | string | null
+    createdAt?: Date | string
+    owner: UserCreateNestedOneWithoutRoomInput
+    roomBilling?: RoomBillingCreateNestedOneWithoutRoomInput
+    roomPayment?: PaymentHistoryCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomUncheckedCreateWithoutRoomPaymentRecordInput = {
+    id?: string
+    ownerId: string
+    roomStatus?: $Enums.RoomStatus
+    province: number
+    location: string
+    lon?: number | null
+    lat?: number | null
+    roomNumber: number
+    title: string
+    description: string
+    roomImages?: RoomCreateroomImagesInput | string[]
+    numberOfRooms: number
+    beds: number
+    toilet: number
+    clients?: RoomCreateclientsInput | string[]
+    roomCapacity?: number
+    dueAmount?: number
+    clientInitationData?: Date | string | null
+    startedPriceFromDate?: Date | string | null
+    lastPayedDate?: Date | string | null
+    createdAt?: Date | string
+    roomBilling?: RoomBillingUncheckedCreateNestedOneWithoutRoomInput
+    roomPayment?: PaymentHistoryUncheckedCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomCreateOrConnectWithoutRoomPaymentRecordInput = {
+    where: RoomWhereUniqueInput
+    create: XOR<RoomCreateWithoutRoomPaymentRecordInput, RoomUncheckedCreateWithoutRoomPaymentRecordInput>
+  }
+
+  export type UserCreateWithoutPayedByInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    phoneNumber?: string | null
+    role?: $Enums.UserRole
+    isOnboarded?: boolean
+    isVerified?: boolean
+    isAssignedOwner?: boolean
+    isAdmin?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    userRequest?: UserRequestCreateNestedManyWithoutUserInput
+    subscriptionPlan?: SubscriptionPlanCreateNestedManyWithoutUserInput
+    room?: RoomCreateNestedManyWithoutOwnerInput
+    roomBilling?: RoomBillingCreateNestedManyWithoutOwnerInput
+    paymentHistory?: PaymentHistoryCreateNestedManyWithoutOwnerInput
+    client?: PaymentHistoryCreateNestedManyWithoutClientInput
+    roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
+  }
+
+  export type UserUncheckedCreateWithoutPayedByInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    phoneNumber?: string | null
+    role?: $Enums.UserRole
+    isOnboarded?: boolean
+    isVerified?: boolean
+    isAssignedOwner?: boolean
+    isAdmin?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    userRequest?: UserRequestUncheckedCreateNestedManyWithoutUserInput
+    subscriptionPlan?: SubscriptionPlanUncheckedCreateNestedManyWithoutUserInput
+    room?: RoomUncheckedCreateNestedManyWithoutOwnerInput
+    roomBilling?: RoomBillingUncheckedCreateNestedManyWithoutOwnerInput
+    paymentHistory?: PaymentHistoryUncheckedCreateNestedManyWithoutOwnerInput
+    client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
+  }
+
+  export type UserCreateOrConnectWithoutPayedByInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPayedByInput, UserUncheckedCreateWithoutPayedByInput>
+  }
+
+  export type UserUpsertWithoutRoomPaymentRecordInput = {
+    update: XOR<UserUpdateWithoutRoomPaymentRecordInput, UserUncheckedUpdateWithoutRoomPaymentRecordInput>
+    create: XOR<UserCreateWithoutRoomPaymentRecordInput, UserUncheckedCreateWithoutRoomPaymentRecordInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRoomPaymentRecordInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRoomPaymentRecordInput, UserUncheckedUpdateWithoutRoomPaymentRecordInput>
+  }
+
+  export type UserUpdateWithoutRoomPaymentRecordInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isOnboarded?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    isAssignedOwner?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    userRequest?: UserRequestUpdateManyWithoutUserNestedInput
+    subscriptionPlan?: SubscriptionPlanUpdateManyWithoutUserNestedInput
+    room?: RoomUpdateManyWithoutOwnerNestedInput
+    roomBilling?: RoomBillingUpdateManyWithoutOwnerNestedInput
+    paymentHistory?: PaymentHistoryUpdateManyWithoutOwnerNestedInput
+    client?: PaymentHistoryUpdateManyWithoutClientNestedInput
+    payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRoomPaymentRecordInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isOnboarded?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    isAssignedOwner?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    userRequest?: UserRequestUncheckedUpdateManyWithoutUserNestedInput
+    subscriptionPlan?: SubscriptionPlanUncheckedUpdateManyWithoutUserNestedInput
+    room?: RoomUncheckedUpdateManyWithoutOwnerNestedInput
+    roomBilling?: RoomBillingUncheckedUpdateManyWithoutOwnerNestedInput
+    paymentHistory?: PaymentHistoryUncheckedUpdateManyWithoutOwnerNestedInput
+    client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
+    payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
+  }
+
+  export type RoomUpsertWithoutRoomPaymentRecordInput = {
+    update: XOR<RoomUpdateWithoutRoomPaymentRecordInput, RoomUncheckedUpdateWithoutRoomPaymentRecordInput>
+    create: XOR<RoomCreateWithoutRoomPaymentRecordInput, RoomUncheckedCreateWithoutRoomPaymentRecordInput>
+    where?: RoomWhereInput
+  }
+
+  export type RoomUpdateToOneWithWhereWithoutRoomPaymentRecordInput = {
+    where?: RoomWhereInput
+    data: XOR<RoomUpdateWithoutRoomPaymentRecordInput, RoomUncheckedUpdateWithoutRoomPaymentRecordInput>
+  }
+
+  export type RoomUpdateWithoutRoomPaymentRecordInput = {
+    roomStatus?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
+    province?: IntFieldUpdateOperationsInput | number
+    location?: StringFieldUpdateOperationsInput | string
+    lon?: NullableFloatFieldUpdateOperationsInput | number | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    roomNumber?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    roomImages?: RoomUpdateroomImagesInput | string[]
+    numberOfRooms?: IntFieldUpdateOperationsInput | number
+    beds?: IntFieldUpdateOperationsInput | number
+    toilet?: IntFieldUpdateOperationsInput | number
+    clients?: RoomUpdateclientsInput | string[]
+    roomCapacity?: IntFieldUpdateOperationsInput | number
+    dueAmount?: FloatFieldUpdateOperationsInput | number
+    clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastPayedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutRoomNestedInput
+    roomBilling?: RoomBillingUpdateOneWithoutRoomNestedInput
+    roomPayment?: PaymentHistoryUpdateManyWithoutRoomNestedInput
+  }
+
+  export type RoomUncheckedUpdateWithoutRoomPaymentRecordInput = {
+    ownerId?: StringFieldUpdateOperationsInput | string
+    roomStatus?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
+    province?: IntFieldUpdateOperationsInput | number
+    location?: StringFieldUpdateOperationsInput | string
+    lon?: NullableFloatFieldUpdateOperationsInput | number | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    roomNumber?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    roomImages?: RoomUpdateroomImagesInput | string[]
+    numberOfRooms?: IntFieldUpdateOperationsInput | number
+    beds?: IntFieldUpdateOperationsInput | number
+    toilet?: IntFieldUpdateOperationsInput | number
+    clients?: RoomUpdateclientsInput | string[]
+    roomCapacity?: IntFieldUpdateOperationsInput | number
+    dueAmount?: FloatFieldUpdateOperationsInput | number
+    clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastPayedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    roomBilling?: RoomBillingUncheckedUpdateOneWithoutRoomNestedInput
+    roomPayment?: PaymentHistoryUncheckedUpdateManyWithoutRoomNestedInput
+  }
+
+  export type UserUpsertWithoutPayedByInput = {
+    update: XOR<UserUpdateWithoutPayedByInput, UserUncheckedUpdateWithoutPayedByInput>
+    create: XOR<UserCreateWithoutPayedByInput, UserUncheckedCreateWithoutPayedByInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPayedByInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPayedByInput, UserUncheckedUpdateWithoutPayedByInput>
+  }
+
+  export type UserUpdateWithoutPayedByInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isOnboarded?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    isAssignedOwner?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    userRequest?: UserRequestUpdateManyWithoutUserNestedInput
+    subscriptionPlan?: SubscriptionPlanUpdateManyWithoutUserNestedInput
+    room?: RoomUpdateManyWithoutOwnerNestedInput
+    roomBilling?: RoomBillingUpdateManyWithoutOwnerNestedInput
+    paymentHistory?: PaymentHistoryUpdateManyWithoutOwnerNestedInput
+    client?: PaymentHistoryUpdateManyWithoutClientNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPayedByInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isOnboarded?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    isAssignedOwner?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    userRequest?: UserRequestUncheckedUpdateManyWithoutUserNestedInput
+    subscriptionPlan?: SubscriptionPlanUncheckedUpdateManyWithoutUserNestedInput
+    room?: RoomUncheckedUpdateManyWithoutOwnerNestedInput
+    roomBilling?: RoomBillingUncheckedUpdateManyWithoutOwnerNestedInput
+    paymentHistory?: PaymentHistoryUncheckedUpdateManyWithoutOwnerNestedInput
+    client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateWithoutPaymentHistoryInput = {
@@ -13824,6 +16154,8 @@ export namespace Prisma {
     room?: RoomCreateNestedManyWithoutOwnerInput
     roomBilling?: RoomBillingCreateNestedManyWithoutOwnerInput
     client?: PaymentHistoryCreateNestedManyWithoutClientInput
+    roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
+    payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
   }
 
   export type UserUncheckedCreateWithoutPaymentHistoryInput = {
@@ -13846,6 +16178,8 @@ export namespace Prisma {
     room?: RoomUncheckedCreateNestedManyWithoutOwnerInput
     roomBilling?: RoomBillingUncheckedCreateNestedManyWithoutOwnerInput
     client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
+    payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type UserCreateOrConnectWithoutPaymentHistoryInput = {
@@ -13873,6 +16207,8 @@ export namespace Prisma {
     room?: RoomCreateNestedManyWithoutOwnerInput
     roomBilling?: RoomBillingCreateNestedManyWithoutOwnerInput
     paymentHistory?: PaymentHistoryCreateNestedManyWithoutOwnerInput
+    roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
+    payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
   }
 
   export type UserUncheckedCreateWithoutClientInput = {
@@ -13895,6 +16231,8 @@ export namespace Prisma {
     room?: RoomUncheckedCreateNestedManyWithoutOwnerInput
     roomBilling?: RoomBillingUncheckedCreateNestedManyWithoutOwnerInput
     paymentHistory?: PaymentHistoryUncheckedCreateNestedManyWithoutOwnerInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
+    payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type UserCreateOrConnectWithoutClientInput = {
@@ -13918,7 +16256,6 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
-    payedAmount?: number
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
@@ -13926,6 +16263,7 @@ export namespace Prisma {
     createdAt?: Date | string
     owner: UserCreateNestedOneWithoutRoomInput
     roomBilling?: RoomBillingCreateNestedOneWithoutRoomInput
+    roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateWithoutRoomPaymentInput = {
@@ -13945,13 +16283,13 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
-    payedAmount?: number
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
     lastPayedDate?: Date | string | null
     createdAt?: Date | string
     roomBilling?: RoomBillingUncheckedCreateNestedOneWithoutRoomInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomCreateOrConnectWithoutRoomPaymentInput = {
@@ -13989,6 +16327,8 @@ export namespace Prisma {
     room?: RoomUpdateManyWithoutOwnerNestedInput
     roomBilling?: RoomBillingUpdateManyWithoutOwnerNestedInput
     client?: PaymentHistoryUpdateManyWithoutClientNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
+    payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPaymentHistoryInput = {
@@ -14010,6 +16350,8 @@ export namespace Prisma {
     room?: RoomUncheckedUpdateManyWithoutOwnerNestedInput
     roomBilling?: RoomBillingUncheckedUpdateManyWithoutOwnerNestedInput
     client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
+    payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
   }
 
   export type UserUpsertWithoutClientInput = {
@@ -14042,6 +16384,8 @@ export namespace Prisma {
     room?: RoomUpdateManyWithoutOwnerNestedInput
     roomBilling?: RoomBillingUpdateManyWithoutOwnerNestedInput
     paymentHistory?: PaymentHistoryUpdateManyWithoutOwnerNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
+    payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
   }
 
   export type UserUncheckedUpdateWithoutClientInput = {
@@ -14063,6 +16407,8 @@ export namespace Prisma {
     room?: RoomUncheckedUpdateManyWithoutOwnerNestedInput
     roomBilling?: RoomBillingUncheckedUpdateManyWithoutOwnerNestedInput
     paymentHistory?: PaymentHistoryUncheckedUpdateManyWithoutOwnerNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
+    payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
   }
 
   export type RoomUpsertWithoutRoomPaymentInput = {
@@ -14091,7 +16437,6 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
-    payedAmount?: FloatFieldUpdateOperationsInput | number
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -14099,6 +16444,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutRoomNestedInput
     roomBilling?: RoomBillingUpdateOneWithoutRoomNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateWithoutRoomPaymentInput = {
@@ -14117,13 +16463,13 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
-    payedAmount?: FloatFieldUpdateOperationsInput | number
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastPayedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roomBilling?: RoomBillingUncheckedUpdateOneWithoutRoomNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutRoomNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -14176,7 +16522,6 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
-    payedAmount?: number
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
@@ -14213,6 +16558,32 @@ export namespace Prisma {
     payedamount: number
     dueAmount: number
     startedDate: Date | string
+    createdAt?: Date | string
+  }
+
+  export type RoomPaymentRecordCreateManyOwnerInput = {
+    id?: string
+    description: string
+    roomId: string
+    payedBy: string
+    amountTotal: number
+    payedAmount: number
+    dueAmount: number
+    paymentStatus?: $Enums.PaymentStatus
+    dueMoneyReason?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RoomPaymentRecordCreateManyClientInput = {
+    id?: string
+    description: string
+    ownerId: string
+    roomId: string
+    amountTotal: number
+    payedAmount: number
+    dueAmount: number
+    paymentStatus?: $Enums.PaymentStatus
+    dueMoneyReason?: string | null
     createdAt?: Date | string
   }
 
@@ -14324,7 +16695,6 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
-    payedAmount?: FloatFieldUpdateOperationsInput | number
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -14332,6 +16702,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roomBilling?: RoomBillingUpdateOneWithoutRoomNestedInput
     roomPayment?: PaymentHistoryUpdateManyWithoutRoomNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateWithoutOwnerInput = {
@@ -14349,7 +16720,6 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
-    payedAmount?: FloatFieldUpdateOperationsInput | number
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -14357,6 +16727,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roomBilling?: RoomBillingUncheckedUpdateOneWithoutRoomNestedInput
     roomPayment?: PaymentHistoryUncheckedUpdateManyWithoutRoomNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateManyWithoutOwnerInput = {
@@ -14374,7 +16745,6 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
-    payedAmount?: FloatFieldUpdateOperationsInput | number
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -14469,6 +16839,78 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RoomPaymentRecordUpdateWithoutOwnerInput = {
+    description?: StringFieldUpdateOperationsInput | string
+    amountTotal?: FloatFieldUpdateOperationsInput | number
+    payedAmount?: FloatFieldUpdateOperationsInput | number
+    dueAmount?: FloatFieldUpdateOperationsInput | number
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    dueMoneyReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    room?: RoomUpdateOneRequiredWithoutRoomPaymentRecordNestedInput
+    client?: UserUpdateOneRequiredWithoutPayedByNestedInput
+  }
+
+  export type RoomPaymentRecordUncheckedUpdateWithoutOwnerInput = {
+    description?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    payedBy?: StringFieldUpdateOperationsInput | string
+    amountTotal?: FloatFieldUpdateOperationsInput | number
+    payedAmount?: FloatFieldUpdateOperationsInput | number
+    dueAmount?: FloatFieldUpdateOperationsInput | number
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    dueMoneyReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomPaymentRecordUncheckedUpdateManyWithoutOwnerInput = {
+    description?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    payedBy?: StringFieldUpdateOperationsInput | string
+    amountTotal?: FloatFieldUpdateOperationsInput | number
+    payedAmount?: FloatFieldUpdateOperationsInput | number
+    dueAmount?: FloatFieldUpdateOperationsInput | number
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    dueMoneyReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomPaymentRecordUpdateWithoutClientInput = {
+    description?: StringFieldUpdateOperationsInput | string
+    amountTotal?: FloatFieldUpdateOperationsInput | number
+    payedAmount?: FloatFieldUpdateOperationsInput | number
+    dueAmount?: FloatFieldUpdateOperationsInput | number
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    dueMoneyReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutRoomPaymentRecordNestedInput
+    room?: RoomUpdateOneRequiredWithoutRoomPaymentRecordNestedInput
+  }
+
+  export type RoomPaymentRecordUncheckedUpdateWithoutClientInput = {
+    description?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    amountTotal?: FloatFieldUpdateOperationsInput | number
+    payedAmount?: FloatFieldUpdateOperationsInput | number
+    dueAmount?: FloatFieldUpdateOperationsInput | number
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    dueMoneyReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomPaymentRecordUncheckedUpdateManyWithoutClientInput = {
+    description?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    amountTotal?: FloatFieldUpdateOperationsInput | number
+    payedAmount?: FloatFieldUpdateOperationsInput | number
+    dueAmount?: FloatFieldUpdateOperationsInput | number
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    dueMoneyReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PaymentHistoryCreateManyRoomInput = {
     id?: string
     ownerId: string
@@ -14477,6 +16919,19 @@ export namespace Prisma {
     payedamount: number
     dueAmount: number
     startedDate: Date | string
+    createdAt?: Date | string
+  }
+
+  export type RoomPaymentRecordCreateManyRoomInput = {
+    id?: string
+    description: string
+    ownerId: string
+    payedBy: string
+    amountTotal: number
+    payedAmount: number
+    dueAmount: number
+    paymentStatus?: $Enums.PaymentStatus
+    dueMoneyReason?: string | null
     createdAt?: Date | string
   }
 
@@ -14507,6 +16962,42 @@ export namespace Prisma {
     payedamount?: FloatFieldUpdateOperationsInput | number
     dueAmount?: FloatFieldUpdateOperationsInput | number
     startedDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomPaymentRecordUpdateWithoutRoomInput = {
+    description?: StringFieldUpdateOperationsInput | string
+    amountTotal?: FloatFieldUpdateOperationsInput | number
+    payedAmount?: FloatFieldUpdateOperationsInput | number
+    dueAmount?: FloatFieldUpdateOperationsInput | number
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    dueMoneyReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutRoomPaymentRecordNestedInput
+    client?: UserUpdateOneRequiredWithoutPayedByNestedInput
+  }
+
+  export type RoomPaymentRecordUncheckedUpdateWithoutRoomInput = {
+    description?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    payedBy?: StringFieldUpdateOperationsInput | string
+    amountTotal?: FloatFieldUpdateOperationsInput | number
+    payedAmount?: FloatFieldUpdateOperationsInput | number
+    dueAmount?: FloatFieldUpdateOperationsInput | number
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    dueMoneyReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomPaymentRecordUncheckedUpdateManyWithoutRoomInput = {
+    description?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    payedBy?: StringFieldUpdateOperationsInput | string
+    amountTotal?: FloatFieldUpdateOperationsInput | number
+    payedAmount?: FloatFieldUpdateOperationsInput | number
+    dueAmount?: FloatFieldUpdateOperationsInput | number
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    dueMoneyReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

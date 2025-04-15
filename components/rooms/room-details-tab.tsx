@@ -2,6 +2,7 @@ import { Separator } from "@/components/ui/separator";
 import { Home, Users, Calendar } from "lucide-react";
 // import { formatDate } from "date-fns";
 import { RoomType, RoomWithClientDataType } from "@/features/schemas/room/room.type";
+import { formatDate } from "date-fns";
 
 interface RoomDetailsTabProps {
   room: RoomType;
@@ -9,7 +10,7 @@ interface RoomDetailsTabProps {
 
 export const RoomDetailsTab = ({ room }: RoomDetailsTabProps) => {
   return (
-    <div className="p-6 border rounded-lg">
+    <div className="p-6 border rounded-lg bg-white">
       <h3 className="text-lg font-semibold mb-2">Room Description</h3>
       <p className="text-muted-foreground mb-4">{room.description}</p>
 
@@ -20,7 +21,7 @@ export const RoomDetailsTab = ({ room }: RoomDetailsTabProps) => {
           <Home className="h-5 w-5 mr-2 text-muted-foreground" />
           <div>
             <p className="text-sm text-muted-foreground">Room Number</p>
-            <p className="font-medium">{room.roomNumber}</p>
+            <p className="font-medium ">{room.roomNumber}</p>
           </div>
         </div>
 
@@ -58,7 +59,7 @@ export const RoomDetailsTab = ({ room }: RoomDetailsTabProps) => {
                 room.clientInitationDate ? (
                     <>
                     {/* TODO : Here add the data  */}
-                    {/* {formatDate(room.clientInitationDate,"eeee, MMMM do yyyy, h:mm:ss a")} */}
+                    {formatDate(room.clientInitationDate,"eeee, MMMM do yyyy, h:mm:ss a")}
                     </>
                 ) : (
                     <span>

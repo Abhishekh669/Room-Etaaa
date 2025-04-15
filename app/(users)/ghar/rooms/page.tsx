@@ -13,13 +13,12 @@ import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, Pagi
 function RoomMainPage() {
   const { data: roomData, isLoading: roomDataLoading } = useGetRoomStatistics();
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6; // Number of rooms per page
+  const itemsPerPage = 6; 
 
   if (roomDataLoading) {
     return <SpinningLoader />
   }
 
-  // Calculate pagination
   const totalRooms = roomData?.data?.rooms.length || 0;
   const totalPages = Math.ceil(totalRooms / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;

@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { EditRoomSchema } from '@/features/schemas/room/room.schema'
+import { EditRoomSchema, EditRoomType } from '@/features/schemas/room/room.schema'
 import { useGetRoomById } from '@/features/hooks/tanstacks/query-hooks/rooms/use-get-room-by-id'
 import { useRoomId } from '@/features/hooks/params-id/use-rooms-id'
 import SpinningLoader from '@/components/shared/SpinningLoader'
@@ -11,26 +11,18 @@ import { RoomStatusBadge } from '@/components/shared/room-status-badge'
 import RouteBackButton from '@/components/shared/route-back-button'
 import { Form } from '@/components/ui/form'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
 import { Button } from '@/components/ui/button'
 import RoomBasicDetailsForm from './room-basic-details-form'
 import { useLocationStore } from '@/features/store/location/use-location-store'
-import { Loader2, Save } from 'lucide-react'
 import { toast } from 'sonner'
 import RoomClientDetailsForEdit from './room-client-details-for-edit'
 import { RoomBillingForm } from './room-billing-form'
-import { RoomLocationForm } from './edit-location-form'
-import RoomLocationMap from "./room-location-map"
+import { RoomLocationMap } from './room-location-map'
+import { useUploadThing } from '@/lib/uploadthing-client'
+import { removeMultipleRoomImages, updateRoom } from '@/features/actions/rooms/rooms'
+import { useRouter } from 'next/navigation'
 
-const provinces = [
-  { id: 1, name: "Province 1" },
-  { id: 2, name: "Province 2" },
-  { id: 3, name: "Province 3" },
-  { id: 4, name: "Province 4" },
-  { id: 5, name: "Province 5" },
-  { id: 6, name: "Province 6" },
-  { id: 7, name: "Province 7" },
-]
+
 
 
 function EditRoomFormPage() {
@@ -42,8 +34,11 @@ function EditRoomFormPage() {
   const [images, setImages] = useState<string[]>([])
   const [files, setFiles] = useState<File[]>([])
   const [previewUrls, setPreviewUrls] = useState<string[]>([])
+  const [deleteImages, setDeleteImages] = useState<string[]>([])
+  const { startUpload } = useUploadThing("imageUploader")
   const filesRef = useRef<File[]>([])
-
+  const router = useRouter()
+  const [isUpdating, setIsUpdating] = useState(false)
   const form = useForm<z.infer<typeof EditRoomSchema>>({
     resolver: zodResolver(EditRoomSchema),
     defaultValues: {
@@ -54,6 +49,7 @@ function EditRoomFormPage() {
       dueAmount: 0,
       lastPayedDate: undefined,
       lat: undefined,
+      id : "",
       location: "",
       lon: undefined,
       numberOfRooms: 0,
@@ -65,7 +61,6 @@ function EditRoomFormPage() {
         phoneNumber: "",
         image: "",
       },
-      payedAmount: 0,
       province: 1,
       roomBilling: {
         water: 0,
@@ -103,14 +98,15 @@ function EditRoomFormPage() {
       const room = roomData.data;
       form.reset({
         beds: room.beds,
-        clientInitationDate: room.clientInitationDate,
+        clientInitationDate: room.clientInitationDate || undefined,
         clients: room.clients,
         description: room.description,
-        dueAmount: room.dueAmount,
-        lastPayedDate: room.lastPayedDate,
-        lat: room.lat,
+        dueAmount: room.dueAmount || 0,
+        lastPayedDate: room.lastPayedDate || undefined,
+        lat: room.lat || undefined,
+        id  : room.id || id,
         location: room.location,
-        lon: room.lon,
+        lon: room.lon || undefined,
         numberOfRooms: room.numberOfRooms,
         ownerId: room.ownerId,
         owner: {
@@ -120,7 +116,6 @@ function EditRoomFormPage() {
           phoneNumber: room.owner.phoneNumber,
           image: room.owner.image,
         },
-        payedAmount: room.payedAmount,
         province: room.province,
         roomBilling: {
           water: room.roomBilling.water,
@@ -136,7 +131,7 @@ function EditRoomFormPage() {
         roomImages: room.roomImages,
         roomNumber: room.roomNumber,
         roomStatus: room.roomStatus,
-        startedPriceFromDate: room.startedPriceFromDate,
+        startedPriceFromDate: room.startedPriceFromDate || undefined,
         title: room.title,
         toilet: room.toilet,
         roomPayment: room.roomPayment,
@@ -171,10 +166,111 @@ function EditRoomFormPage() {
     }
   }, [roomCapacity, hasClient, clientsFiledArray, form])
 
-  async function onSubmit(data: z.infer<typeof EditRoomSchema>) {
-    console.log("Form data:", data)
+
+
+  const handleUpdateRoom = async() =>{
+    const values = form.getValues();
+
+    
+    setIsUpdating(true)
+
+    if (deleteImages.length > 0) {
+      const deleteResult = await removeMultipleRoomImages(deleteImages);
+      if (!deleteResult.success) {
+        toast.error(deleteResult.error || "Failed to delete images");
+        setIsUpdating(false)
+        return;
+      }
+    }
+
+    let uploadedImages : string[] = [...images]
+    let newImages : string[] = []
+    if(files.length > 0){
+      const uploadResults = await startUpload(files)
+      if(uploadResults){
+        let newImages = uploadResults.map(result => result.ufsUrl)
+        uploadedImages = [...uploadedImages, ...uploadResults.map(result => result.ufsUrl)];
+      }
+    }
+
+    const newData: EditRoomType = {
+      ...values,
+      clientInitationDate: values.clientInitationDate || values.clients.length > 0 ? new Date() : undefined,
+      lastPayedDate: values.lastPayedDate  ||  undefined,
+      lon: values.lon || undefined,
+      lat: values.lat || undefined,
+      startedPriceFromDate: values.startedPriceFromDate || values.clients.length > 0 ? new Date() : undefined,
+      roomImages : uploadedImages,
+    }
+
+    const updateNow = await updateRoom(newData);
+    if(updateNow.success){
+      toast.success(updateNow.message)
+      resetAllData();
+      setFiles([])
+      setDeleteImages([])
+      setImages([])
+      setPreviewUrls([])
+      router.push(`/ghar/rooms/${id}`)
+    }else{
+      await removeMultipleRoomImages(newImages);
+      toast.error(updateNow.error || "Failed to update room")
+
+    }
+    setIsUpdating(false)
   }
 
+
+  // const submitData = async (values: z.infer<typeof EditRoomSchema>) => {
+  //   const totalCost = values.roomBilling.roomCost + values.roomBilling.electricity + values.roomBilling.water + values.roomBilling.internet + values.dueAmount;
+
+  //   if (values.payedAmount > totalCost) {
+  //     toast.error("Paid amount cannot exceed total cost");
+  //     return;
+  //   }
+  //   setIsUpdating(true)
+
+  //   if (deleteImages.length > 0) {
+  //     const deleteResult = await removeMultipleRoomImages(deleteImages);
+  //     if (!deleteResult.success) {
+  //       toast.error(deleteResult.error || "Failed to delete images");
+  //       setIsUpdating(false)
+  //       return;
+  //     }
+  //   }
+
+  //   let uploadedImages : string[] = [...images]
+  //   if(files.length > 0){
+  //     const uploadResults = await startUpload(files)
+  //     if(uploadResults){
+  //       uploadedImages = uploadResults.map(result => result.ufsUrl)
+  //     }
+  //   }
+
+  //   const newData: EditRoomType = {
+  //     ...values,
+  //     clientInitationDate: values.clientInitationDate || values.clients.length > 0 ? new Date() : undefined,
+  //     lastPayedDate: values.payedAmount > 0 ? new Date() : undefined,
+  //     lon: values.lon || undefined,
+  //     lat: values.lat || undefined,
+  //     startedPriceFromDate: values.startedPriceFromDate || values.clients.length > 0 ? new Date() : undefined,
+  //     roomImages : uploadedImages,
+  //   }
+
+  //   const updateNow = await updateRoom(newData);
+  //   if(updateNow.success){
+  //     toast.success(updateNow.message)
+  //     resetAllData();
+  //     setFiles([])
+  //     setDeleteImages([])
+  //     setImages([])
+  //     setPreviewUrls([])
+  //     router.push(`/ghar/rooms/${id}`)
+  //   }else{
+  //     toast.error(updateNow.error || "Failed to update room")
+  //   }
+  //   setIsUpdating(false)
+  // }
 
   const handleImageChageForFiles = useCallback((newFiles: File[]) => {
     setFiles(newFiles)
@@ -194,6 +290,7 @@ function EditRoomFormPage() {
       const newImages = prev.filter((image) => image !== imageUrl)
       return newImages;
     })
+    setDeleteImages((prev) => [...prev, imageUrl])
   }
 
 
@@ -247,18 +344,32 @@ function EditRoomFormPage() {
     setHasClient(true)
   }
 
-  const handleLocationSelect = (location: string, position: [number, number]) => {
+  const handleLocationSelect = (position: [number, number], location: string) => {
     form.setValue("location", location)
     form.setValue("lat", position[0])
     form.setValue("lon", position[1])
   }
+
+  const handleProvinceChange = (province: number) => {
+    form.setValue("province", province)
+  }
+
+  // Watch form values for debugging
+  useEffect(() => {
+    const subscription = form.watch((value, { name, type }) => {
+    })
+    return () => subscription.unsubscribe()
+  }, [form.watch])
 
   if (!mounted) {
     return null
   }
   if (isLoading) {
     return <SpinningLoader />
-  }
+  } 
+  if(!roomData?.data){
+    return <div className=' mochiy-pop-one-regular text-2xl w-full h-full flex items-center justify-center'>Room <span className='text-[#ff0000]'>not</span> found</div>
+}
 
   return (
     <div className='py-4 px-4 md:px-6 lg:px-10'>
@@ -276,7 +387,9 @@ function EditRoomFormPage() {
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 mt-4'>
+        <form
+          className='space-y-4 mt-4'
+        >
           <Tabs defaultValue="basic" className="w-full" >
             <TabsList className="grid grid-cols-4 w-full mb-6">
               <TabsTrigger value="basic">Basic Details</TabsTrigger>
@@ -314,28 +427,29 @@ function EditRoomFormPage() {
 
             <TabsContent value="location" className="space-y-6">
               <RoomLocationMap
-                lat={form.watch("lat")}
-                lon={form.watch("lon")}
+                position={[form.watch("lat") || 0, form.watch("lon") || 0]}
                 onLocationSelect={handleLocationSelect}
+                initialLocation={form.watch("location")}
+                province={form.watch("province")}
+                onProvinceChange={handleProvinceChange}
               />
             </TabsContent>
-
-
-
           </Tabs>
           <div className="flex flex-col sm:flex-row sm:justify-end gap-4">
-            <Button type="button" variant="outline" onClick={handleCancel}>
+            <Button disabled={isUpdating} type="button" variant="outline" onClick={handleCancel}>
               Cancel
             </Button>
-            <Button type="submit">
-
-              Save Changes
+            <Button
+              disabled={isUpdating}
+              onClick={handleUpdateRoom}
+            >
+             {
+              isUpdating ? "Saving..." : "Save Changes"
+             }
             </Button>
           </div>
         </form>
       </Form>
-
-
     </div>
   )
 }

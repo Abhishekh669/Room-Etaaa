@@ -130,11 +130,11 @@ export const EditRoomSchema = z.object({
   lastPayedDate: z.date().optional(),
   lat: z.number().optional(),
   location: z.string(),
+  id : z.string(),
   lon: z.number().optional(),
   numberOfRooms: z.number().int().positive(),
   ownerId: z.string(),
   owner: ClientSchema,
-  payedAmount: z.number().nonnegative(),
   province: z.number().int().nonnegative(),
   roomBilling: RoomBillingSchema, // Replace with RoomBilling schema if available
   roomCapacity: z.number().int().positive(),

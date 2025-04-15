@@ -13,9 +13,9 @@ interface RoomBillingFormProps {
 }
 
 export function RoomBillingForm({ control }: RoomBillingFormProps) {
-  const [roomCost, electricity, water, internet, payedAmount] = useWatch({
+  const [roomCost, electricity, water, internet, dueAmount] = useWatch({
     control,
-    name: ["roomBilling.roomCost", "roomBilling.electricity", "roomBilling.water", "roomBilling.internet", "payedAmount"]
+    name: ["roomBilling.roomCost", "roomBilling.electricity", "roomBilling.water", "roomBilling.internet",  "dueAmount"]
   });
 
   // Calculate total cost
@@ -24,9 +24,12 @@ export function RoomBillingForm({ control }: RoomBillingFormProps) {
       (Number(roomCost) || 0) +
       (Number(electricity) || 0) +
       (Number(water) || 0) +
-      (Number(internet) || 0)
+      (Number(internet) || 0) + 
+      (Number(dueAmount) || 0)
     );
   };
+
+
 
   return (
     <Card>
@@ -125,45 +128,13 @@ export function RoomBillingForm({ control }: RoomBillingFormProps) {
           />
         </div>
 
-        <FormField
-          control={control}
-        name="payedAmount"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Amount Paid</FormLabel>
-              <FormControl>
-                <div className="relative">
-                  <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    type="number"
-                    className="pl-8"
-                    {...field}
-                    onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : null)}
-                        value={field.value ?? ""}
-                  />
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
 
         <div className="p-4 bg-muted/50 rounded-lg">
           <div className="flex justify-between items-center">
             <span className="font-semibold">Total Monthly Cost:</span>
             <span className="text-lg font-bold ">Rs {calculateTotalCost().toFixed(2)}</span>
           </div>
-          <div className="flex justify-between items-center">
-            <span className="font-semibold">Payed Amount:</span>
-            <span className="text-lg font-bold ">Rs {payedAmount}</span>
-          </div>
-          <Separator />
-        <div className="flex justify-between items-center mt-2">
-            <span className="font-semibold">Remaining Amount:</span>
-            <span className="text-lg font-bold text-[#ff0000]">Rs {calculateTotalCost() - payedAmount}</span>
-          </div>
         </div>
-        
       </CardContent>
     </Card>
   )
