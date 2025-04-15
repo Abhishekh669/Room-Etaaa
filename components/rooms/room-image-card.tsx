@@ -13,7 +13,7 @@ export const RoomImageGallery = ({ images, roomNumber }: RoomImageGalleryProps) 
 
   return (
     <>
-      <div className="mb-6 rounded-lg overflow-hidden border">
+      <div className="mb-6 rounded-lg overflow-hidden border lg:w-2/3 ">
         {images.length > 0 ? (
           <div className="relative h-[400px]">
             <Image
