@@ -266,7 +266,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/lucid/web_dev/nextjs/room-etaaa/generated/prisma",
+      "value": "/home/lucid/web_dev/nextjs/Room-Etaaa/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -284,7 +284,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/lucid/web_dev/nextjs/room-etaaa/prisma/schema.prisma",
+    "sourceFilePath": "/home/lucid/web_dev/nextjs/Room-Etaaa/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -298,11 +298,12 @@ const config = {
     "db"
   ],
   "activeProvider": "mongodb",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "mongodb+srv://nepaliabhishekh669:4connectmongodb4@cluster0.cuyrnuq.mongodb.net/room-etaaa?retryWrites=true&w=majority&appName=Cluster0"
+        "value": null
       }
     }
   },

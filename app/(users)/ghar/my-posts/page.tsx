@@ -213,7 +213,6 @@ const MyPostsPage = () => {
                     <Link href="/ghar/rooms/add-room"
                       onMouseEnter={() => router.prefetch("/ghar/rooms/add-room")}
                     >
-
                     <Button className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-400 cursor-pointer transition-colors">
                       Create Your First Post
                     </Button>
@@ -226,7 +225,6 @@ const MyPostsPage = () => {
           </div>
         <div className="p-2 hidden lg:flex" >
           <div>SomeThing will come here</div>
-          <div>I wil keep somehting interesting here</div>
         </div>
         </div>
       </div>
