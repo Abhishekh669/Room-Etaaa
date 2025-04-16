@@ -3,12 +3,11 @@
 
 import { getCurrentUser } from "@/features/actions/users/user";
 import { db } from "@/prisma";
-import { UserRole } from "@prisma/client";
 
 export const getUsersRequests = async() =>{
     try {
         const currentUser = await getCurrentUser();
-        if(!currentUser || !currentUser.id || !currentUser.isAdmin || currentUser.role !== UserRole.ADMIN ){
+        if(!currentUser || !currentUser.id || !currentUser.isAdmin || currentUser.role !== "ADMIN" ){
             return {
                 error : "user not authenticated"
             }
