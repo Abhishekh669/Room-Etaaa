@@ -3,9 +3,10 @@ import Google from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { getAccountByUserId, getUserById} from "@/features/actions/users/user";
 import { db } from "@/prisma"
+import { PrismaClient } from "@prisma/client"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: PrismaAdapter(db as any),
+  adapter: PrismaAdapter(db as PrismaClient),
   session: { strategy: "jwt" },
 
   providers: [
