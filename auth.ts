@@ -7,11 +7,7 @@ import { db } from "@/prisma"
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(db as any),
   session: { strategy: "jwt" },
-  pages : {
-    error : "/error",
-    signIn : "/login",
-    
-  },
+
   providers: [
     Google({
       clientId: process.env.AUTH_GOOGLE_ID,
