@@ -5,7 +5,7 @@ import type React from "react"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import type { Control } from "react-hook-form"
-import type { User } from "@prisma/client"
+import  { User } from "@prisma/client"
 import { Loader2 } from "lucide-react"
 
 interface ClientFormForOthersProps {
