@@ -767,7 +767,12 @@ export const createRoom = async (values: z.infer<typeof RoomSchema>) => {
             throw new Error("Failed to create room billing")
         }
 
-        //TODO : add the auto postiing ofo the post
+        await db.posts.create({
+            data : {
+                ownerId : currentUser.id,
+                roomId : newRoom.id,
+            }
+        })
 
 
         return {
@@ -783,6 +788,38 @@ export const createRoom = async (values: z.infer<typeof RoomSchema>) => {
 
     }
 
+}
+
+
+export const checkInMyPosts = async(roomId : string) =>{
+    try {
+        const currentUser = await getCurrentUser();
+        if(!currentUser || !currentUser.id || !currentUser.email || currentUser.role === "USER" || !currentUser.isOnboarded){
+            throw new Error("User not authenticated")
+        }
+
+        const checkRoom = await db.posts.findFirst({
+            where : {
+                roomId : roomId,
+                ownerId : currentUser.id
+            }
+        })
+        
+        if(!checkRoom){
+            throw new Error("Room not found")
+        }
+
+        return {
+            message : "Room found",
+            success : true
+        }
+        
+    } catch (error) {
+        return {
+            error : error instanceof Error ? error.message : "Something went wrong",
+            success : false
+        }
+    }
 }
 
 export const deletePaymentRecord = async (paymentId: string) => {

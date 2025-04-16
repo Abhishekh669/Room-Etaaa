@@ -1,7 +1,7 @@
 "use client"
 import React from 'react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { MapPin, Bath, DoorOpen, Users, Wallet, BedDouble, ArrowRight } from 'lucide-react';
+import { MapPin, Bath, DoorOpen, Users, Wallet, BedDouble, ArrowRight, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import { RoomWithClientDataType } from '@/features/schemas/room/room.type';
 import { RoomStatusBadge } from '../shared/room-status-badge';
 import Hint from '../shared/hint';
@@ -9,13 +9,50 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '../ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { useQuery } from '@tanstack/react-query';
+import { checkInMyPosts } from '@/features/actions/rooms/rooms';
+import { useDeleteRoom } from '@/features/hooks/tanstacks/mutate-hooks/rooms/use-delete-room';
+import { toast } from 'sonner';
 
 export function RoomDetailsCards({ room }: { room: RoomWithClientDataType }) {
   const router = useRouter()
+  const {data : isInMyPosts} = useQuery({
+    queryKey : ["isInMyPosts", room.id],
+    queryFn : () => checkInMyPosts(room.id)
+  })
+
+  const {mutate : deleteRoom, isPending : isDeleting} = useDeleteRoom()
+
+  const handleDeleteRoom = (id : string) =>{
+    if(!id || isDeleting){
+      return;
+    }
+
+    deleteRoom(id,{
+      onSuccess : (res) => {
+        if(res.success){
+          toast.success(res.message)
+        }
+      },
+      onError : (error) => {
+        toast.error(error.message)
+      }
+    })
+
+   
+  }
+
 
   return (
     <Card className="w-full h-full bg-white shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 rounded-xl  group">
       <div className="relative aspect-video w-full overflow-hidden">
+      
         {room.roomImages?.[0] ? (
           <div className="relative h-full w-full">
             <Image
@@ -35,9 +72,35 @@ export function RoomDetailsCards({ room }: { room: RoomWithClientDataType }) {
           <div className="bg-gray-100 h-full flex items-center justify-center">
             <div className="h-16 w-16 rounded-full bg-gray-200 flex items-center justify-center">
               <BedDouble className="h-8 w-8 text-gray-400" />
+              <div className="absolute bottom-3 right-3">
+              <RoomStatusBadge status={room.roomStatus} />
+            </div>
             </div>
           </div>
         )}
+        <div className="absolute top-0 right-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-8 w-8">
+                <MoreHorizontal className="h-4 w-4" />
+                <span className="sr-only">Open menu</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => router.push(`/ghar/rooms/${room.id}/edit-room`)}>
+                <Pencil className="mr-2 h-4 w-4" />
+                  Edit
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                className="text-destructive focus:text-destructive"
+                onClick={() => handleDeleteRoom(room.id)}
+              >
+                <Trash2 className="mr-2 h-4 w-4" />
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
 
       <CardContent className="p-5 space-y-4">

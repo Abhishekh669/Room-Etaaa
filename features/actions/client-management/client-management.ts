@@ -85,7 +85,7 @@ export const getClientsForOwner = async () => {
     try {
         const currentUser = await getCurrentUser();
         if (!currentUser || !currentUser.id || !currentUser.email || 
-            (currentUser.role !== "ADMIN" && currentUser.role !== "OWNER") || 
+            currentUser.role === "USER" ||
             !currentUser.isOnboarded) {
             throw new Error("User not authenticated");
         }

@@ -12,45 +12,55 @@ export const RoomImageGallery = ({ images, roomNumber }: RoomImageGalleryProps) 
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   return (
-    <>
-      <div className="mb-6 rounded-lg overflow-hidden border lg:w-2/3 ">
+    <div className="space-y-4">
+      {/* Main Image */}
+      <div className="relative rounded-lg overflow-hidden border shadow-sm lg:w-2/3 aspect-video">
         {images.length > 0 ? (
-          <div className="relative h-[400px]">
+          <a href={images[activeImageIndex]} target="_blank" rel="noopener noreferrer" className="block w-full h-full">
             <Image
               src={images[activeImageIndex] || "/placeholder.svg"}
               alt={`Room ${roomNumber}`}
-              className="w-full h-full object-cover"
+              className="object-cover cursor-pointer"
               fill
+              priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
             />
-          </div>
+          </a>
         ) : (
-          <div className="w-full h-[400px] flex items-center justify-center bg-gray-200">
-            <Home className="h-24 w-24 text-gray-400" />
+          <div className="w-full h-full flex flex-col items-center justify-center bg-gray-100 text-gray-400">
+            <Home className="h-24 w-24" />
+            <p className="mt-2">No images available</p>
           </div>
         )}
       </div>
 
+      {/* Thumbnail Gallery */}
       {images.length > 1 && (
-        <div className="grid grid-cols-5 gap-2 mb-6">
+        <div className="flex flex-wrap gap-2">
           {images.map((image, index) => (
-            <div
+            <button
               key={index}
-              className={`h-20 rounded-md overflow-hidden border cursor-pointer ${
-                index === activeImageIndex ? "ring-2 ring-primary" : ""
+              type="button"
+              className={`relative rounded-md overflow-hidden border transition-all duration-200 ease-in-out ${
+                index === activeImageIndex 
+                  ? "ring-2 ring-primary scale-105" 
+                  : "hover:ring-1 hover:ring-gray-300"
               }`}
               onClick={() => setActiveImageIndex(index)}
+              aria-label={`View image ${index + 1}`}
             >
-              <Image
-                src={image || "/placeholder.svg"}
-                alt={`Room ${roomNumber} thumbnail ${index + 1}`}
-                className="w-full h-full object-cover"
-                width={80}
-                height={80}
-              />
-            </div>
+              <div className="aspect-square w-20">
+                <Image
+                  src={image || "/placeholder.svg"}
+                  alt={`Room ${roomNumber} thumbnail ${index + 1}`}
+                  className="object-cover"
+                  fill
+                />
+              </div>
+            </button>
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 };

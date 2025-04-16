@@ -46,6 +46,7 @@ model User {
   client            PaymentHistory[]    @relation("client")
   roomPaymentRecord RoomPaymentRecord[] @relation("roomPaymentRecord")
   payedBy           RoomPaymentRecord[] @relation("payedBy")
+  posts             Posts[]             @relation("posts")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -147,10 +148,9 @@ model Room {
   roomBilling       RoomBilling?        @relation("roomBilling")
   roomPayment       PaymentHistory[]    @relation("roomPayment")
   roomPaymentRecord RoomPaymentRecord[] @relation("roomPaymentRecord")
+  posts             Posts[]             @relation("posts")
 
   createdAt DateTime @default(now())
-
-  @@unique([roomNumber])
 }
 
 model RoomBilling {
@@ -220,6 +220,17 @@ model PaymentHistory {
 
   startedDate DateTime
   createdAt   DateTime @default(now())
+
+  @@unique([roomId])
+}
+
+model Posts {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  roomId    String   @db.ObjectId
+  room      Room     @relation("posts", fields: [roomId], references: [id], onDelete: Cascade)
+  ownerId   String   @db.ObjectId
+  owner     User     @relation("posts", fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 
   @@unique([roomId])
 }

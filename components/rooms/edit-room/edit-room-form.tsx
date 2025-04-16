@@ -374,7 +374,7 @@ function EditRoomFormPage() {
   return (
     <div className='py-4 px-4 md:px-6 lg:px-10'>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <RouteBackButton />
+        <RouteBackButton location={`/ghar/rooms/${id}`} />
         <div className="flex items-center gap-2">
           <RoomStatusBadge status={roomStatus} />
           <span className="text-muted-foreground">Room {form.getValues("roomNumber")}</span>

@@ -22,7 +22,7 @@ function RoomStatCard({ title, number, iconName: Icon }: RoomStatsCardType) {
       <div className='text-3xl font-bold text-gray-900'>
         <CountUp 
           end={number} 
-          duration={2} 
+          duration={1} 
           separator=","
           className='font-semibold'
           prefix={title === "Total Revenue" ? "Rs " : ""}

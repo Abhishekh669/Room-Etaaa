@@ -53,6 +53,11 @@ export type RoomPaymentRecord = $Result.DefaultSelection<Prisma.$RoomPaymentReco
  * 
  */
 export type PaymentHistory = $Result.DefaultSelection<Prisma.$PaymentHistoryPayload>
+/**
+ * Model Posts
+ * 
+ */
+export type Posts = $Result.DefaultSelection<Prisma.$PostsPayload>
 
 /**
  * Enums
@@ -296,6 +301,16 @@ export class PrismaClient<
     * ```
     */
   get paymentHistory(): Prisma.PaymentHistoryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.posts`: Exposes CRUD operations for the **Posts** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Posts
+    * const posts = await prisma.posts.findMany()
+    * ```
+    */
+  get posts(): Prisma.PostsDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -743,7 +758,8 @@ export namespace Prisma {
     Room: 'Room',
     RoomBilling: 'RoomBilling',
     RoomPaymentRecord: 'RoomPaymentRecord',
-    PaymentHistory: 'PaymentHistory'
+    PaymentHistory: 'PaymentHistory',
+    Posts: 'Posts'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -762,7 +778,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "userRequest" | "subscriptionPlan" | "room" | "roomBilling" | "roomPaymentRecord" | "paymentHistory"
+      modelProps: "user" | "account" | "userRequest" | "subscriptionPlan" | "room" | "roomBilling" | "roomPaymentRecord" | "paymentHistory" | "posts"
       txIsolationLevel: never
     }
     model: {
@@ -1358,6 +1374,80 @@ export namespace Prisma {
           }
         }
       }
+      Posts: {
+        payload: Prisma.$PostsPayload<ExtArgs>
+        fields: Prisma.PostsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PostsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PostsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostsPayload>
+          }
+          findFirst: {
+            args: Prisma.PostsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PostsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostsPayload>
+          }
+          findMany: {
+            args: Prisma.PostsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostsPayload>[]
+          }
+          create: {
+            args: Prisma.PostsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostsPayload>
+          }
+          createMany: {
+            args: Prisma.PostsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.PostsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostsPayload>
+          }
+          update: {
+            args: Prisma.PostsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostsPayload>
+          }
+          deleteMany: {
+            args: Prisma.PostsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PostsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PostsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostsPayload>
+          }
+          aggregate: {
+            args: Prisma.PostsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePosts>
+          }
+          groupBy: {
+            args: Prisma.PostsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PostsGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.PostsFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.PostsAggregateRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          count: {
+            args: Prisma.PostsCountArgs<ExtArgs>
+            result: $Utils.Optional<PostsCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1437,6 +1527,7 @@ export namespace Prisma {
     roomBilling?: RoomBillingOmit
     roomPaymentRecord?: RoomPaymentRecordOmit
     paymentHistory?: PaymentHistoryOmit
+    posts?: PostsOmit
   }
 
   /* Types for Logging */
@@ -1540,6 +1631,7 @@ export namespace Prisma {
     client: number
     roomPaymentRecord: number
     payedBy: number
+    posts: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1552,6 +1644,7 @@ export namespace Prisma {
     client?: boolean | UserCountOutputTypeCountClientArgs
     roomPaymentRecord?: boolean | UserCountOutputTypeCountRoomPaymentRecordArgs
     payedBy?: boolean | UserCountOutputTypeCountPayedByArgs
+    posts?: boolean | UserCountOutputTypeCountPostsArgs
   }
 
   // Custom InputTypes
@@ -1628,6 +1721,13 @@ export namespace Prisma {
     where?: RoomPaymentRecordWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostsWhereInput
+  }
+
 
   /**
    * Count Type RoomCountOutputType
@@ -1636,11 +1736,13 @@ export namespace Prisma {
   export type RoomCountOutputType = {
     roomPayment: number
     roomPaymentRecord: number
+    posts: number
   }
 
   export type RoomCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     roomPayment?: boolean | RoomCountOutputTypeCountRoomPaymentArgs
     roomPaymentRecord?: boolean | RoomCountOutputTypeCountRoomPaymentRecordArgs
+    posts?: boolean | RoomCountOutputTypeCountPostsArgs
   }
 
   // Custom InputTypes
@@ -1666,6 +1768,13 @@ export namespace Prisma {
    */
   export type RoomCountOutputTypeCountRoomPaymentRecordArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RoomPaymentRecordWhereInput
+  }
+
+  /**
+   * RoomCountOutputType without action
+   */
+  export type RoomCountOutputTypeCountPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostsWhereInput
   }
 
 
@@ -1910,6 +2019,7 @@ export namespace Prisma {
     client?: boolean | User$clientArgs<ExtArgs>
     roomPaymentRecord?: boolean | User$roomPaymentRecordArgs<ExtArgs>
     payedBy?: boolean | User$payedByArgs<ExtArgs>
+    posts?: boolean | User$postsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1942,6 +2052,7 @@ export namespace Prisma {
     client?: boolean | User$clientArgs<ExtArgs>
     roomPaymentRecord?: boolean | User$roomPaymentRecordArgs<ExtArgs>
     payedBy?: boolean | User$payedByArgs<ExtArgs>
+    posts?: boolean | User$postsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -1957,6 +2068,7 @@ export namespace Prisma {
       client: Prisma.$PaymentHistoryPayload<ExtArgs>[]
       roomPaymentRecord: Prisma.$RoomPaymentRecordPayload<ExtArgs>[]
       payedBy: Prisma.$RoomPaymentRecordPayload<ExtArgs>[]
+      posts: Prisma.$PostsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2344,6 +2456,7 @@ export namespace Prisma {
     client<T extends User$clientArgs<ExtArgs> = {}>(args?: Subset<T, User$clientArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     roomPaymentRecord<T extends User$roomPaymentRecordArgs<ExtArgs> = {}>(args?: Subset<T, User$roomPaymentRecordArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomPaymentRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     payedBy<T extends User$payedByArgs<ExtArgs> = {}>(args?: Subset<T, User$payedByArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomPaymentRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    posts<T extends User$postsArgs<ExtArgs> = {}>(args?: Subset<T, User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2969,6 +3082,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: RoomPaymentRecordScalarFieldEnum | RoomPaymentRecordScalarFieldEnum[]
+  }
+
+  /**
+   * User.posts
+   */
+  export type User$postsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Posts
+     */
+    select?: PostsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Posts
+     */
+    omit?: PostsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostsInclude<ExtArgs> | null
+    where?: PostsWhereInput
+    orderBy?: PostsOrderByWithRelationInput | PostsOrderByWithRelationInput[]
+    cursor?: PostsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PostsScalarFieldEnum | PostsScalarFieldEnum[]
   }
 
   /**
@@ -6458,6 +6595,7 @@ export namespace Prisma {
     roomBilling?: boolean | Room$roomBillingArgs<ExtArgs>
     roomPayment?: boolean | Room$roomPaymentArgs<ExtArgs>
     roomPaymentRecord?: boolean | Room$roomPaymentRecordArgs<ExtArgs>
+    posts?: boolean | Room$postsArgs<ExtArgs>
     _count?: boolean | RoomCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["room"]>
 
@@ -6493,6 +6631,7 @@ export namespace Prisma {
     roomBilling?: boolean | Room$roomBillingArgs<ExtArgs>
     roomPayment?: boolean | Room$roomPaymentArgs<ExtArgs>
     roomPaymentRecord?: boolean | Room$roomPaymentRecordArgs<ExtArgs>
+    posts?: boolean | Room$postsArgs<ExtArgs>
     _count?: boolean | RoomCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -6503,6 +6642,7 @@ export namespace Prisma {
       roomBilling: Prisma.$RoomBillingPayload<ExtArgs> | null
       roomPayment: Prisma.$PaymentHistoryPayload<ExtArgs>[]
       roomPaymentRecord: Prisma.$RoomPaymentRecordPayload<ExtArgs>[]
+      posts: Prisma.$PostsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6893,6 +7033,7 @@ export namespace Prisma {
     roomBilling<T extends Room$roomBillingArgs<ExtArgs> = {}>(args?: Subset<T, Room$roomBillingArgs<ExtArgs>>): Prisma__RoomBillingClient<$Result.GetResult<Prisma.$RoomBillingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     roomPayment<T extends Room$roomPaymentArgs<ExtArgs> = {}>(args?: Subset<T, Room$roomPaymentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     roomPaymentRecord<T extends Room$roomPaymentRecordArgs<ExtArgs> = {}>(args?: Subset<T, Room$roomPaymentRecordArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomPaymentRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    posts<T extends Room$postsArgs<ExtArgs> = {}>(args?: Subset<T, Room$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7377,6 +7518,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: RoomPaymentRecordScalarFieldEnum | RoomPaymentRecordScalarFieldEnum[]
+  }
+
+  /**
+   * Room.posts
+   */
+  export type Room$postsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Posts
+     */
+    select?: PostsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Posts
+     */
+    omit?: PostsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostsInclude<ExtArgs> | null
+    where?: PostsWhereInput
+    orderBy?: PostsOrderByWithRelationInput | PostsOrderByWithRelationInput[]
+    cursor?: PostsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PostsScalarFieldEnum | PostsScalarFieldEnum[]
   }
 
   /**
@@ -10629,6 +10794,978 @@ export namespace Prisma {
 
 
   /**
+   * Model Posts
+   */
+
+  export type AggregatePosts = {
+    _count: PostsCountAggregateOutputType | null
+    _min: PostsMinAggregateOutputType | null
+    _max: PostsMaxAggregateOutputType | null
+  }
+
+  export type PostsMinAggregateOutputType = {
+    id: string | null
+    roomId: string | null
+    ownerId: string | null
+    createdAt: Date | null
+  }
+
+  export type PostsMaxAggregateOutputType = {
+    id: string | null
+    roomId: string | null
+    ownerId: string | null
+    createdAt: Date | null
+  }
+
+  export type PostsCountAggregateOutputType = {
+    id: number
+    roomId: number
+    ownerId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PostsMinAggregateInputType = {
+    id?: true
+    roomId?: true
+    ownerId?: true
+    createdAt?: true
+  }
+
+  export type PostsMaxAggregateInputType = {
+    id?: true
+    roomId?: true
+    ownerId?: true
+    createdAt?: true
+  }
+
+  export type PostsCountAggregateInputType = {
+    id?: true
+    roomId?: true
+    ownerId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PostsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Posts to aggregate.
+     */
+    where?: PostsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Posts to fetch.
+     */
+    orderBy?: PostsOrderByWithRelationInput | PostsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PostsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Posts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Posts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Posts
+    **/
+    _count?: true | PostsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PostsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PostsMaxAggregateInputType
+  }
+
+  export type GetPostsAggregateType<T extends PostsAggregateArgs> = {
+        [P in keyof T & keyof AggregatePosts]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePosts[P]>
+      : GetScalarType<T[P], AggregatePosts[P]>
+  }
+
+
+
+
+  export type PostsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostsWhereInput
+    orderBy?: PostsOrderByWithAggregationInput | PostsOrderByWithAggregationInput[]
+    by: PostsScalarFieldEnum[] | PostsScalarFieldEnum
+    having?: PostsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PostsCountAggregateInputType | true
+    _min?: PostsMinAggregateInputType
+    _max?: PostsMaxAggregateInputType
+  }
+
+  export type PostsGroupByOutputType = {
+    id: string
+    roomId: string
+    ownerId: string
+    createdAt: Date
+    _count: PostsCountAggregateOutputType | null
+    _min: PostsMinAggregateOutputType | null
+    _max: PostsMaxAggregateOutputType | null
+  }
+
+  type GetPostsGroupByPayload<T extends PostsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PostsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PostsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PostsGroupByOutputType[P]>
+            : GetScalarType<T[P], PostsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PostsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    roomId?: boolean
+    ownerId?: boolean
+    createdAt?: boolean
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["posts"]>
+
+
+
+  export type PostsSelectScalar = {
+    id?: boolean
+    roomId?: boolean
+    ownerId?: boolean
+    createdAt?: boolean
+  }
+
+  export type PostsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "roomId" | "ownerId" | "createdAt", ExtArgs["result"]["posts"]>
+  export type PostsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PostsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Posts"
+    objects: {
+      room: Prisma.$RoomPayload<ExtArgs>
+      owner: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      roomId: string
+      ownerId: string
+      createdAt: Date
+    }, ExtArgs["result"]["posts"]>
+    composites: {}
+  }
+
+  type PostsGetPayload<S extends boolean | null | undefined | PostsDefaultArgs> = $Result.GetResult<Prisma.$PostsPayload, S>
+
+  type PostsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PostsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PostsCountAggregateInputType | true
+    }
+
+  export interface PostsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Posts'], meta: { name: 'Posts' } }
+    /**
+     * Find zero or one Posts that matches the filter.
+     * @param {PostsFindUniqueArgs} args - Arguments to find a Posts
+     * @example
+     * // Get one Posts
+     * const posts = await prisma.posts.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PostsFindUniqueArgs>(args: SelectSubset<T, PostsFindUniqueArgs<ExtArgs>>): Prisma__PostsClient<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Posts that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PostsFindUniqueOrThrowArgs} args - Arguments to find a Posts
+     * @example
+     * // Get one Posts
+     * const posts = await prisma.posts.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PostsFindUniqueOrThrowArgs>(args: SelectSubset<T, PostsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PostsClient<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Posts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostsFindFirstArgs} args - Arguments to find a Posts
+     * @example
+     * // Get one Posts
+     * const posts = await prisma.posts.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PostsFindFirstArgs>(args?: SelectSubset<T, PostsFindFirstArgs<ExtArgs>>): Prisma__PostsClient<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Posts that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostsFindFirstOrThrowArgs} args - Arguments to find a Posts
+     * @example
+     * // Get one Posts
+     * const posts = await prisma.posts.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PostsFindFirstOrThrowArgs>(args?: SelectSubset<T, PostsFindFirstOrThrowArgs<ExtArgs>>): Prisma__PostsClient<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Posts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Posts
+     * const posts = await prisma.posts.findMany()
+     * 
+     * // Get first 10 Posts
+     * const posts = await prisma.posts.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const postsWithIdOnly = await prisma.posts.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PostsFindManyArgs>(args?: SelectSubset<T, PostsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Posts.
+     * @param {PostsCreateArgs} args - Arguments to create a Posts.
+     * @example
+     * // Create one Posts
+     * const Posts = await prisma.posts.create({
+     *   data: {
+     *     // ... data to create a Posts
+     *   }
+     * })
+     * 
+     */
+    create<T extends PostsCreateArgs>(args: SelectSubset<T, PostsCreateArgs<ExtArgs>>): Prisma__PostsClient<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Posts.
+     * @param {PostsCreateManyArgs} args - Arguments to create many Posts.
+     * @example
+     * // Create many Posts
+     * const posts = await prisma.posts.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PostsCreateManyArgs>(args?: SelectSubset<T, PostsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Posts.
+     * @param {PostsDeleteArgs} args - Arguments to delete one Posts.
+     * @example
+     * // Delete one Posts
+     * const Posts = await prisma.posts.delete({
+     *   where: {
+     *     // ... filter to delete one Posts
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PostsDeleteArgs>(args: SelectSubset<T, PostsDeleteArgs<ExtArgs>>): Prisma__PostsClient<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Posts.
+     * @param {PostsUpdateArgs} args - Arguments to update one Posts.
+     * @example
+     * // Update one Posts
+     * const posts = await prisma.posts.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PostsUpdateArgs>(args: SelectSubset<T, PostsUpdateArgs<ExtArgs>>): Prisma__PostsClient<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Posts.
+     * @param {PostsDeleteManyArgs} args - Arguments to filter Posts to delete.
+     * @example
+     * // Delete a few Posts
+     * const { count } = await prisma.posts.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PostsDeleteManyArgs>(args?: SelectSubset<T, PostsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Posts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Posts
+     * const posts = await prisma.posts.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PostsUpdateManyArgs>(args: SelectSubset<T, PostsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Posts.
+     * @param {PostsUpsertArgs} args - Arguments to update or create a Posts.
+     * @example
+     * // Update or create a Posts
+     * const posts = await prisma.posts.upsert({
+     *   create: {
+     *     // ... data to create a Posts
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Posts we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PostsUpsertArgs>(args: SelectSubset<T, PostsUpsertArgs<ExtArgs>>): Prisma__PostsClient<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Posts that matches the filter.
+     * @param {PostsFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const posts = await prisma.posts.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: PostsFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a Posts.
+     * @param {PostsAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const posts = await prisma.posts.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: PostsAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
+
+
+    /**
+     * Count the number of Posts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostsCountArgs} args - Arguments to filter Posts to count.
+     * @example
+     * // Count the number of Posts
+     * const count = await prisma.posts.count({
+     *   where: {
+     *     // ... the filter for the Posts we want to count
+     *   }
+     * })
+    **/
+    count<T extends PostsCountArgs>(
+      args?: Subset<T, PostsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PostsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Posts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PostsAggregateArgs>(args: Subset<T, PostsAggregateArgs>): Prisma.PrismaPromise<GetPostsAggregateType<T>>
+
+    /**
+     * Group by Posts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PostsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PostsGroupByArgs['orderBy'] }
+        : { orderBy?: PostsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PostsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPostsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Posts model
+   */
+  readonly fields: PostsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Posts.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PostsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    room<T extends RoomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoomDefaultArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Posts model
+   */
+  interface PostsFieldRefs {
+    readonly id: FieldRef<"Posts", 'String'>
+    readonly roomId: FieldRef<"Posts", 'String'>
+    readonly ownerId: FieldRef<"Posts", 'String'>
+    readonly createdAt: FieldRef<"Posts", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Posts findUnique
+   */
+  export type PostsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Posts
+     */
+    select?: PostsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Posts
+     */
+    omit?: PostsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostsInclude<ExtArgs> | null
+    /**
+     * Filter, which Posts to fetch.
+     */
+    where: PostsWhereUniqueInput
+  }
+
+  /**
+   * Posts findUniqueOrThrow
+   */
+  export type PostsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Posts
+     */
+    select?: PostsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Posts
+     */
+    omit?: PostsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostsInclude<ExtArgs> | null
+    /**
+     * Filter, which Posts to fetch.
+     */
+    where: PostsWhereUniqueInput
+  }
+
+  /**
+   * Posts findFirst
+   */
+  export type PostsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Posts
+     */
+    select?: PostsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Posts
+     */
+    omit?: PostsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostsInclude<ExtArgs> | null
+    /**
+     * Filter, which Posts to fetch.
+     */
+    where?: PostsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Posts to fetch.
+     */
+    orderBy?: PostsOrderByWithRelationInput | PostsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Posts.
+     */
+    cursor?: PostsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Posts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Posts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Posts.
+     */
+    distinct?: PostsScalarFieldEnum | PostsScalarFieldEnum[]
+  }
+
+  /**
+   * Posts findFirstOrThrow
+   */
+  export type PostsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Posts
+     */
+    select?: PostsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Posts
+     */
+    omit?: PostsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostsInclude<ExtArgs> | null
+    /**
+     * Filter, which Posts to fetch.
+     */
+    where?: PostsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Posts to fetch.
+     */
+    orderBy?: PostsOrderByWithRelationInput | PostsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Posts.
+     */
+    cursor?: PostsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Posts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Posts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Posts.
+     */
+    distinct?: PostsScalarFieldEnum | PostsScalarFieldEnum[]
+  }
+
+  /**
+   * Posts findMany
+   */
+  export type PostsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Posts
+     */
+    select?: PostsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Posts
+     */
+    omit?: PostsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostsInclude<ExtArgs> | null
+    /**
+     * Filter, which Posts to fetch.
+     */
+    where?: PostsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Posts to fetch.
+     */
+    orderBy?: PostsOrderByWithRelationInput | PostsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Posts.
+     */
+    cursor?: PostsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Posts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Posts.
+     */
+    skip?: number
+    distinct?: PostsScalarFieldEnum | PostsScalarFieldEnum[]
+  }
+
+  /**
+   * Posts create
+   */
+  export type PostsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Posts
+     */
+    select?: PostsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Posts
+     */
+    omit?: PostsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Posts.
+     */
+    data: XOR<PostsCreateInput, PostsUncheckedCreateInput>
+  }
+
+  /**
+   * Posts createMany
+   */
+  export type PostsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Posts.
+     */
+    data: PostsCreateManyInput | PostsCreateManyInput[]
+  }
+
+  /**
+   * Posts update
+   */
+  export type PostsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Posts
+     */
+    select?: PostsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Posts
+     */
+    omit?: PostsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Posts.
+     */
+    data: XOR<PostsUpdateInput, PostsUncheckedUpdateInput>
+    /**
+     * Choose, which Posts to update.
+     */
+    where: PostsWhereUniqueInput
+  }
+
+  /**
+   * Posts updateMany
+   */
+  export type PostsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Posts.
+     */
+    data: XOR<PostsUpdateManyMutationInput, PostsUncheckedUpdateManyInput>
+    /**
+     * Filter which Posts to update
+     */
+    where?: PostsWhereInput
+    /**
+     * Limit how many Posts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Posts upsert
+   */
+  export type PostsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Posts
+     */
+    select?: PostsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Posts
+     */
+    omit?: PostsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Posts to update in case it exists.
+     */
+    where: PostsWhereUniqueInput
+    /**
+     * In case the Posts found by the `where` argument doesn't exist, create a new Posts with this data.
+     */
+    create: XOR<PostsCreateInput, PostsUncheckedCreateInput>
+    /**
+     * In case the Posts was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PostsUpdateInput, PostsUncheckedUpdateInput>
+  }
+
+  /**
+   * Posts delete
+   */
+  export type PostsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Posts
+     */
+    select?: PostsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Posts
+     */
+    omit?: PostsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostsInclude<ExtArgs> | null
+    /**
+     * Filter which Posts to delete.
+     */
+    where: PostsWhereUniqueInput
+  }
+
+  /**
+   * Posts deleteMany
+   */
+  export type PostsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Posts to delete
+     */
+    where?: PostsWhereInput
+    /**
+     * Limit how many Posts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Posts findRaw
+   */
+  export type PostsFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Posts aggregateRaw
+   */
+  export type PostsAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Posts without action
+   */
+  export type PostsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Posts
+     */
+    select?: PostsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Posts
+     */
+    omit?: PostsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostsInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -10768,6 +11905,16 @@ export namespace Prisma {
   };
 
   export type PaymentHistoryScalarFieldEnum = (typeof PaymentHistoryScalarFieldEnum)[keyof typeof PaymentHistoryScalarFieldEnum]
+
+
+  export const PostsScalarFieldEnum: {
+    id: 'id',
+    roomId: 'roomId',
+    ownerId: 'ownerId',
+    createdAt: 'createdAt'
+  };
+
+  export type PostsScalarFieldEnum = (typeof PostsScalarFieldEnum)[keyof typeof PostsScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -10953,6 +12100,7 @@ export namespace Prisma {
     client?: PaymentHistoryListRelationFilter
     roomPaymentRecord?: RoomPaymentRecordListRelationFilter
     payedBy?: RoomPaymentRecordListRelationFilter
+    posts?: PostsListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -10978,6 +12126,7 @@ export namespace Prisma {
     client?: PaymentHistoryOrderByRelationAggregateInput
     roomPaymentRecord?: RoomPaymentRecordOrderByRelationAggregateInput
     payedBy?: RoomPaymentRecordOrderByRelationAggregateInput
+    posts?: PostsOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -11006,6 +12155,7 @@ export namespace Prisma {
     client?: PaymentHistoryListRelationFilter
     roomPaymentRecord?: RoomPaymentRecordListRelationFilter
     payedBy?: RoomPaymentRecordListRelationFilter
+    posts?: PostsListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -11308,6 +12458,7 @@ export namespace Prisma {
     roomBilling?: XOR<RoomBillingNullableScalarRelationFilter, RoomBillingWhereInput> | null
     roomPayment?: PaymentHistoryListRelationFilter
     roomPaymentRecord?: RoomPaymentRecordListRelationFilter
+    posts?: PostsListRelationFilter
   }
 
   export type RoomOrderByWithRelationInput = {
@@ -11336,11 +12487,11 @@ export namespace Prisma {
     roomBilling?: RoomBillingOrderByWithRelationInput
     roomPayment?: PaymentHistoryOrderByRelationAggregateInput
     roomPaymentRecord?: RoomPaymentRecordOrderByRelationAggregateInput
+    posts?: PostsOrderByRelationAggregateInput
   }
 
   export type RoomWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    roomNumber?: number
     AND?: RoomWhereInput | RoomWhereInput[]
     OR?: RoomWhereInput[]
     NOT?: RoomWhereInput | RoomWhereInput[]
@@ -11350,6 +12501,7 @@ export namespace Prisma {
     location?: StringFilter<"Room"> | string
     lon?: FloatNullableFilter<"Room"> | number | null
     lat?: FloatNullableFilter<"Room"> | number | null
+    roomNumber?: IntFilter<"Room"> | number
     title?: StringFilter<"Room"> | string
     description?: StringFilter<"Room"> | string
     roomImages?: StringNullableListFilter<"Room">
@@ -11367,7 +12519,8 @@ export namespace Prisma {
     roomBilling?: XOR<RoomBillingNullableScalarRelationFilter, RoomBillingWhereInput> | null
     roomPayment?: PaymentHistoryListRelationFilter
     roomPaymentRecord?: RoomPaymentRecordListRelationFilter
-  }, "id" | "roomNumber">
+    posts?: PostsListRelationFilter
+  }, "id">
 
   export type RoomOrderByWithAggregationInput = {
     id?: SortOrder
@@ -11676,6 +12829,59 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"PaymentHistory"> | Date | string
   }
 
+  export type PostsWhereInput = {
+    AND?: PostsWhereInput | PostsWhereInput[]
+    OR?: PostsWhereInput[]
+    NOT?: PostsWhereInput | PostsWhereInput[]
+    id?: StringFilter<"Posts"> | string
+    roomId?: StringFilter<"Posts"> | string
+    ownerId?: StringFilter<"Posts"> | string
+    createdAt?: DateTimeFilter<"Posts"> | Date | string
+    room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
+    owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type PostsOrderByWithRelationInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    ownerId?: SortOrder
+    createdAt?: SortOrder
+    room?: RoomOrderByWithRelationInput
+    owner?: UserOrderByWithRelationInput
+  }
+
+  export type PostsWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    roomId?: string
+    AND?: PostsWhereInput | PostsWhereInput[]
+    OR?: PostsWhereInput[]
+    NOT?: PostsWhereInput | PostsWhereInput[]
+    ownerId?: StringFilter<"Posts"> | string
+    createdAt?: DateTimeFilter<"Posts"> | Date | string
+    room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
+    owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "roomId">
+
+  export type PostsOrderByWithAggregationInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    ownerId?: SortOrder
+    createdAt?: SortOrder
+    _count?: PostsCountOrderByAggregateInput
+    _max?: PostsMaxOrderByAggregateInput
+    _min?: PostsMinOrderByAggregateInput
+  }
+
+  export type PostsScalarWhereWithAggregatesInput = {
+    AND?: PostsScalarWhereWithAggregatesInput | PostsScalarWhereWithAggregatesInput[]
+    OR?: PostsScalarWhereWithAggregatesInput[]
+    NOT?: PostsScalarWhereWithAggregatesInput | PostsScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Posts"> | string
+    roomId?: StringWithAggregatesFilter<"Posts"> | string
+    ownerId?: StringWithAggregatesFilter<"Posts"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Posts"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name?: string | null
@@ -11699,6 +12905,7 @@ export namespace Prisma {
     client?: PaymentHistoryCreateNestedManyWithoutClientInput
     roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
+    posts?: PostsCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -11724,6 +12931,7 @@ export namespace Prisma {
     client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
+    posts?: PostsUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUpdateInput = {
@@ -11748,6 +12956,7 @@ export namespace Prisma {
     client?: PaymentHistoryUpdateManyWithoutClientNestedInput
     roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
+    posts?: PostsUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -11772,6 +12981,7 @@ export namespace Prisma {
     client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -12089,6 +13299,7 @@ export namespace Prisma {
     roomBilling?: RoomBillingCreateNestedOneWithoutRoomInput
     roomPayment?: PaymentHistoryCreateNestedManyWithoutRoomInput
     roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutRoomInput
+    posts?: PostsCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateInput = {
@@ -12116,6 +13327,7 @@ export namespace Prisma {
     roomBilling?: RoomBillingUncheckedCreateNestedOneWithoutRoomInput
     roomPayment?: PaymentHistoryUncheckedCreateNestedManyWithoutRoomInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutRoomInput
+    posts?: PostsUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUpdateInput = {
@@ -12142,6 +13354,7 @@ export namespace Prisma {
     roomBilling?: RoomBillingUpdateOneWithoutRoomNestedInput
     roomPayment?: PaymentHistoryUpdateManyWithoutRoomNestedInput
     roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutRoomNestedInput
+    posts?: PostsUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateInput = {
@@ -12168,6 +13381,7 @@ export namespace Prisma {
     roomBilling?: RoomBillingUncheckedUpdateOneWithoutRoomNestedInput
     roomPayment?: PaymentHistoryUncheckedUpdateManyWithoutRoomNestedInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutRoomNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomCreateManyInput = {
@@ -12478,6 +13692,49 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PostsCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    room: RoomCreateNestedOneWithoutPostsInput
+    owner: UserCreateNestedOneWithoutPostsInput
+  }
+
+  export type PostsUncheckedCreateInput = {
+    id?: string
+    roomId: string
+    ownerId: string
+    createdAt?: Date | string
+  }
+
+  export type PostsUpdateInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    room?: RoomUpdateOneRequiredWithoutPostsNestedInput
+    owner?: UserUpdateOneRequiredWithoutPostsNestedInput
+  }
+
+  export type PostsUncheckedUpdateInput = {
+    roomId?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostsCreateManyInput = {
+    id?: string
+    roomId: string
+    ownerId: string
+    createdAt?: Date | string
+  }
+
+  export type PostsUpdateManyMutationInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostsUncheckedUpdateManyInput = {
+    roomId?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -12586,6 +13843,12 @@ export namespace Prisma {
     none?: RoomPaymentRecordWhereInput
   }
 
+  export type PostsListRelationFilter = {
+    every?: PostsWhereInput
+    some?: PostsWhereInput
+    none?: PostsWhereInput
+  }
+
   export type AccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -12611,6 +13874,10 @@ export namespace Prisma {
   }
 
   export type RoomPaymentRecordOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PostsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -13314,6 +14581,27 @@ export namespace Prisma {
     dueAmount?: SortOrder
   }
 
+  export type PostsCountOrderByAggregateInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    ownerId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PostsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    ownerId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PostsMinOrderByAggregateInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    ownerId?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type AccountCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -13377,6 +14665,13 @@ export namespace Prisma {
     connect?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
   }
 
+  export type PostsCreateNestedManyWithoutOwnerInput = {
+    create?: XOR<PostsCreateWithoutOwnerInput, PostsUncheckedCreateWithoutOwnerInput> | PostsCreateWithoutOwnerInput[] | PostsUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: PostsCreateOrConnectWithoutOwnerInput | PostsCreateOrConnectWithoutOwnerInput[]
+    createMany?: PostsCreateManyOwnerInputEnvelope
+    connect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -13438,6 +14733,13 @@ export namespace Prisma {
     connectOrCreate?: RoomPaymentRecordCreateOrConnectWithoutClientInput | RoomPaymentRecordCreateOrConnectWithoutClientInput[]
     createMany?: RoomPaymentRecordCreateManyClientInputEnvelope
     connect?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+  }
+
+  export type PostsUncheckedCreateNestedManyWithoutOwnerInput = {
+    create?: XOR<PostsCreateWithoutOwnerInput, PostsUncheckedCreateWithoutOwnerInput> | PostsCreateWithoutOwnerInput[] | PostsUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: PostsCreateOrConnectWithoutOwnerInput | PostsCreateOrConnectWithoutOwnerInput[]
+    createMany?: PostsCreateManyOwnerInputEnvelope
+    connect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -13588,6 +14890,20 @@ export namespace Prisma {
     deleteMany?: RoomPaymentRecordScalarWhereInput | RoomPaymentRecordScalarWhereInput[]
   }
 
+  export type PostsUpdateManyWithoutOwnerNestedInput = {
+    create?: XOR<PostsCreateWithoutOwnerInput, PostsUncheckedCreateWithoutOwnerInput> | PostsCreateWithoutOwnerInput[] | PostsUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: PostsCreateOrConnectWithoutOwnerInput | PostsCreateOrConnectWithoutOwnerInput[]
+    upsert?: PostsUpsertWithWhereUniqueWithoutOwnerInput | PostsUpsertWithWhereUniqueWithoutOwnerInput[]
+    createMany?: PostsCreateManyOwnerInputEnvelope
+    set?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    disconnect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    delete?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    connect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    update?: PostsUpdateWithWhereUniqueWithoutOwnerInput | PostsUpdateWithWhereUniqueWithoutOwnerInput[]
+    updateMany?: PostsUpdateManyWithWhereWithoutOwnerInput | PostsUpdateManyWithWhereWithoutOwnerInput[]
+    deleteMany?: PostsScalarWhereInput | PostsScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -13714,6 +15030,20 @@ export namespace Prisma {
     deleteMany?: RoomPaymentRecordScalarWhereInput | RoomPaymentRecordScalarWhereInput[]
   }
 
+  export type PostsUncheckedUpdateManyWithoutOwnerNestedInput = {
+    create?: XOR<PostsCreateWithoutOwnerInput, PostsUncheckedCreateWithoutOwnerInput> | PostsCreateWithoutOwnerInput[] | PostsUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: PostsCreateOrConnectWithoutOwnerInput | PostsCreateOrConnectWithoutOwnerInput[]
+    upsert?: PostsUpsertWithWhereUniqueWithoutOwnerInput | PostsUpsertWithWhereUniqueWithoutOwnerInput[]
+    createMany?: PostsCreateManyOwnerInputEnvelope
+    set?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    disconnect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    delete?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    connect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    update?: PostsUpdateWithWhereUniqueWithoutOwnerInput | PostsUpdateWithWhereUniqueWithoutOwnerInput[]
+    updateMany?: PostsUpdateManyWithWhereWithoutOwnerInput | PostsUpdateManyWithWhereWithoutOwnerInput[]
+    deleteMany?: PostsScalarWhereInput | PostsScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutAccountsInput = {
     create?: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAccountsInput
@@ -13811,6 +15141,13 @@ export namespace Prisma {
     connect?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
   }
 
+  export type PostsCreateNestedManyWithoutRoomInput = {
+    create?: XOR<PostsCreateWithoutRoomInput, PostsUncheckedCreateWithoutRoomInput> | PostsCreateWithoutRoomInput[] | PostsUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: PostsCreateOrConnectWithoutRoomInput | PostsCreateOrConnectWithoutRoomInput[]
+    createMany?: PostsCreateManyRoomInputEnvelope
+    connect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+  }
+
   export type RoomBillingUncheckedCreateNestedOneWithoutRoomInput = {
     create?: XOR<RoomBillingCreateWithoutRoomInput, RoomBillingUncheckedCreateWithoutRoomInput>
     connectOrCreate?: RoomBillingCreateOrConnectWithoutRoomInput
@@ -13829,6 +15166,13 @@ export namespace Prisma {
     connectOrCreate?: RoomPaymentRecordCreateOrConnectWithoutRoomInput | RoomPaymentRecordCreateOrConnectWithoutRoomInput[]
     createMany?: RoomPaymentRecordCreateManyRoomInputEnvelope
     connect?: RoomPaymentRecordWhereUniqueInput | RoomPaymentRecordWhereUniqueInput[]
+  }
+
+  export type PostsUncheckedCreateNestedManyWithoutRoomInput = {
+    create?: XOR<PostsCreateWithoutRoomInput, PostsUncheckedCreateWithoutRoomInput> | PostsCreateWithoutRoomInput[] | PostsUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: PostsCreateOrConnectWithoutRoomInput | PostsCreateOrConnectWithoutRoomInput[]
+    createMany?: PostsCreateManyRoomInputEnvelope
+    connect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
   }
 
   export type EnumRoomStatusFieldUpdateOperationsInput = {
@@ -13916,6 +15260,20 @@ export namespace Prisma {
     deleteMany?: RoomPaymentRecordScalarWhereInput | RoomPaymentRecordScalarWhereInput[]
   }
 
+  export type PostsUpdateManyWithoutRoomNestedInput = {
+    create?: XOR<PostsCreateWithoutRoomInput, PostsUncheckedCreateWithoutRoomInput> | PostsCreateWithoutRoomInput[] | PostsUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: PostsCreateOrConnectWithoutRoomInput | PostsCreateOrConnectWithoutRoomInput[]
+    upsert?: PostsUpsertWithWhereUniqueWithoutRoomInput | PostsUpsertWithWhereUniqueWithoutRoomInput[]
+    createMany?: PostsCreateManyRoomInputEnvelope
+    set?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    disconnect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    delete?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    connect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    update?: PostsUpdateWithWhereUniqueWithoutRoomInput | PostsUpdateWithWhereUniqueWithoutRoomInput[]
+    updateMany?: PostsUpdateManyWithWhereWithoutRoomInput | PostsUpdateManyWithWhereWithoutRoomInput[]
+    deleteMany?: PostsScalarWhereInput | PostsScalarWhereInput[]
+  }
+
   export type RoomBillingUncheckedUpdateOneWithoutRoomNestedInput = {
     create?: XOR<RoomBillingCreateWithoutRoomInput, RoomBillingUncheckedCreateWithoutRoomInput>
     connectOrCreate?: RoomBillingCreateOrConnectWithoutRoomInput
@@ -13952,6 +15310,20 @@ export namespace Prisma {
     update?: RoomPaymentRecordUpdateWithWhereUniqueWithoutRoomInput | RoomPaymentRecordUpdateWithWhereUniqueWithoutRoomInput[]
     updateMany?: RoomPaymentRecordUpdateManyWithWhereWithoutRoomInput | RoomPaymentRecordUpdateManyWithWhereWithoutRoomInput[]
     deleteMany?: RoomPaymentRecordScalarWhereInput | RoomPaymentRecordScalarWhereInput[]
+  }
+
+  export type PostsUncheckedUpdateManyWithoutRoomNestedInput = {
+    create?: XOR<PostsCreateWithoutRoomInput, PostsUncheckedCreateWithoutRoomInput> | PostsCreateWithoutRoomInput[] | PostsUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: PostsCreateOrConnectWithoutRoomInput | PostsCreateOrConnectWithoutRoomInput[]
+    upsert?: PostsUpsertWithWhereUniqueWithoutRoomInput | PostsUpsertWithWhereUniqueWithoutRoomInput[]
+    createMany?: PostsCreateManyRoomInputEnvelope
+    set?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    disconnect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    delete?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    connect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    update?: PostsUpdateWithWhereUniqueWithoutRoomInput | PostsUpdateWithWhereUniqueWithoutRoomInput[]
+    updateMany?: PostsUpdateManyWithWhereWithoutRoomInput | PostsUpdateManyWithWhereWithoutRoomInput[]
+    deleteMany?: PostsScalarWhereInput | PostsScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutRoomBillingInput = {
@@ -14068,6 +15440,34 @@ export namespace Prisma {
     upsert?: RoomUpsertWithoutRoomPaymentInput
     connect?: RoomWhereUniqueInput
     update?: XOR<XOR<RoomUpdateToOneWithWhereWithoutRoomPaymentInput, RoomUpdateWithoutRoomPaymentInput>, RoomUncheckedUpdateWithoutRoomPaymentInput>
+  }
+
+  export type RoomCreateNestedOneWithoutPostsInput = {
+    create?: XOR<RoomCreateWithoutPostsInput, RoomUncheckedCreateWithoutPostsInput>
+    connectOrCreate?: RoomCreateOrConnectWithoutPostsInput
+    connect?: RoomWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutPostsInput = {
+    create?: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPostsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type RoomUpdateOneRequiredWithoutPostsNestedInput = {
+    create?: XOR<RoomCreateWithoutPostsInput, RoomUncheckedCreateWithoutPostsInput>
+    connectOrCreate?: RoomCreateOrConnectWithoutPostsInput
+    upsert?: RoomUpsertWithoutPostsInput
+    connect?: RoomWhereUniqueInput
+    update?: XOR<XOR<RoomUpdateToOneWithWhereWithoutPostsInput, RoomUpdateWithoutPostsInput>, RoomUncheckedUpdateWithoutPostsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutPostsNestedInput = {
+    create?: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPostsInput
+    upsert?: UserUpsertWithoutPostsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPostsInput, UserUpdateWithoutPostsInput>, UserUncheckedUpdateWithoutPostsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -14515,6 +15915,7 @@ export namespace Prisma {
     roomBilling?: RoomBillingCreateNestedOneWithoutRoomInput
     roomPayment?: PaymentHistoryCreateNestedManyWithoutRoomInput
     roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutRoomInput
+    posts?: PostsCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateWithoutOwnerInput = {
@@ -14541,6 +15942,7 @@ export namespace Prisma {
     roomBilling?: RoomBillingUncheckedCreateNestedOneWithoutRoomInput
     roomPayment?: PaymentHistoryUncheckedCreateNestedManyWithoutRoomInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutRoomInput
+    posts?: PostsUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomCreateOrConnectWithoutOwnerInput = {
@@ -14711,6 +16113,27 @@ export namespace Prisma {
 
   export type RoomPaymentRecordCreateManyClientInputEnvelope = {
     data: RoomPaymentRecordCreateManyClientInput | RoomPaymentRecordCreateManyClientInput[]
+  }
+
+  export type PostsCreateWithoutOwnerInput = {
+    id?: string
+    createdAt?: Date | string
+    room: RoomCreateNestedOneWithoutPostsInput
+  }
+
+  export type PostsUncheckedCreateWithoutOwnerInput = {
+    id?: string
+    roomId: string
+    createdAt?: Date | string
+  }
+
+  export type PostsCreateOrConnectWithoutOwnerInput = {
+    where: PostsWhereUniqueInput
+    create: XOR<PostsCreateWithoutOwnerInput, PostsUncheckedCreateWithoutOwnerInput>
+  }
+
+  export type PostsCreateManyOwnerInputEnvelope = {
+    data: PostsCreateManyOwnerInput | PostsCreateManyOwnerInput[]
   }
 
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
@@ -14976,6 +16399,32 @@ export namespace Prisma {
     data: XOR<RoomPaymentRecordUpdateManyMutationInput, RoomPaymentRecordUncheckedUpdateManyWithoutClientInput>
   }
 
+  export type PostsUpsertWithWhereUniqueWithoutOwnerInput = {
+    where: PostsWhereUniqueInput
+    update: XOR<PostsUpdateWithoutOwnerInput, PostsUncheckedUpdateWithoutOwnerInput>
+    create: XOR<PostsCreateWithoutOwnerInput, PostsUncheckedCreateWithoutOwnerInput>
+  }
+
+  export type PostsUpdateWithWhereUniqueWithoutOwnerInput = {
+    where: PostsWhereUniqueInput
+    data: XOR<PostsUpdateWithoutOwnerInput, PostsUncheckedUpdateWithoutOwnerInput>
+  }
+
+  export type PostsUpdateManyWithWhereWithoutOwnerInput = {
+    where: PostsScalarWhereInput
+    data: XOR<PostsUpdateManyMutationInput, PostsUncheckedUpdateManyWithoutOwnerInput>
+  }
+
+  export type PostsScalarWhereInput = {
+    AND?: PostsScalarWhereInput | PostsScalarWhereInput[]
+    OR?: PostsScalarWhereInput[]
+    NOT?: PostsScalarWhereInput | PostsScalarWhereInput[]
+    id?: StringFilter<"Posts"> | string
+    roomId?: StringFilter<"Posts"> | string
+    ownerId?: StringFilter<"Posts"> | string
+    createdAt?: DateTimeFilter<"Posts"> | Date | string
+  }
+
   export type UserCreateWithoutAccountsInput = {
     id?: string
     name?: string | null
@@ -14998,6 +16447,7 @@ export namespace Prisma {
     client?: PaymentHistoryCreateNestedManyWithoutClientInput
     roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
+    posts?: PostsCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -15022,6 +16472,7 @@ export namespace Prisma {
     client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
+    posts?: PostsUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -15061,6 +16512,7 @@ export namespace Prisma {
     client?: PaymentHistoryUpdateManyWithoutClientNestedInput
     roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
+    posts?: PostsUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -15084,6 +16536,7 @@ export namespace Prisma {
     client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateWithoutUserRequestInput = {
@@ -15108,6 +16561,7 @@ export namespace Prisma {
     client?: PaymentHistoryCreateNestedManyWithoutClientInput
     roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
+    posts?: PostsCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutUserRequestInput = {
@@ -15132,6 +16586,7 @@ export namespace Prisma {
     client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
+    posts?: PostsUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutUserRequestInput = {
@@ -15171,6 +16626,7 @@ export namespace Prisma {
     client?: PaymentHistoryUpdateManyWithoutClientNestedInput
     roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
+    posts?: PostsUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserRequestInput = {
@@ -15194,6 +16650,7 @@ export namespace Prisma {
     client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateWithoutSubscriptionPlanInput = {
@@ -15218,6 +16675,7 @@ export namespace Prisma {
     client?: PaymentHistoryCreateNestedManyWithoutClientInput
     roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
+    posts?: PostsCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutSubscriptionPlanInput = {
@@ -15242,6 +16700,7 @@ export namespace Prisma {
     client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
+    posts?: PostsUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutSubscriptionPlanInput = {
@@ -15281,6 +16740,7 @@ export namespace Prisma {
     client?: PaymentHistoryUpdateManyWithoutClientNestedInput
     roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
+    posts?: PostsUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubscriptionPlanInput = {
@@ -15304,6 +16764,7 @@ export namespace Prisma {
     client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateWithoutRoomInput = {
@@ -15328,6 +16789,7 @@ export namespace Prisma {
     client?: PaymentHistoryCreateNestedManyWithoutClientInput
     roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
+    posts?: PostsCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutRoomInput = {
@@ -15352,6 +16814,7 @@ export namespace Prisma {
     client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
+    posts?: PostsUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutRoomInput = {
@@ -15450,6 +16913,27 @@ export namespace Prisma {
     data: RoomPaymentRecordCreateManyRoomInput | RoomPaymentRecordCreateManyRoomInput[]
   }
 
+  export type PostsCreateWithoutRoomInput = {
+    id?: string
+    createdAt?: Date | string
+    owner: UserCreateNestedOneWithoutPostsInput
+  }
+
+  export type PostsUncheckedCreateWithoutRoomInput = {
+    id?: string
+    ownerId: string
+    createdAt?: Date | string
+  }
+
+  export type PostsCreateOrConnectWithoutRoomInput = {
+    where: PostsWhereUniqueInput
+    create: XOR<PostsCreateWithoutRoomInput, PostsUncheckedCreateWithoutRoomInput>
+  }
+
+  export type PostsCreateManyRoomInputEnvelope = {
+    data: PostsCreateManyRoomInput | PostsCreateManyRoomInput[]
+  }
+
   export type UserUpsertWithoutRoomInput = {
     update: XOR<UserUpdateWithoutRoomInput, UserUncheckedUpdateWithoutRoomInput>
     create: XOR<UserCreateWithoutRoomInput, UserUncheckedCreateWithoutRoomInput>
@@ -15482,6 +16966,7 @@ export namespace Prisma {
     client?: PaymentHistoryUpdateManyWithoutClientNestedInput
     roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
+    posts?: PostsUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoomInput = {
@@ -15505,6 +16990,7 @@ export namespace Prisma {
     client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type RoomBillingUpsertWithoutRoomInput = {
@@ -15568,6 +17054,22 @@ export namespace Prisma {
     data: XOR<RoomPaymentRecordUpdateManyMutationInput, RoomPaymentRecordUncheckedUpdateManyWithoutRoomInput>
   }
 
+  export type PostsUpsertWithWhereUniqueWithoutRoomInput = {
+    where: PostsWhereUniqueInput
+    update: XOR<PostsUpdateWithoutRoomInput, PostsUncheckedUpdateWithoutRoomInput>
+    create: XOR<PostsCreateWithoutRoomInput, PostsUncheckedCreateWithoutRoomInput>
+  }
+
+  export type PostsUpdateWithWhereUniqueWithoutRoomInput = {
+    where: PostsWhereUniqueInput
+    data: XOR<PostsUpdateWithoutRoomInput, PostsUncheckedUpdateWithoutRoomInput>
+  }
+
+  export type PostsUpdateManyWithWhereWithoutRoomInput = {
+    where: PostsScalarWhereInput
+    data: XOR<PostsUpdateManyMutationInput, PostsUncheckedUpdateManyWithoutRoomInput>
+  }
+
   export type UserCreateWithoutRoomBillingInput = {
     id?: string
     name?: string | null
@@ -15590,6 +17092,7 @@ export namespace Prisma {
     client?: PaymentHistoryCreateNestedManyWithoutClientInput
     roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
+    posts?: PostsCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutRoomBillingInput = {
@@ -15614,6 +17117,7 @@ export namespace Prisma {
     client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
+    posts?: PostsUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutRoomBillingInput = {
@@ -15645,6 +17149,7 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutRoomInput
     roomPayment?: PaymentHistoryCreateNestedManyWithoutRoomInput
     roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutRoomInput
+    posts?: PostsCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateWithoutRoomBillingInput = {
@@ -15671,6 +17176,7 @@ export namespace Prisma {
     createdAt?: Date | string
     roomPayment?: PaymentHistoryUncheckedCreateNestedManyWithoutRoomInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutRoomInput
+    posts?: PostsUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomCreateOrConnectWithoutRoomBillingInput = {
@@ -15710,6 +17216,7 @@ export namespace Prisma {
     client?: PaymentHistoryUpdateManyWithoutClientNestedInput
     roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
+    posts?: PostsUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoomBillingInput = {
@@ -15733,6 +17240,7 @@ export namespace Prisma {
     client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type RoomUpsertWithoutRoomBillingInput = {
@@ -15769,6 +17277,7 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutRoomNestedInput
     roomPayment?: PaymentHistoryUpdateManyWithoutRoomNestedInput
     roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutRoomNestedInput
+    posts?: PostsUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateWithoutRoomBillingInput = {
@@ -15794,6 +17303,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roomPayment?: PaymentHistoryUncheckedUpdateManyWithoutRoomNestedInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutRoomNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutRoomNestedInput
   }
 
   export type UserCreateWithoutRoomPaymentRecordInput = {
@@ -15818,6 +17328,7 @@ export namespace Prisma {
     paymentHistory?: PaymentHistoryCreateNestedManyWithoutOwnerInput
     client?: PaymentHistoryCreateNestedManyWithoutClientInput
     payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
+    posts?: PostsCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutRoomPaymentRecordInput = {
@@ -15842,6 +17353,7 @@ export namespace Prisma {
     paymentHistory?: PaymentHistoryUncheckedCreateNestedManyWithoutOwnerInput
     client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
     payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
+    posts?: PostsUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutRoomPaymentRecordInput = {
@@ -15873,6 +17385,7 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutRoomInput
     roomBilling?: RoomBillingCreateNestedOneWithoutRoomInput
     roomPayment?: PaymentHistoryCreateNestedManyWithoutRoomInput
+    posts?: PostsCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateWithoutRoomPaymentRecordInput = {
@@ -15899,6 +17412,7 @@ export namespace Prisma {
     createdAt?: Date | string
     roomBilling?: RoomBillingUncheckedCreateNestedOneWithoutRoomInput
     roomPayment?: PaymentHistoryUncheckedCreateNestedManyWithoutRoomInput
+    posts?: PostsUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomCreateOrConnectWithoutRoomPaymentRecordInput = {
@@ -15928,6 +17442,7 @@ export namespace Prisma {
     paymentHistory?: PaymentHistoryCreateNestedManyWithoutOwnerInput
     client?: PaymentHistoryCreateNestedManyWithoutClientInput
     roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
+    posts?: PostsCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutPayedByInput = {
@@ -15952,6 +17467,7 @@ export namespace Prisma {
     paymentHistory?: PaymentHistoryUncheckedCreateNestedManyWithoutOwnerInput
     client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
+    posts?: PostsUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutPayedByInput = {
@@ -15991,6 +17507,7 @@ export namespace Prisma {
     paymentHistory?: PaymentHistoryUpdateManyWithoutOwnerNestedInput
     client?: PaymentHistoryUpdateManyWithoutClientNestedInput
     payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
+    posts?: PostsUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoomPaymentRecordInput = {
@@ -16014,6 +17531,7 @@ export namespace Prisma {
     paymentHistory?: PaymentHistoryUncheckedUpdateManyWithoutOwnerNestedInput
     client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
     payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type RoomUpsertWithoutRoomPaymentRecordInput = {
@@ -16050,6 +17568,7 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutRoomNestedInput
     roomBilling?: RoomBillingUpdateOneWithoutRoomNestedInput
     roomPayment?: PaymentHistoryUpdateManyWithoutRoomNestedInput
+    posts?: PostsUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateWithoutRoomPaymentRecordInput = {
@@ -16075,6 +17594,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roomBilling?: RoomBillingUncheckedUpdateOneWithoutRoomNestedInput
     roomPayment?: PaymentHistoryUncheckedUpdateManyWithoutRoomNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutRoomNestedInput
   }
 
   export type UserUpsertWithoutPayedByInput = {
@@ -16109,6 +17629,7 @@ export namespace Prisma {
     paymentHistory?: PaymentHistoryUpdateManyWithoutOwnerNestedInput
     client?: PaymentHistoryUpdateManyWithoutClientNestedInput
     roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
+    posts?: PostsUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPayedByInput = {
@@ -16132,6 +17653,7 @@ export namespace Prisma {
     paymentHistory?: PaymentHistoryUncheckedUpdateManyWithoutOwnerNestedInput
     client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateWithoutPaymentHistoryInput = {
@@ -16156,6 +17678,7 @@ export namespace Prisma {
     client?: PaymentHistoryCreateNestedManyWithoutClientInput
     roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
+    posts?: PostsCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutPaymentHistoryInput = {
@@ -16180,6 +17703,7 @@ export namespace Prisma {
     client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
+    posts?: PostsUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutPaymentHistoryInput = {
@@ -16209,6 +17733,7 @@ export namespace Prisma {
     paymentHistory?: PaymentHistoryCreateNestedManyWithoutOwnerInput
     roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
+    posts?: PostsCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutClientInput = {
@@ -16233,6 +17758,7 @@ export namespace Prisma {
     paymentHistory?: PaymentHistoryUncheckedCreateNestedManyWithoutOwnerInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
+    posts?: PostsUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutClientInput = {
@@ -16264,6 +17790,7 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutRoomInput
     roomBilling?: RoomBillingCreateNestedOneWithoutRoomInput
     roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutRoomInput
+    posts?: PostsCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateWithoutRoomPaymentInput = {
@@ -16290,6 +17817,7 @@ export namespace Prisma {
     createdAt?: Date | string
     roomBilling?: RoomBillingUncheckedCreateNestedOneWithoutRoomInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutRoomInput
+    posts?: PostsUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomCreateOrConnectWithoutRoomPaymentInput = {
@@ -16329,6 +17857,7 @@ export namespace Prisma {
     client?: PaymentHistoryUpdateManyWithoutClientNestedInput
     roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
+    posts?: PostsUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPaymentHistoryInput = {
@@ -16352,6 +17881,7 @@ export namespace Prisma {
     client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUpsertWithoutClientInput = {
@@ -16386,6 +17916,7 @@ export namespace Prisma {
     paymentHistory?: PaymentHistoryUpdateManyWithoutOwnerNestedInput
     roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
+    posts?: PostsUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutClientInput = {
@@ -16409,6 +17940,7 @@ export namespace Prisma {
     paymentHistory?: PaymentHistoryUncheckedUpdateManyWithoutOwnerNestedInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type RoomUpsertWithoutRoomPaymentInput = {
@@ -16445,6 +17977,7 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutRoomNestedInput
     roomBilling?: RoomBillingUpdateOneWithoutRoomNestedInput
     roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutRoomNestedInput
+    posts?: PostsUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateWithoutRoomPaymentInput = {
@@ -16470,6 +18003,243 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roomBilling?: RoomBillingUncheckedUpdateOneWithoutRoomNestedInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutRoomNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutRoomNestedInput
+  }
+
+  export type RoomCreateWithoutPostsInput = {
+    id?: string
+    roomStatus?: $Enums.RoomStatus
+    province: number
+    location: string
+    lon?: number | null
+    lat?: number | null
+    roomNumber: number
+    title: string
+    description: string
+    roomImages?: RoomCreateroomImagesInput | string[]
+    numberOfRooms: number
+    beds: number
+    toilet: number
+    clients?: RoomCreateclientsInput | string[]
+    roomCapacity?: number
+    dueAmount?: number
+    clientInitationData?: Date | string | null
+    startedPriceFromDate?: Date | string | null
+    lastPayedDate?: Date | string | null
+    createdAt?: Date | string
+    owner: UserCreateNestedOneWithoutRoomInput
+    roomBilling?: RoomBillingCreateNestedOneWithoutRoomInput
+    roomPayment?: PaymentHistoryCreateNestedManyWithoutRoomInput
+    roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomUncheckedCreateWithoutPostsInput = {
+    id?: string
+    ownerId: string
+    roomStatus?: $Enums.RoomStatus
+    province: number
+    location: string
+    lon?: number | null
+    lat?: number | null
+    roomNumber: number
+    title: string
+    description: string
+    roomImages?: RoomCreateroomImagesInput | string[]
+    numberOfRooms: number
+    beds: number
+    toilet: number
+    clients?: RoomCreateclientsInput | string[]
+    roomCapacity?: number
+    dueAmount?: number
+    clientInitationData?: Date | string | null
+    startedPriceFromDate?: Date | string | null
+    lastPayedDate?: Date | string | null
+    createdAt?: Date | string
+    roomBilling?: RoomBillingUncheckedCreateNestedOneWithoutRoomInput
+    roomPayment?: PaymentHistoryUncheckedCreateNestedManyWithoutRoomInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomCreateOrConnectWithoutPostsInput = {
+    where: RoomWhereUniqueInput
+    create: XOR<RoomCreateWithoutPostsInput, RoomUncheckedCreateWithoutPostsInput>
+  }
+
+  export type UserCreateWithoutPostsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    phoneNumber?: string | null
+    role?: $Enums.UserRole
+    isOnboarded?: boolean
+    isVerified?: boolean
+    isAssignedOwner?: boolean
+    isAdmin?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    userRequest?: UserRequestCreateNestedManyWithoutUserInput
+    subscriptionPlan?: SubscriptionPlanCreateNestedManyWithoutUserInput
+    room?: RoomCreateNestedManyWithoutOwnerInput
+    roomBilling?: RoomBillingCreateNestedManyWithoutOwnerInput
+    paymentHistory?: PaymentHistoryCreateNestedManyWithoutOwnerInput
+    client?: PaymentHistoryCreateNestedManyWithoutClientInput
+    roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
+    payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
+  }
+
+  export type UserUncheckedCreateWithoutPostsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    phoneNumber?: string | null
+    role?: $Enums.UserRole
+    isOnboarded?: boolean
+    isVerified?: boolean
+    isAssignedOwner?: boolean
+    isAdmin?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    userRequest?: UserRequestUncheckedCreateNestedManyWithoutUserInput
+    subscriptionPlan?: SubscriptionPlanUncheckedCreateNestedManyWithoutUserInput
+    room?: RoomUncheckedCreateNestedManyWithoutOwnerInput
+    roomBilling?: RoomBillingUncheckedCreateNestedManyWithoutOwnerInput
+    paymentHistory?: PaymentHistoryUncheckedCreateNestedManyWithoutOwnerInput
+    client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
+    payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
+  }
+
+  export type UserCreateOrConnectWithoutPostsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
+  }
+
+  export type RoomUpsertWithoutPostsInput = {
+    update: XOR<RoomUpdateWithoutPostsInput, RoomUncheckedUpdateWithoutPostsInput>
+    create: XOR<RoomCreateWithoutPostsInput, RoomUncheckedCreateWithoutPostsInput>
+    where?: RoomWhereInput
+  }
+
+  export type RoomUpdateToOneWithWhereWithoutPostsInput = {
+    where?: RoomWhereInput
+    data: XOR<RoomUpdateWithoutPostsInput, RoomUncheckedUpdateWithoutPostsInput>
+  }
+
+  export type RoomUpdateWithoutPostsInput = {
+    roomStatus?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
+    province?: IntFieldUpdateOperationsInput | number
+    location?: StringFieldUpdateOperationsInput | string
+    lon?: NullableFloatFieldUpdateOperationsInput | number | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    roomNumber?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    roomImages?: RoomUpdateroomImagesInput | string[]
+    numberOfRooms?: IntFieldUpdateOperationsInput | number
+    beds?: IntFieldUpdateOperationsInput | number
+    toilet?: IntFieldUpdateOperationsInput | number
+    clients?: RoomUpdateclientsInput | string[]
+    roomCapacity?: IntFieldUpdateOperationsInput | number
+    dueAmount?: FloatFieldUpdateOperationsInput | number
+    clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastPayedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutRoomNestedInput
+    roomBilling?: RoomBillingUpdateOneWithoutRoomNestedInput
+    roomPayment?: PaymentHistoryUpdateManyWithoutRoomNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutRoomNestedInput
+  }
+
+  export type RoomUncheckedUpdateWithoutPostsInput = {
+    ownerId?: StringFieldUpdateOperationsInput | string
+    roomStatus?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
+    province?: IntFieldUpdateOperationsInput | number
+    location?: StringFieldUpdateOperationsInput | string
+    lon?: NullableFloatFieldUpdateOperationsInput | number | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    roomNumber?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    roomImages?: RoomUpdateroomImagesInput | string[]
+    numberOfRooms?: IntFieldUpdateOperationsInput | number
+    beds?: IntFieldUpdateOperationsInput | number
+    toilet?: IntFieldUpdateOperationsInput | number
+    clients?: RoomUpdateclientsInput | string[]
+    roomCapacity?: IntFieldUpdateOperationsInput | number
+    dueAmount?: FloatFieldUpdateOperationsInput | number
+    clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastPayedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    roomBilling?: RoomBillingUncheckedUpdateOneWithoutRoomNestedInput
+    roomPayment?: PaymentHistoryUncheckedUpdateManyWithoutRoomNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutRoomNestedInput
+  }
+
+  export type UserUpsertWithoutPostsInput = {
+    update: XOR<UserUpdateWithoutPostsInput, UserUncheckedUpdateWithoutPostsInput>
+    create: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPostsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPostsInput, UserUncheckedUpdateWithoutPostsInput>
+  }
+
+  export type UserUpdateWithoutPostsInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isOnboarded?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    isAssignedOwner?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    userRequest?: UserRequestUpdateManyWithoutUserNestedInput
+    subscriptionPlan?: SubscriptionPlanUpdateManyWithoutUserNestedInput
+    room?: RoomUpdateManyWithoutOwnerNestedInput
+    roomBilling?: RoomBillingUpdateManyWithoutOwnerNestedInput
+    paymentHistory?: PaymentHistoryUpdateManyWithoutOwnerNestedInput
+    client?: PaymentHistoryUpdateManyWithoutClientNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
+    payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPostsInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isOnboarded?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    isAssignedOwner?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    userRequest?: UserRequestUncheckedUpdateManyWithoutUserNestedInput
+    subscriptionPlan?: SubscriptionPlanUncheckedUpdateManyWithoutUserNestedInput
+    room?: RoomUncheckedUpdateManyWithoutOwnerNestedInput
+    roomBilling?: RoomBillingUncheckedUpdateManyWithoutOwnerNestedInput
+    paymentHistory?: PaymentHistoryUncheckedUpdateManyWithoutOwnerNestedInput
+    client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
+    payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -16584,6 +18354,12 @@ export namespace Prisma {
     dueAmount: number
     paymentStatus?: $Enums.PaymentStatus
     dueMoneyReason?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PostsCreateManyOwnerInput = {
+    id?: string
+    roomId: string
     createdAt?: Date | string
   }
 
@@ -16703,6 +18479,7 @@ export namespace Prisma {
     roomBilling?: RoomBillingUpdateOneWithoutRoomNestedInput
     roomPayment?: PaymentHistoryUpdateManyWithoutRoomNestedInput
     roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutRoomNestedInput
+    posts?: PostsUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateWithoutOwnerInput = {
@@ -16728,6 +18505,7 @@ export namespace Prisma {
     roomBilling?: RoomBillingUncheckedUpdateOneWithoutRoomNestedInput
     roomPayment?: PaymentHistoryUncheckedUpdateManyWithoutRoomNestedInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutRoomNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateManyWithoutOwnerInput = {
@@ -16911,6 +18689,21 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PostsUpdateWithoutOwnerInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    room?: RoomUpdateOneRequiredWithoutPostsNestedInput
+  }
+
+  export type PostsUncheckedUpdateWithoutOwnerInput = {
+    roomId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostsUncheckedUpdateManyWithoutOwnerInput = {
+    roomId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PaymentHistoryCreateManyRoomInput = {
     id?: string
     ownerId: string
@@ -16932,6 +18725,12 @@ export namespace Prisma {
     dueAmount: number
     paymentStatus?: $Enums.PaymentStatus
     dueMoneyReason?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PostsCreateManyRoomInput = {
+    id?: string
+    ownerId: string
     createdAt?: Date | string
   }
 
@@ -16998,6 +18797,21 @@ export namespace Prisma {
     dueAmount?: FloatFieldUpdateOperationsInput | number
     paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     dueMoneyReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostsUpdateWithoutRoomInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutPostsNestedInput
+  }
+
+  export type PostsUncheckedUpdateWithoutRoomInput = {
+    ownerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostsUncheckedUpdateManyWithoutRoomInput = {
+    ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

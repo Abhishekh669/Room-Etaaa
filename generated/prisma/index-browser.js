@@ -224,6 +224,13 @@ exports.Prisma.PaymentHistoryScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.PostsScalarFieldEnum = {
+  id: 'id',
+  roomId: 'roomId',
+  ownerId: 'ownerId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -272,7 +279,8 @@ exports.Prisma.ModelName = {
   Room: 'Room',
   RoomBilling: 'RoomBilling',
   RoomPaymentRecord: 'RoomPaymentRecord',
-  PaymentHistory: 'PaymentHistory'
+  PaymentHistory: 'PaymentHistory',
+  Posts: 'Posts'
 };
 
 /**

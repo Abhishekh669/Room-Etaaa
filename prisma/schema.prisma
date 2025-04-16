@@ -37,15 +37,16 @@ model User {
   isAdmin         Boolean @default(false)
 
   //relations
-  accounts         Account[]
-  userRequest      UserRequest[]
-  subscriptionPlan SubscriptionPlan[]
-  room             Room[]             @relation("owner")
-  roomBilling      RoomBilling[]      @relation("roomBilling")
-  paymentHistory   PaymentHistory[]   @relation("paymentHistory")
-  client           PaymentHistory[]   @relation("client")
-  roomPaymentRecord      RoomPaymentRecord[] @relation("roomPaymentRecord")
-  payedBy          RoomPaymentRecord[] @relation("payedBy")
+  accounts          Account[]
+  userRequest       UserRequest[]
+  subscriptionPlan  SubscriptionPlan[]
+  room              Room[]              @relation("owner")
+  roomBilling       RoomBilling[]       @relation("roomBilling")
+  paymentHistory    PaymentHistory[]    @relation("paymentHistory")
+  client            PaymentHistory[]    @relation("client")
+  roomPaymentRecord RoomPaymentRecord[] @relation("roomPaymentRecord")
+  payedBy           RoomPaymentRecord[] @relation("payedBy")
+  posts             Posts[]             @relation("posts")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -134,25 +135,23 @@ model Room {
   numberOfRooms Int
   beds          Int
   toilet        Int
-  clients String[]
+  clients       String[]
   roomCapacity  Int        @default(1)
 
-  dueAmount   Float @default(0) //total due amount till now 
+  dueAmount Float @default(0) //total due amount till now 
 
   clientInitationData  DateTime?
   startedPriceFromDate DateTime?
   lastPayedDate        DateTime?
 
-
   //relations
-  roomBilling RoomBilling? @relation("roomBilling")
-  roomPayment PaymentHistory[] @relation("roomPayment")
-  roomPaymentRecord      RoomPaymentRecord[] @relation("roomPaymentRecord")
-
+  roomBilling       RoomBilling?        @relation("roomBilling")
+  roomPayment       PaymentHistory[]    @relation("roomPayment")
+  roomPaymentRecord RoomPaymentRecord[] @relation("roomPaymentRecord")
+  posts             Posts[]             @relation("posts")
 
   createdAt DateTime @default(now())
 
-  @@unique([roomNumber])
 }
 
 model RoomBilling {
@@ -180,7 +179,7 @@ enum PaymentStatus {
   OVERDUE
 }
 
-model RoomPaymentRecord{
+model RoomPaymentRecord {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   description String
@@ -194,16 +193,14 @@ model RoomPaymentRecord{
   payedBy String @db.ObjectId
   client  User   @relation("payedBy", fields: [payedBy], references: [id], onDelete: Cascade)
 
-
   amountTotal Float //total amount to be payed
 
-  payedAmount Float //last date payed amount
-  dueAmount   Float //total due amount till now 
-  paymentStatus PaymentStatus @default(PENDING)
+  payedAmount    Float //last date payed amount
+  dueAmount      Float //total due amount till now 
+  paymentStatus  PaymentStatus @default(PENDING)
   dueMoneyReason String?
 
   createdAt DateTime @default(now())
-
 }
 
 model PaymentHistory {
@@ -217,13 +214,24 @@ model PaymentHistory {
   totalAmount Float //each time payment is made , total amount is updated
 
   roomId String @db.ObjectId
-  room  Room  @relation("roomPayment", fields: [roomId], references: [id], onDelete: Cascade)
+  room   Room   @relation("roomPayment", fields: [roomId], references: [id], onDelete: Cascade)
 
   payedamount Float //each time payment is made , payed amount is updated
   dueAmount   Float //each time payment is made , due amount is updated
 
   startedDate DateTime
   createdAt   DateTime @default(now())
+
+  @@unique([roomId])
+}
+
+model Posts {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  roomId  String @db.ObjectId
+  room    Room   @relation("posts", fields: [roomId], references: [id], onDelete: Cascade)
+  ownerId String @db.ObjectId
+  owner   User   @relation("posts", fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 
   @@unique([roomId])
 }
