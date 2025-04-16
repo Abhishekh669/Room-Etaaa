@@ -294,11 +294,12 @@ const config = {
     "db"
   ],
   "activeProvider": "mongodb",
+  "postinstall": true,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "mongodb://localhost:27017/room-etaaa"
+        "value": null
       }
     }
   },
