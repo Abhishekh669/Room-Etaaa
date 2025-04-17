@@ -8,7 +8,7 @@ import { useGetRoomStatistics } from '@/features/hooks/tanstacks/query-hooks/roo
 import { RoomWithClientDataType } from '@/features/schemas/room/room.type'
 import { CheckCircle, DollarSign, DoorOpen, PenToolIcon, UserCheck, Users2 } from 'lucide-react'
 import React, { useState } from 'react'
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination'
+import { Pagination, PaginationContent,  PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination'
 
 function RoomMainPage() {
   const { data: roomData, isLoading: roomDataLoading } = useGetRoomStatistics();

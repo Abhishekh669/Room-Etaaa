@@ -1,10 +1,11 @@
 'use server'
 
-import { db } from "@/prisma";
+
 import { getCurrentUser } from "../users/user"
 import { z } from "zod";
 import { EditRoomSchema, RoomSchema } from "@/features/schemas/room/room.schema";
 import { UTApi } from "uploadthing/server";
+import { db } from "@/prisma";
 
 const utapi = new UTApi();
 

@@ -10,13 +10,13 @@
     "postinstall": "npx prisma generate"
   },
   "prisma": {
-  "schema": "prisma/schema.prisma",
-  "engineFiles": {
-    "binaryTargets": [
-      "rhel-openssl-3.0.x"
-    ]
-  }
-},
+    "schema": "prisma/schema.prisma",
+    "engineFiles": {
+      "binaryTargets": [
+        "rhel-openssl-3.0.x"
+      ]
+    }
+  },
   "dependencies": {
     "@auth/prisma-adapter": "^2.8.0",
     "@hookform/resolvers": "^5.0.1",

@@ -5,9 +5,9 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
-  binaryTargets = ["native", "rhel-openssl-3.0.x"]
-  output   = "../generated/prisma"
+  provider      = "prisma-client-js"
+  output        = "../generated/prisma"
+  moduleFormat  = "esm"
 }
 
 datasource db {
@@ -152,7 +152,6 @@ model Room {
   posts             Posts[]             @relation("posts")
 
   createdAt DateTime @default(now())
-
 }
 
 model RoomBilling {
@@ -227,11 +226,11 @@ model PaymentHistory {
 }
 
 model Posts {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  roomId  String @db.ObjectId
-  room    Room   @relation("posts", fields: [roomId], references: [id], onDelete: Cascade)
-  ownerId String @db.ObjectId
-  owner   User   @relation("posts", fields: [ownerId], references: [id], onDelete: Cascade)
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  roomId    String   @db.ObjectId
+  room      Room     @relation("posts", fields: [roomId], references: [id], onDelete: Cascade)
+  ownerId   String   @db.ObjectId
+  owner     User     @relation("posts", fields: [ownerId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
 
   @@unique([roomId])
