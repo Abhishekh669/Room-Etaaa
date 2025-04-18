@@ -19,7 +19,11 @@ function AddButton({title, location, isDisabled} : AddButtonType) {
   return (
     <Link href={location} className=''>
         <Hint label={title}>
-        <Button onClick={() => resetAllData()} onMouseEnter={() =>router.prefetch(location) } variant={"outline"} className='bg-red-500 text-white hover:bg-red-500/50 cursor-pointer hover:text-white' disabled={isDisabled} >
+        <Button 
+          onClick={() => resetAllData()} 
+          onMouseEnter={() =>router.prefetch(location) } 
+          variant={"outline"} 
+          className='bg-red-500 text-white hover:bg-red-500/50 cursor-pointer hover:text-white' disabled={isDisabled} >
             <Plus />
             <span>
             {title}

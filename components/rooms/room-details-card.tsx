@@ -50,7 +50,7 @@ export function RoomDetailsCards({ room }: { room: RoomWithClientDataType }) {
 
 
   return (
-    <Card className="w-full h-full bg-white shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 rounded-xl  group">
+    <Card className="w-full h-full bg-white shadow-sm hover:shadow-lg lg:max-w-[400px] transition-all duration-300 border border-gray-100 rounded-xl  group ">
       <div className="relative aspect-video w-full overflow-hidden">
       
         {room.roomImages?.[0] ? (
@@ -60,7 +60,7 @@ export function RoomDetailsCards({ room }: { room: RoomWithClientDataType }) {
               alt={room.title}
               className="object-cover h-full w-full transform group-hover:scale-105 transition-transform duration-500"
               width={1000}
-              height={500}
+              height={1000}
               priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-70"></div>
@@ -103,8 +103,8 @@ export function RoomDetailsCards({ room }: { room: RoomWithClientDataType }) {
         </div>
       </div>
 
-      <CardContent className="p-5 space-y-4">
-        <div className="space-y-2">
+      <CardContent className=" ">
+        <div className="">
           <h3 className="font-bold text-lg leading-tight line-clamp-1">{room.title}</h3>
           <p className="text-gray-600 text-sm line-clamp-2 min-h-[40px]">
             {room.description || 'No description available'}

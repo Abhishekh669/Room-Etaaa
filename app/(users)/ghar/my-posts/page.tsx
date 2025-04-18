@@ -15,12 +15,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 
-interface Post {
-  id: string
-  roomId: string
-  createdAt: Date
-  room: Room
-}
+
 
 const MyPostsPage = () => {
   const queryClient = useQueryClient()
@@ -29,14 +24,14 @@ const MyPostsPage = () => {
     queryFn: () => getMyPosts(),
   })
 
-  const {mutate : deletePost, isPending : isDeleting } = useMutation({
-    mutationFn : deleteMyPost,
-    onSuccess : (res) => {
-      if(res.success){
-        queryClient.invalidateQueries({queryKey : ["posts"]})
+  const { mutate: deletePost, isPending: isDeleting } = useMutation({
+    mutationFn: deleteMyPost,
+    onSuccess: (res) => {
+      if (res.success) {
+        queryClient.invalidateQueries({ queryKey: ["posts"] })
       }
     },
-    onError : (error) => {
+    onError: (error) => {
       console.log(error)
     }
   })
@@ -67,19 +62,19 @@ const MyPostsPage = () => {
     return 0
   })
 
-  const handleDeletePost = (postId : string) => {
-    if(isDeleting){
+  const handleDeletePost = (postId: string) => {
+    if (isDeleting) {
       toast.loading("Deleting post...")
       return;
     }
 
-    deletePost(postId,{
-      onSuccess : (res) =>{
-        if(res.success){
+    deletePost(postId, {
+      onSuccess: (res) => {
+        if (res.success) {
           toast.success(res.message)
         }
       },
-      onError : (error) => {
+      onError: (error) => {
         toast.error(error.message)
       }
     })
@@ -153,7 +148,8 @@ const MyPostsPage = () => {
             </div>
           </div>
 
-          <div className=" flex-1">
+          <div className="w-full  flex-1  lg:flex lg:justify-center">
+          <div >
             <div className="bg-white  border border-gray-200 shadow-sm p-4 rounded-md ">
               <div className="flex  items-center justify-between">
                 <h2 className="text-xl font-semibold text-gray-900 new-font">
@@ -165,67 +161,74 @@ const MyPostsPage = () => {
               </div>
             </div>
 
-           <div className="py-4 bg-white mt-2 rounded-md shadow-sm">
-           <div className="max-h-[750px] h-[750px] overflow-y-auto px-4 py-4 md:px-16 md:py-4">
-              {isLoading ? (
-                <div className="space-y-6">
-                  {[...Array(3)].map((_, i) => (
-                    <div key={i} className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                      <div className="flex items-start space-x-4">
-                        <Skeleton className="h-12 w-12 rounded-full bg-gray-200" />
-                        <div className="flex-1 space-y-3">
-                          <Skeleton className="h-4 w-3/4 bg-gray-200" />
-                          <Skeleton className="h-4 w-1/2 bg-gray-200" />
-                          <Skeleton className="h-32 w-full bg-gray-200" />
+            <div className="py-4 bg-white mt-6 lg:max-w-[800px] rounded-md shadow-sm">
+              <div className=" bg-white max-h-[750px]  h-[750px] overflow-y-auto px-4 py-4 md:px-16 md:py-4  lg:px-20 lg:py-6">
+                {isLoading ? (
+                  <div className="space-y-6  ">
+                    {[...Array(3)].map((_, i) => (
+                      <div key={i} className="lg:w-[500px] lg:h-[600px] bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                        <div className="flex items-start space-x-4">
+                          <Skeleton className="h-12 w-12 rounded-full bg-gray-200" />
+                          <div className="flex-1 space-y-3">
+                            <Skeleton className="h-4 w-3/4 bg-gray-200" />
+                            <Skeleton className="h-4 w-1/2 bg-gray-200" />
+                            <Skeleton className="h-32 w-full bg-gray-200" />
+                          </div>
+
+                          <div className="flex items-center gap-x-2">
+                            <Skeleton className="h-4 w-1/2 bg-gray-200" />
+                            <Skeleton className="h-4 w-1/2 bg-gray-200" />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              ) : error ? (
-                <div className="bg-white p-6 rounded-xl border border-red-200 shadow-sm text-center">
-                  <p className="text-red-600 font-medium">Error loading posts</p>
-                  <p className="text-sm text-gray-500 mt-2">Please try again later</p>
-                </div>
-              ) : sortedPosts.length > 0 ? (
-                <div className="flex flex-col gap-y-6 lg:gap-x-4 lg:gap-y-10 justify-center ">
-                  {sortedPosts.map((post) => (
-                    <div
-                      key={post.id}
-                      className=" rounded-xl border border-gray-200 shadow-sm transition-all hover:shadow-md hover:border-blue-200 "
-                    >
-                      <PostCard post={post}  onDelete={handleDeletePost} />
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="flex flex-col items-center justify-center h-96 bg-white rounded-xl border-2 border-dashed border-gray-300 p-6 text-center">
-                  <div className="bg-blue-50 p-4 rounded-full mb-4">
-                    <Filter className="h-8 w-8 text-red-600" />
+                    ))}
                   </div>
-                  <h3 className="text-xl font-medium text-gray-900 mb-2">No posts found</h3>
-                  <p className="text-gray-500 max-w-md">
-                    {searchQuery || statusFilter !== "ALL"
-                      ? "Try adjusting your search or filter criteria"
-                      : "You haven't created any posts yet"}
-                  </p>
-                  {!(searchQuery || statusFilter !== "ALL") && (
-                    <Link href="/ghar/rooms/add-room"
-                      onMouseEnter={() => router.prefetch("/ghar/rooms/add-room")}
-                    >
-                    <Button className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-400 cursor-pointer transition-colors">
-                      Create Your First Post
-                    </Button>
-                    </Link>
-                  )}
-                </div>
-              )}
+                ) : error ? (
+                  <div className="bg-white p-6 rounded-xl border border-red-200 shadow-sm text-center">
+                    <p className="text-red-600 font-medium">Error loading posts</p>
+                    <p className="text-sm text-gray-500 mt-2">Please try again later</p>
+                  </div>
+                ) : sortedPosts.length > 0 ? (
+                  <div className="flex flex-col gap-y-6 lg:gap-x-4 lg:gap-y-10 justify-center lg:items-center ">
+                    {sortedPosts.map((post) => (
+                      <div
+                        key={post.id}
+                        className=" rounded-xl border border-gray-200 shadow-sm transition-all hover:shadow-md hover:border-blue-200 lg:w-[500px] lg:h-[600px] "
+                      >
+                        <PostCard post={post} onDelete={handleDeletePost} />
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center h-96 bg-white rounded-xl border-2 border-dashed border-gray-300 p-6 text-center">
+                    <div className="bg-blue-50 p-4 rounded-full mb-4">
+                      <Filter className="h-8 w-8 text-red-600" />
+                    </div>
+                    <h3 className="text-xl font-medium text-gray-900 mb-2">No posts found</h3>
+                    <p className="text-gray-500 max-w-md">
+                      {searchQuery || statusFilter !== "ALL"
+                        ? "Try adjusting your search or filter criteria"
+                        : "You haven't created any posts yet"}
+                    </p>
+                    {!(searchQuery || statusFilter !== "ALL") && (
+                      <Link href="/ghar/rooms/add-room"
+                        onMouseEnter={() => router.prefetch("/ghar/rooms/add-room")}
+                      >
+                        <Button className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-400 cursor-pointer transition-colors">
+                          Create Your First Post
+                        </Button>
+                      </Link>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
-           </div>
           </div>
-        <div className="p-2 hidden lg:flex" >
-          <div>SomeThing will come here</div>
-        </div>
+          </div>
+          <div className="p-2 hidden lg:flex lg:flex-col" >
+            <div>SomeThing will come here</div>
+            <div>SomeThing will come here</div>
+          </div>
         </div>
       </div>
     </div>

@@ -10,7 +10,7 @@ export const RoomStatusBadge = ({ status }: { status: 'VACANT' | 'OCCUPIED' | 'M
   const config = statusConfig[status];
 
   return (
-    <Badge variant="outline" className={`rounded-full px-3 py-1 text-xs font-medium ${config.class}`}>
+    <Badge variant="outline" className={`z-999 rounded-full px-3 py-1 text-xs font-medium ${config.class}`}>
       {config.label}
     </Badge>
   );

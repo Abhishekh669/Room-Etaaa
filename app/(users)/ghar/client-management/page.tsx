@@ -23,7 +23,6 @@ function ClientManagementPage() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const {mutate : deleteUserFromRoom, isPending } = useDeleteUserFromRoom();
 
-  console.log("users", users)
 
   if(users && "error" in users){
     return (
@@ -61,6 +60,9 @@ function ClientManagementPage() {
     }
 
     const handleDeleteUser = (userId : string, data : RoomNumberNId[]) =>{
+      if(isPending){
+        return
+      }
       deleteUserFromRoom({userId, data}, {
         onSuccess : (res) =>{
           if(res.message && res.success){

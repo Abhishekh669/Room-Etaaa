@@ -224,11 +224,26 @@ exports.Prisma.PaymentHistoryScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.SavedPostScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  userId: 'userId',
+  savedDate: 'savedDate',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.PostsScalarFieldEnum = {
   id: 'id',
   roomId: 'roomId',
   ownerId: 'ownerId',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.PostViewCountScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  userId: 'userId',
+  viewDate: 'viewDate'
 };
 
 exports.Prisma.SortOrder = {
@@ -280,7 +295,9 @@ exports.Prisma.ModelName = {
   RoomBilling: 'RoomBilling',
   RoomPaymentRecord: 'RoomPaymentRecord',
   PaymentHistory: 'PaymentHistory',
-  Posts: 'Posts'
+  SavedPost: 'SavedPost',
+  Posts: 'Posts',
+  PostViewCount: 'PostViewCount'
 };
 
 /**

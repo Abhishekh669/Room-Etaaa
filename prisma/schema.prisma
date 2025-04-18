@@ -49,7 +49,8 @@ model User {
   roomPaymentRecord RoomPaymentRecord[] @relation("roomPaymentRecord")
   payedBy           RoomPaymentRecord[] @relation("payedBy")
   posts             Posts[]             @relation("posts")
-
+  savedPost        SavedPost[]         
+  postViewCount    PostViewCount[]     @relation("postViewCount")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -226,13 +227,45 @@ model PaymentHistory {
   @@unique([roomId])
 }
 
+
+model SavedPost{
+  
+    id            String     @id @default(auto()) @map("_id") @db.ObjectId
+    postId String @db.ObjectId
+    post Posts @relation(fields: [postId], references: [id], onDelete : Cascade)
+    userId String @db.ObjectId
+    user User @relation(fields: [userId], references: [id], onDelete : Cascade)
+    savedDate DateTime @updatedAt
+
+    createdAt DateTime @default(now())
+    
+}
+
+
 model Posts {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   roomId    String   @db.ObjectId
   room      Room     @relation("posts", fields: [roomId], references: [id], onDelete: Cascade)
   ownerId   String   @db.ObjectId
   owner     User     @relation("posts", fields: [ownerId], references: [id], onDelete: Cascade)
+  savedPost SavedPost[]
+
+  // totalCount : {"userId" : "something", date : {time : "something" , "how many times he or she has come"}}
   createdAt DateTime @default(now())
+  totalCount  PostViewCount[]
 
   @@unique([roomId])
+}
+
+
+model PostViewCount {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  postId   String @db.ObjectId
+  post     Posts  @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId   String @db.ObjectId
+  user     User   @relation("postViewCount", fields: [userId], references: [id], onDelete: Cascade)
+  viewDate DateTime @default(now())
+  
+  @@index([postId])
+  @@index([userId])
 }

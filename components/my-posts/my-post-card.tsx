@@ -25,7 +25,7 @@ interface PostCardProps {
 function PostCard({ post,  onDelete }: PostCardProps) {
   const router = useRouter();
   return (
-    <Card className="bg-white overflow-hidden transition-all hover:shadow-lg border border-gray-200 h-full flex flex-col">
+    <Card className="bg-white overflow-hidden transition-all hover:shadow-lg border border-gray-200 h-full flex flex-col ">
       <div className="relative aspect-video bg-black">
         {post.room.roomImages && post.room.roomImages.length > 0 ? (
           <Image

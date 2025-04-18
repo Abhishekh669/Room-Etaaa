@@ -54,10 +54,20 @@ export type RoomPaymentRecord = $Result.DefaultSelection<Prisma.$RoomPaymentReco
  */
 export type PaymentHistory = $Result.DefaultSelection<Prisma.$PaymentHistoryPayload>
 /**
+ * Model SavedPost
+ * 
+ */
+export type SavedPost = $Result.DefaultSelection<Prisma.$SavedPostPayload>
+/**
  * Model Posts
  * 
  */
 export type Posts = $Result.DefaultSelection<Prisma.$PostsPayload>
+/**
+ * Model PostViewCount
+ * 
+ */
+export type PostViewCount = $Result.DefaultSelection<Prisma.$PostViewCountPayload>
 
 /**
  * Enums
@@ -303,6 +313,16 @@ export class PrismaClient<
   get paymentHistory(): Prisma.PaymentHistoryDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.savedPost`: Exposes CRUD operations for the **SavedPost** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SavedPosts
+    * const savedPosts = await prisma.savedPost.findMany()
+    * ```
+    */
+  get savedPost(): Prisma.SavedPostDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.posts`: Exposes CRUD operations for the **Posts** model.
     * Example usage:
     * ```ts
@@ -311,6 +331,16 @@ export class PrismaClient<
     * ```
     */
   get posts(): Prisma.PostsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.postViewCount`: Exposes CRUD operations for the **PostViewCount** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PostViewCounts
+    * const postViewCounts = await prisma.postViewCount.findMany()
+    * ```
+    */
+  get postViewCount(): Prisma.PostViewCountDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -759,7 +789,9 @@ export namespace Prisma {
     RoomBilling: 'RoomBilling',
     RoomPaymentRecord: 'RoomPaymentRecord',
     PaymentHistory: 'PaymentHistory',
-    Posts: 'Posts'
+    SavedPost: 'SavedPost',
+    Posts: 'Posts',
+    PostViewCount: 'PostViewCount'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -778,7 +810,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "userRequest" | "subscriptionPlan" | "room" | "roomBilling" | "roomPaymentRecord" | "paymentHistory" | "posts"
+      modelProps: "user" | "account" | "userRequest" | "subscriptionPlan" | "room" | "roomBilling" | "roomPaymentRecord" | "paymentHistory" | "savedPost" | "posts" | "postViewCount"
       txIsolationLevel: never
     }
     model: {
@@ -1374,6 +1406,80 @@ export namespace Prisma {
           }
         }
       }
+      SavedPost: {
+        payload: Prisma.$SavedPostPayload<ExtArgs>
+        fields: Prisma.SavedPostFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SavedPostFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedPostPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SavedPostFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedPostPayload>
+          }
+          findFirst: {
+            args: Prisma.SavedPostFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedPostPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SavedPostFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedPostPayload>
+          }
+          findMany: {
+            args: Prisma.SavedPostFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedPostPayload>[]
+          }
+          create: {
+            args: Prisma.SavedPostCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedPostPayload>
+          }
+          createMany: {
+            args: Prisma.SavedPostCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.SavedPostDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedPostPayload>
+          }
+          update: {
+            args: Prisma.SavedPostUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedPostPayload>
+          }
+          deleteMany: {
+            args: Prisma.SavedPostDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SavedPostUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.SavedPostUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedPostPayload>
+          }
+          aggregate: {
+            args: Prisma.SavedPostAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSavedPost>
+          }
+          groupBy: {
+            args: Prisma.SavedPostGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SavedPostGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.SavedPostFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.SavedPostAggregateRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          count: {
+            args: Prisma.SavedPostCountArgs<ExtArgs>
+            result: $Utils.Optional<SavedPostCountAggregateOutputType> | number
+          }
+        }
+      }
       Posts: {
         payload: Prisma.$PostsPayload<ExtArgs>
         fields: Prisma.PostsFieldRefs
@@ -1445,6 +1551,80 @@ export namespace Prisma {
           count: {
             args: Prisma.PostsCountArgs<ExtArgs>
             result: $Utils.Optional<PostsCountAggregateOutputType> | number
+          }
+        }
+      }
+      PostViewCount: {
+        payload: Prisma.$PostViewCountPayload<ExtArgs>
+        fields: Prisma.PostViewCountFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PostViewCountFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostViewCountPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PostViewCountFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostViewCountPayload>
+          }
+          findFirst: {
+            args: Prisma.PostViewCountFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostViewCountPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PostViewCountFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostViewCountPayload>
+          }
+          findMany: {
+            args: Prisma.PostViewCountFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostViewCountPayload>[]
+          }
+          create: {
+            args: Prisma.PostViewCountCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostViewCountPayload>
+          }
+          createMany: {
+            args: Prisma.PostViewCountCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.PostViewCountDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostViewCountPayload>
+          }
+          update: {
+            args: Prisma.PostViewCountUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostViewCountPayload>
+          }
+          deleteMany: {
+            args: Prisma.PostViewCountDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PostViewCountUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PostViewCountUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostViewCountPayload>
+          }
+          aggregate: {
+            args: Prisma.PostViewCountAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePostViewCount>
+          }
+          groupBy: {
+            args: Prisma.PostViewCountGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PostViewCountGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.PostViewCountFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.PostViewCountAggregateRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          count: {
+            args: Prisma.PostViewCountCountArgs<ExtArgs>
+            result: $Utils.Optional<PostViewCountCountAggregateOutputType> | number
           }
         }
       }
@@ -1527,7 +1707,9 @@ export namespace Prisma {
     roomBilling?: RoomBillingOmit
     roomPaymentRecord?: RoomPaymentRecordOmit
     paymentHistory?: PaymentHistoryOmit
+    savedPost?: SavedPostOmit
     posts?: PostsOmit
+    postViewCount?: PostViewCountOmit
   }
 
   /* Types for Logging */
@@ -1632,6 +1814,8 @@ export namespace Prisma {
     roomPaymentRecord: number
     payedBy: number
     posts: number
+    savedPost: number
+    postViewCount: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1645,6 +1829,8 @@ export namespace Prisma {
     roomPaymentRecord?: boolean | UserCountOutputTypeCountRoomPaymentRecordArgs
     payedBy?: boolean | UserCountOutputTypeCountPayedByArgs
     posts?: boolean | UserCountOutputTypeCountPostsArgs
+    savedPost?: boolean | UserCountOutputTypeCountSavedPostArgs
+    postViewCount?: boolean | UserCountOutputTypeCountPostViewCountArgs
   }
 
   // Custom InputTypes
@@ -1728,6 +1914,20 @@ export namespace Prisma {
     where?: PostsWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSavedPostArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SavedPostWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPostViewCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostViewCountWhereInput
+  }
+
 
   /**
    * Count Type RoomCountOutputType
@@ -1775,6 +1975,46 @@ export namespace Prisma {
    */
   export type RoomCountOutputTypeCountPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PostsWhereInput
+  }
+
+
+  /**
+   * Count Type PostsCountOutputType
+   */
+
+  export type PostsCountOutputType = {
+    savedPost: number
+    totalCount: number
+  }
+
+  export type PostsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    savedPost?: boolean | PostsCountOutputTypeCountSavedPostArgs
+    totalCount?: boolean | PostsCountOutputTypeCountTotalCountArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PostsCountOutputType without action
+   */
+  export type PostsCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostsCountOutputType
+     */
+    select?: PostsCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PostsCountOutputType without action
+   */
+  export type PostsCountOutputTypeCountSavedPostArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SavedPostWhereInput
+  }
+
+  /**
+   * PostsCountOutputType without action
+   */
+  export type PostsCountOutputTypeCountTotalCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostViewCountWhereInput
   }
 
 
@@ -2020,6 +2260,8 @@ export namespace Prisma {
     roomPaymentRecord?: boolean | User$roomPaymentRecordArgs<ExtArgs>
     payedBy?: boolean | User$payedByArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
+    savedPost?: boolean | User$savedPostArgs<ExtArgs>
+    postViewCount?: boolean | User$postViewCountArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2053,6 +2295,8 @@ export namespace Prisma {
     roomPaymentRecord?: boolean | User$roomPaymentRecordArgs<ExtArgs>
     payedBy?: boolean | User$payedByArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
+    savedPost?: boolean | User$savedPostArgs<ExtArgs>
+    postViewCount?: boolean | User$postViewCountArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -2069,6 +2313,8 @@ export namespace Prisma {
       roomPaymentRecord: Prisma.$RoomPaymentRecordPayload<ExtArgs>[]
       payedBy: Prisma.$RoomPaymentRecordPayload<ExtArgs>[]
       posts: Prisma.$PostsPayload<ExtArgs>[]
+      savedPost: Prisma.$SavedPostPayload<ExtArgs>[]
+      postViewCount: Prisma.$PostViewCountPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2457,6 +2703,8 @@ export namespace Prisma {
     roomPaymentRecord<T extends User$roomPaymentRecordArgs<ExtArgs> = {}>(args?: Subset<T, User$roomPaymentRecordArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomPaymentRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     payedBy<T extends User$payedByArgs<ExtArgs> = {}>(args?: Subset<T, User$payedByArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomPaymentRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     posts<T extends User$postsArgs<ExtArgs> = {}>(args?: Subset<T, User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    savedPost<T extends User$savedPostArgs<ExtArgs> = {}>(args?: Subset<T, User$savedPostArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavedPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    postViewCount<T extends User$postViewCountArgs<ExtArgs> = {}>(args?: Subset<T, User$postViewCountArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostViewCountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3106,6 +3354,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PostsScalarFieldEnum | PostsScalarFieldEnum[]
+  }
+
+  /**
+   * User.savedPost
+   */
+  export type User$savedPostArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedPost
+     */
+    select?: SavedPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedPost
+     */
+    omit?: SavedPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedPostInclude<ExtArgs> | null
+    where?: SavedPostWhereInput
+    orderBy?: SavedPostOrderByWithRelationInput | SavedPostOrderByWithRelationInput[]
+    cursor?: SavedPostWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SavedPostScalarFieldEnum | SavedPostScalarFieldEnum[]
+  }
+
+  /**
+   * User.postViewCount
+   */
+  export type User$postViewCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostViewCount
+     */
+    select?: PostViewCountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostViewCount
+     */
+    omit?: PostViewCountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostViewCountInclude<ExtArgs> | null
+    where?: PostViewCountWhereInput
+    orderBy?: PostViewCountOrderByWithRelationInput | PostViewCountOrderByWithRelationInput[]
+    cursor?: PostViewCountWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PostViewCountScalarFieldEnum | PostViewCountScalarFieldEnum[]
   }
 
   /**
@@ -10794,6 +11090,989 @@ export namespace Prisma {
 
 
   /**
+   * Model SavedPost
+   */
+
+  export type AggregateSavedPost = {
+    _count: SavedPostCountAggregateOutputType | null
+    _min: SavedPostMinAggregateOutputType | null
+    _max: SavedPostMaxAggregateOutputType | null
+  }
+
+  export type SavedPostMinAggregateOutputType = {
+    id: string | null
+    postId: string | null
+    userId: string | null
+    savedDate: Date | null
+    createdAt: Date | null
+  }
+
+  export type SavedPostMaxAggregateOutputType = {
+    id: string | null
+    postId: string | null
+    userId: string | null
+    savedDate: Date | null
+    createdAt: Date | null
+  }
+
+  export type SavedPostCountAggregateOutputType = {
+    id: number
+    postId: number
+    userId: number
+    savedDate: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type SavedPostMinAggregateInputType = {
+    id?: true
+    postId?: true
+    userId?: true
+    savedDate?: true
+    createdAt?: true
+  }
+
+  export type SavedPostMaxAggregateInputType = {
+    id?: true
+    postId?: true
+    userId?: true
+    savedDate?: true
+    createdAt?: true
+  }
+
+  export type SavedPostCountAggregateInputType = {
+    id?: true
+    postId?: true
+    userId?: true
+    savedDate?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type SavedPostAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SavedPost to aggregate.
+     */
+    where?: SavedPostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SavedPosts to fetch.
+     */
+    orderBy?: SavedPostOrderByWithRelationInput | SavedPostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SavedPostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SavedPosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SavedPosts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SavedPosts
+    **/
+    _count?: true | SavedPostCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SavedPostMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SavedPostMaxAggregateInputType
+  }
+
+  export type GetSavedPostAggregateType<T extends SavedPostAggregateArgs> = {
+        [P in keyof T & keyof AggregateSavedPost]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSavedPost[P]>
+      : GetScalarType<T[P], AggregateSavedPost[P]>
+  }
+
+
+
+
+  export type SavedPostGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SavedPostWhereInput
+    orderBy?: SavedPostOrderByWithAggregationInput | SavedPostOrderByWithAggregationInput[]
+    by: SavedPostScalarFieldEnum[] | SavedPostScalarFieldEnum
+    having?: SavedPostScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SavedPostCountAggregateInputType | true
+    _min?: SavedPostMinAggregateInputType
+    _max?: SavedPostMaxAggregateInputType
+  }
+
+  export type SavedPostGroupByOutputType = {
+    id: string
+    postId: string
+    userId: string
+    savedDate: Date
+    createdAt: Date
+    _count: SavedPostCountAggregateOutputType | null
+    _min: SavedPostMinAggregateOutputType | null
+    _max: SavedPostMaxAggregateOutputType | null
+  }
+
+  type GetSavedPostGroupByPayload<T extends SavedPostGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SavedPostGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SavedPostGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SavedPostGroupByOutputType[P]>
+            : GetScalarType<T[P], SavedPostGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SavedPostSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    postId?: boolean
+    userId?: boolean
+    savedDate?: boolean
+    createdAt?: boolean
+    post?: boolean | PostsDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["savedPost"]>
+
+
+
+  export type SavedPostSelectScalar = {
+    id?: boolean
+    postId?: boolean
+    userId?: boolean
+    savedDate?: boolean
+    createdAt?: boolean
+  }
+
+  export type SavedPostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "postId" | "userId" | "savedDate" | "createdAt", ExtArgs["result"]["savedPost"]>
+  export type SavedPostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    post?: boolean | PostsDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $SavedPostPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SavedPost"
+    objects: {
+      post: Prisma.$PostsPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      postId: string
+      userId: string
+      savedDate: Date
+      createdAt: Date
+    }, ExtArgs["result"]["savedPost"]>
+    composites: {}
+  }
+
+  type SavedPostGetPayload<S extends boolean | null | undefined | SavedPostDefaultArgs> = $Result.GetResult<Prisma.$SavedPostPayload, S>
+
+  type SavedPostCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SavedPostFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SavedPostCountAggregateInputType | true
+    }
+
+  export interface SavedPostDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SavedPost'], meta: { name: 'SavedPost' } }
+    /**
+     * Find zero or one SavedPost that matches the filter.
+     * @param {SavedPostFindUniqueArgs} args - Arguments to find a SavedPost
+     * @example
+     * // Get one SavedPost
+     * const savedPost = await prisma.savedPost.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SavedPostFindUniqueArgs>(args: SelectSubset<T, SavedPostFindUniqueArgs<ExtArgs>>): Prisma__SavedPostClient<$Result.GetResult<Prisma.$SavedPostPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SavedPost that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SavedPostFindUniqueOrThrowArgs} args - Arguments to find a SavedPost
+     * @example
+     * // Get one SavedPost
+     * const savedPost = await prisma.savedPost.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SavedPostFindUniqueOrThrowArgs>(args: SelectSubset<T, SavedPostFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SavedPostClient<$Result.GetResult<Prisma.$SavedPostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SavedPost that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedPostFindFirstArgs} args - Arguments to find a SavedPost
+     * @example
+     * // Get one SavedPost
+     * const savedPost = await prisma.savedPost.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SavedPostFindFirstArgs>(args?: SelectSubset<T, SavedPostFindFirstArgs<ExtArgs>>): Prisma__SavedPostClient<$Result.GetResult<Prisma.$SavedPostPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SavedPost that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedPostFindFirstOrThrowArgs} args - Arguments to find a SavedPost
+     * @example
+     * // Get one SavedPost
+     * const savedPost = await prisma.savedPost.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SavedPostFindFirstOrThrowArgs>(args?: SelectSubset<T, SavedPostFindFirstOrThrowArgs<ExtArgs>>): Prisma__SavedPostClient<$Result.GetResult<Prisma.$SavedPostPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SavedPosts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedPostFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SavedPosts
+     * const savedPosts = await prisma.savedPost.findMany()
+     * 
+     * // Get first 10 SavedPosts
+     * const savedPosts = await prisma.savedPost.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const savedPostWithIdOnly = await prisma.savedPost.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SavedPostFindManyArgs>(args?: SelectSubset<T, SavedPostFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavedPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SavedPost.
+     * @param {SavedPostCreateArgs} args - Arguments to create a SavedPost.
+     * @example
+     * // Create one SavedPost
+     * const SavedPost = await prisma.savedPost.create({
+     *   data: {
+     *     // ... data to create a SavedPost
+     *   }
+     * })
+     * 
+     */
+    create<T extends SavedPostCreateArgs>(args: SelectSubset<T, SavedPostCreateArgs<ExtArgs>>): Prisma__SavedPostClient<$Result.GetResult<Prisma.$SavedPostPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SavedPosts.
+     * @param {SavedPostCreateManyArgs} args - Arguments to create many SavedPosts.
+     * @example
+     * // Create many SavedPosts
+     * const savedPost = await prisma.savedPost.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SavedPostCreateManyArgs>(args?: SelectSubset<T, SavedPostCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a SavedPost.
+     * @param {SavedPostDeleteArgs} args - Arguments to delete one SavedPost.
+     * @example
+     * // Delete one SavedPost
+     * const SavedPost = await prisma.savedPost.delete({
+     *   where: {
+     *     // ... filter to delete one SavedPost
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SavedPostDeleteArgs>(args: SelectSubset<T, SavedPostDeleteArgs<ExtArgs>>): Prisma__SavedPostClient<$Result.GetResult<Prisma.$SavedPostPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SavedPost.
+     * @param {SavedPostUpdateArgs} args - Arguments to update one SavedPost.
+     * @example
+     * // Update one SavedPost
+     * const savedPost = await prisma.savedPost.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SavedPostUpdateArgs>(args: SelectSubset<T, SavedPostUpdateArgs<ExtArgs>>): Prisma__SavedPostClient<$Result.GetResult<Prisma.$SavedPostPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SavedPosts.
+     * @param {SavedPostDeleteManyArgs} args - Arguments to filter SavedPosts to delete.
+     * @example
+     * // Delete a few SavedPosts
+     * const { count } = await prisma.savedPost.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SavedPostDeleteManyArgs>(args?: SelectSubset<T, SavedPostDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SavedPosts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedPostUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SavedPosts
+     * const savedPost = await prisma.savedPost.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SavedPostUpdateManyArgs>(args: SelectSubset<T, SavedPostUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one SavedPost.
+     * @param {SavedPostUpsertArgs} args - Arguments to update or create a SavedPost.
+     * @example
+     * // Update or create a SavedPost
+     * const savedPost = await prisma.savedPost.upsert({
+     *   create: {
+     *     // ... data to create a SavedPost
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SavedPost we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SavedPostUpsertArgs>(args: SelectSubset<T, SavedPostUpsertArgs<ExtArgs>>): Prisma__SavedPostClient<$Result.GetResult<Prisma.$SavedPostPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SavedPosts that matches the filter.
+     * @param {SavedPostFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const savedPost = await prisma.savedPost.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: SavedPostFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a SavedPost.
+     * @param {SavedPostAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const savedPost = await prisma.savedPost.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: SavedPostAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
+
+
+    /**
+     * Count the number of SavedPosts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedPostCountArgs} args - Arguments to filter SavedPosts to count.
+     * @example
+     * // Count the number of SavedPosts
+     * const count = await prisma.savedPost.count({
+     *   where: {
+     *     // ... the filter for the SavedPosts we want to count
+     *   }
+     * })
+    **/
+    count<T extends SavedPostCountArgs>(
+      args?: Subset<T, SavedPostCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SavedPostCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SavedPost.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedPostAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SavedPostAggregateArgs>(args: Subset<T, SavedPostAggregateArgs>): Prisma.PrismaPromise<GetSavedPostAggregateType<T>>
+
+    /**
+     * Group by SavedPost.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedPostGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SavedPostGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SavedPostGroupByArgs['orderBy'] }
+        : { orderBy?: SavedPostGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SavedPostGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSavedPostGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SavedPost model
+   */
+  readonly fields: SavedPostFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SavedPost.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SavedPostClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    post<T extends PostsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PostsDefaultArgs<ExtArgs>>): Prisma__PostsClient<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SavedPost model
+   */
+  interface SavedPostFieldRefs {
+    readonly id: FieldRef<"SavedPost", 'String'>
+    readonly postId: FieldRef<"SavedPost", 'String'>
+    readonly userId: FieldRef<"SavedPost", 'String'>
+    readonly savedDate: FieldRef<"SavedPost", 'DateTime'>
+    readonly createdAt: FieldRef<"SavedPost", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SavedPost findUnique
+   */
+  export type SavedPostFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedPost
+     */
+    select?: SavedPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedPost
+     */
+    omit?: SavedPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedPostInclude<ExtArgs> | null
+    /**
+     * Filter, which SavedPost to fetch.
+     */
+    where: SavedPostWhereUniqueInput
+  }
+
+  /**
+   * SavedPost findUniqueOrThrow
+   */
+  export type SavedPostFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedPost
+     */
+    select?: SavedPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedPost
+     */
+    omit?: SavedPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedPostInclude<ExtArgs> | null
+    /**
+     * Filter, which SavedPost to fetch.
+     */
+    where: SavedPostWhereUniqueInput
+  }
+
+  /**
+   * SavedPost findFirst
+   */
+  export type SavedPostFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedPost
+     */
+    select?: SavedPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedPost
+     */
+    omit?: SavedPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedPostInclude<ExtArgs> | null
+    /**
+     * Filter, which SavedPost to fetch.
+     */
+    where?: SavedPostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SavedPosts to fetch.
+     */
+    orderBy?: SavedPostOrderByWithRelationInput | SavedPostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SavedPosts.
+     */
+    cursor?: SavedPostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SavedPosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SavedPosts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SavedPosts.
+     */
+    distinct?: SavedPostScalarFieldEnum | SavedPostScalarFieldEnum[]
+  }
+
+  /**
+   * SavedPost findFirstOrThrow
+   */
+  export type SavedPostFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedPost
+     */
+    select?: SavedPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedPost
+     */
+    omit?: SavedPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedPostInclude<ExtArgs> | null
+    /**
+     * Filter, which SavedPost to fetch.
+     */
+    where?: SavedPostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SavedPosts to fetch.
+     */
+    orderBy?: SavedPostOrderByWithRelationInput | SavedPostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SavedPosts.
+     */
+    cursor?: SavedPostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SavedPosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SavedPosts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SavedPosts.
+     */
+    distinct?: SavedPostScalarFieldEnum | SavedPostScalarFieldEnum[]
+  }
+
+  /**
+   * SavedPost findMany
+   */
+  export type SavedPostFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedPost
+     */
+    select?: SavedPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedPost
+     */
+    omit?: SavedPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedPostInclude<ExtArgs> | null
+    /**
+     * Filter, which SavedPosts to fetch.
+     */
+    where?: SavedPostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SavedPosts to fetch.
+     */
+    orderBy?: SavedPostOrderByWithRelationInput | SavedPostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SavedPosts.
+     */
+    cursor?: SavedPostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SavedPosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SavedPosts.
+     */
+    skip?: number
+    distinct?: SavedPostScalarFieldEnum | SavedPostScalarFieldEnum[]
+  }
+
+  /**
+   * SavedPost create
+   */
+  export type SavedPostCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedPost
+     */
+    select?: SavedPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedPost
+     */
+    omit?: SavedPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedPostInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SavedPost.
+     */
+    data: XOR<SavedPostCreateInput, SavedPostUncheckedCreateInput>
+  }
+
+  /**
+   * SavedPost createMany
+   */
+  export type SavedPostCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SavedPosts.
+     */
+    data: SavedPostCreateManyInput | SavedPostCreateManyInput[]
+  }
+
+  /**
+   * SavedPost update
+   */
+  export type SavedPostUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedPost
+     */
+    select?: SavedPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedPost
+     */
+    omit?: SavedPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedPostInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SavedPost.
+     */
+    data: XOR<SavedPostUpdateInput, SavedPostUncheckedUpdateInput>
+    /**
+     * Choose, which SavedPost to update.
+     */
+    where: SavedPostWhereUniqueInput
+  }
+
+  /**
+   * SavedPost updateMany
+   */
+  export type SavedPostUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SavedPosts.
+     */
+    data: XOR<SavedPostUpdateManyMutationInput, SavedPostUncheckedUpdateManyInput>
+    /**
+     * Filter which SavedPosts to update
+     */
+    where?: SavedPostWhereInput
+    /**
+     * Limit how many SavedPosts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SavedPost upsert
+   */
+  export type SavedPostUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedPost
+     */
+    select?: SavedPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedPost
+     */
+    omit?: SavedPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedPostInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SavedPost to update in case it exists.
+     */
+    where: SavedPostWhereUniqueInput
+    /**
+     * In case the SavedPost found by the `where` argument doesn't exist, create a new SavedPost with this data.
+     */
+    create: XOR<SavedPostCreateInput, SavedPostUncheckedCreateInput>
+    /**
+     * In case the SavedPost was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SavedPostUpdateInput, SavedPostUncheckedUpdateInput>
+  }
+
+  /**
+   * SavedPost delete
+   */
+  export type SavedPostDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedPost
+     */
+    select?: SavedPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedPost
+     */
+    omit?: SavedPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedPostInclude<ExtArgs> | null
+    /**
+     * Filter which SavedPost to delete.
+     */
+    where: SavedPostWhereUniqueInput
+  }
+
+  /**
+   * SavedPost deleteMany
+   */
+  export type SavedPostDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SavedPosts to delete
+     */
+    where?: SavedPostWhereInput
+    /**
+     * Limit how many SavedPosts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SavedPost findRaw
+   */
+  export type SavedPostFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * SavedPost aggregateRaw
+   */
+  export type SavedPostAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * SavedPost without action
+   */
+  export type SavedPostDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedPost
+     */
+    select?: SavedPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedPost
+     */
+    omit?: SavedPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedPostInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Posts
    */
 
@@ -10951,6 +12230,9 @@ export namespace Prisma {
     createdAt?: boolean
     room?: boolean | RoomDefaultArgs<ExtArgs>
     owner?: boolean | UserDefaultArgs<ExtArgs>
+    savedPost?: boolean | Posts$savedPostArgs<ExtArgs>
+    totalCount?: boolean | Posts$totalCountArgs<ExtArgs>
+    _count?: boolean | PostsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["posts"]>
 
 
@@ -10966,6 +12248,9 @@ export namespace Prisma {
   export type PostsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     room?: boolean | RoomDefaultArgs<ExtArgs>
     owner?: boolean | UserDefaultArgs<ExtArgs>
+    savedPost?: boolean | Posts$savedPostArgs<ExtArgs>
+    totalCount?: boolean | Posts$totalCountArgs<ExtArgs>
+    _count?: boolean | PostsCountOutputTypeDefaultArgs<ExtArgs>
   }
 
   export type $PostsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10973,6 +12258,8 @@ export namespace Prisma {
     objects: {
       room: Prisma.$RoomPayload<ExtArgs>
       owner: Prisma.$UserPayload<ExtArgs>
+      savedPost: Prisma.$SavedPostPayload<ExtArgs>[]
+      totalCount: Prisma.$PostViewCountPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -11344,6 +12631,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     room<T extends RoomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoomDefaultArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    savedPost<T extends Posts$savedPostArgs<ExtArgs> = {}>(args?: Subset<T, Posts$savedPostArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavedPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    totalCount<T extends Posts$totalCountArgs<ExtArgs> = {}>(args?: Subset<T, Posts$totalCountArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostViewCountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11747,6 +13036,54 @@ export namespace Prisma {
   }
 
   /**
+   * Posts.savedPost
+   */
+  export type Posts$savedPostArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedPost
+     */
+    select?: SavedPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedPost
+     */
+    omit?: SavedPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedPostInclude<ExtArgs> | null
+    where?: SavedPostWhereInput
+    orderBy?: SavedPostOrderByWithRelationInput | SavedPostOrderByWithRelationInput[]
+    cursor?: SavedPostWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SavedPostScalarFieldEnum | SavedPostScalarFieldEnum[]
+  }
+
+  /**
+   * Posts.totalCount
+   */
+  export type Posts$totalCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostViewCount
+     */
+    select?: PostViewCountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostViewCount
+     */
+    omit?: PostViewCountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostViewCountInclude<ExtArgs> | null
+    where?: PostViewCountWhereInput
+    orderBy?: PostViewCountOrderByWithRelationInput | PostViewCountOrderByWithRelationInput[]
+    cursor?: PostViewCountWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PostViewCountScalarFieldEnum | PostViewCountScalarFieldEnum[]
+  }
+
+  /**
    * Posts without action
    */
   export type PostsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11762,6 +13099,978 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: PostsInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PostViewCount
+   */
+
+  export type AggregatePostViewCount = {
+    _count: PostViewCountCountAggregateOutputType | null
+    _min: PostViewCountMinAggregateOutputType | null
+    _max: PostViewCountMaxAggregateOutputType | null
+  }
+
+  export type PostViewCountMinAggregateOutputType = {
+    id: string | null
+    postId: string | null
+    userId: string | null
+    viewDate: Date | null
+  }
+
+  export type PostViewCountMaxAggregateOutputType = {
+    id: string | null
+    postId: string | null
+    userId: string | null
+    viewDate: Date | null
+  }
+
+  export type PostViewCountCountAggregateOutputType = {
+    id: number
+    postId: number
+    userId: number
+    viewDate: number
+    _all: number
+  }
+
+
+  export type PostViewCountMinAggregateInputType = {
+    id?: true
+    postId?: true
+    userId?: true
+    viewDate?: true
+  }
+
+  export type PostViewCountMaxAggregateInputType = {
+    id?: true
+    postId?: true
+    userId?: true
+    viewDate?: true
+  }
+
+  export type PostViewCountCountAggregateInputType = {
+    id?: true
+    postId?: true
+    userId?: true
+    viewDate?: true
+    _all?: true
+  }
+
+  export type PostViewCountAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PostViewCount to aggregate.
+     */
+    where?: PostViewCountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostViewCounts to fetch.
+     */
+    orderBy?: PostViewCountOrderByWithRelationInput | PostViewCountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PostViewCountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostViewCounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostViewCounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PostViewCounts
+    **/
+    _count?: true | PostViewCountCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PostViewCountMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PostViewCountMaxAggregateInputType
+  }
+
+  export type GetPostViewCountAggregateType<T extends PostViewCountAggregateArgs> = {
+        [P in keyof T & keyof AggregatePostViewCount]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePostViewCount[P]>
+      : GetScalarType<T[P], AggregatePostViewCount[P]>
+  }
+
+
+
+
+  export type PostViewCountGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostViewCountWhereInput
+    orderBy?: PostViewCountOrderByWithAggregationInput | PostViewCountOrderByWithAggregationInput[]
+    by: PostViewCountScalarFieldEnum[] | PostViewCountScalarFieldEnum
+    having?: PostViewCountScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PostViewCountCountAggregateInputType | true
+    _min?: PostViewCountMinAggregateInputType
+    _max?: PostViewCountMaxAggregateInputType
+  }
+
+  export type PostViewCountGroupByOutputType = {
+    id: string
+    postId: string
+    userId: string
+    viewDate: Date
+    _count: PostViewCountCountAggregateOutputType | null
+    _min: PostViewCountMinAggregateOutputType | null
+    _max: PostViewCountMaxAggregateOutputType | null
+  }
+
+  type GetPostViewCountGroupByPayload<T extends PostViewCountGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PostViewCountGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PostViewCountGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PostViewCountGroupByOutputType[P]>
+            : GetScalarType<T[P], PostViewCountGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PostViewCountSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    postId?: boolean
+    userId?: boolean
+    viewDate?: boolean
+    post?: boolean | PostsDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["postViewCount"]>
+
+
+
+  export type PostViewCountSelectScalar = {
+    id?: boolean
+    postId?: boolean
+    userId?: boolean
+    viewDate?: boolean
+  }
+
+  export type PostViewCountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "postId" | "userId" | "viewDate", ExtArgs["result"]["postViewCount"]>
+  export type PostViewCountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    post?: boolean | PostsDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PostViewCountPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PostViewCount"
+    objects: {
+      post: Prisma.$PostsPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      postId: string
+      userId: string
+      viewDate: Date
+    }, ExtArgs["result"]["postViewCount"]>
+    composites: {}
+  }
+
+  type PostViewCountGetPayload<S extends boolean | null | undefined | PostViewCountDefaultArgs> = $Result.GetResult<Prisma.$PostViewCountPayload, S>
+
+  type PostViewCountCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PostViewCountFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PostViewCountCountAggregateInputType | true
+    }
+
+  export interface PostViewCountDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PostViewCount'], meta: { name: 'PostViewCount' } }
+    /**
+     * Find zero or one PostViewCount that matches the filter.
+     * @param {PostViewCountFindUniqueArgs} args - Arguments to find a PostViewCount
+     * @example
+     * // Get one PostViewCount
+     * const postViewCount = await prisma.postViewCount.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PostViewCountFindUniqueArgs>(args: SelectSubset<T, PostViewCountFindUniqueArgs<ExtArgs>>): Prisma__PostViewCountClient<$Result.GetResult<Prisma.$PostViewCountPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PostViewCount that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PostViewCountFindUniqueOrThrowArgs} args - Arguments to find a PostViewCount
+     * @example
+     * // Get one PostViewCount
+     * const postViewCount = await prisma.postViewCount.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PostViewCountFindUniqueOrThrowArgs>(args: SelectSubset<T, PostViewCountFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PostViewCountClient<$Result.GetResult<Prisma.$PostViewCountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PostViewCount that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostViewCountFindFirstArgs} args - Arguments to find a PostViewCount
+     * @example
+     * // Get one PostViewCount
+     * const postViewCount = await prisma.postViewCount.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PostViewCountFindFirstArgs>(args?: SelectSubset<T, PostViewCountFindFirstArgs<ExtArgs>>): Prisma__PostViewCountClient<$Result.GetResult<Prisma.$PostViewCountPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PostViewCount that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostViewCountFindFirstOrThrowArgs} args - Arguments to find a PostViewCount
+     * @example
+     * // Get one PostViewCount
+     * const postViewCount = await prisma.postViewCount.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PostViewCountFindFirstOrThrowArgs>(args?: SelectSubset<T, PostViewCountFindFirstOrThrowArgs<ExtArgs>>): Prisma__PostViewCountClient<$Result.GetResult<Prisma.$PostViewCountPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PostViewCounts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostViewCountFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PostViewCounts
+     * const postViewCounts = await prisma.postViewCount.findMany()
+     * 
+     * // Get first 10 PostViewCounts
+     * const postViewCounts = await prisma.postViewCount.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const postViewCountWithIdOnly = await prisma.postViewCount.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PostViewCountFindManyArgs>(args?: SelectSubset<T, PostViewCountFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostViewCountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PostViewCount.
+     * @param {PostViewCountCreateArgs} args - Arguments to create a PostViewCount.
+     * @example
+     * // Create one PostViewCount
+     * const PostViewCount = await prisma.postViewCount.create({
+     *   data: {
+     *     // ... data to create a PostViewCount
+     *   }
+     * })
+     * 
+     */
+    create<T extends PostViewCountCreateArgs>(args: SelectSubset<T, PostViewCountCreateArgs<ExtArgs>>): Prisma__PostViewCountClient<$Result.GetResult<Prisma.$PostViewCountPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PostViewCounts.
+     * @param {PostViewCountCreateManyArgs} args - Arguments to create many PostViewCounts.
+     * @example
+     * // Create many PostViewCounts
+     * const postViewCount = await prisma.postViewCount.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PostViewCountCreateManyArgs>(args?: SelectSubset<T, PostViewCountCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a PostViewCount.
+     * @param {PostViewCountDeleteArgs} args - Arguments to delete one PostViewCount.
+     * @example
+     * // Delete one PostViewCount
+     * const PostViewCount = await prisma.postViewCount.delete({
+     *   where: {
+     *     // ... filter to delete one PostViewCount
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PostViewCountDeleteArgs>(args: SelectSubset<T, PostViewCountDeleteArgs<ExtArgs>>): Prisma__PostViewCountClient<$Result.GetResult<Prisma.$PostViewCountPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PostViewCount.
+     * @param {PostViewCountUpdateArgs} args - Arguments to update one PostViewCount.
+     * @example
+     * // Update one PostViewCount
+     * const postViewCount = await prisma.postViewCount.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PostViewCountUpdateArgs>(args: SelectSubset<T, PostViewCountUpdateArgs<ExtArgs>>): Prisma__PostViewCountClient<$Result.GetResult<Prisma.$PostViewCountPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PostViewCounts.
+     * @param {PostViewCountDeleteManyArgs} args - Arguments to filter PostViewCounts to delete.
+     * @example
+     * // Delete a few PostViewCounts
+     * const { count } = await prisma.postViewCount.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PostViewCountDeleteManyArgs>(args?: SelectSubset<T, PostViewCountDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PostViewCounts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostViewCountUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PostViewCounts
+     * const postViewCount = await prisma.postViewCount.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PostViewCountUpdateManyArgs>(args: SelectSubset<T, PostViewCountUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PostViewCount.
+     * @param {PostViewCountUpsertArgs} args - Arguments to update or create a PostViewCount.
+     * @example
+     * // Update or create a PostViewCount
+     * const postViewCount = await prisma.postViewCount.upsert({
+     *   create: {
+     *     // ... data to create a PostViewCount
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PostViewCount we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PostViewCountUpsertArgs>(args: SelectSubset<T, PostViewCountUpsertArgs<ExtArgs>>): Prisma__PostViewCountClient<$Result.GetResult<Prisma.$PostViewCountPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PostViewCounts that matches the filter.
+     * @param {PostViewCountFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const postViewCount = await prisma.postViewCount.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: PostViewCountFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a PostViewCount.
+     * @param {PostViewCountAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const postViewCount = await prisma.postViewCount.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: PostViewCountAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
+
+
+    /**
+     * Count the number of PostViewCounts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostViewCountCountArgs} args - Arguments to filter PostViewCounts to count.
+     * @example
+     * // Count the number of PostViewCounts
+     * const count = await prisma.postViewCount.count({
+     *   where: {
+     *     // ... the filter for the PostViewCounts we want to count
+     *   }
+     * })
+    **/
+    count<T extends PostViewCountCountArgs>(
+      args?: Subset<T, PostViewCountCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PostViewCountCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PostViewCount.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostViewCountAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PostViewCountAggregateArgs>(args: Subset<T, PostViewCountAggregateArgs>): Prisma.PrismaPromise<GetPostViewCountAggregateType<T>>
+
+    /**
+     * Group by PostViewCount.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostViewCountGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PostViewCountGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PostViewCountGroupByArgs['orderBy'] }
+        : { orderBy?: PostViewCountGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PostViewCountGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPostViewCountGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PostViewCount model
+   */
+  readonly fields: PostViewCountFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PostViewCount.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PostViewCountClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    post<T extends PostsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PostsDefaultArgs<ExtArgs>>): Prisma__PostsClient<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PostViewCount model
+   */
+  interface PostViewCountFieldRefs {
+    readonly id: FieldRef<"PostViewCount", 'String'>
+    readonly postId: FieldRef<"PostViewCount", 'String'>
+    readonly userId: FieldRef<"PostViewCount", 'String'>
+    readonly viewDate: FieldRef<"PostViewCount", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PostViewCount findUnique
+   */
+  export type PostViewCountFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostViewCount
+     */
+    select?: PostViewCountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostViewCount
+     */
+    omit?: PostViewCountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostViewCountInclude<ExtArgs> | null
+    /**
+     * Filter, which PostViewCount to fetch.
+     */
+    where: PostViewCountWhereUniqueInput
+  }
+
+  /**
+   * PostViewCount findUniqueOrThrow
+   */
+  export type PostViewCountFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostViewCount
+     */
+    select?: PostViewCountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostViewCount
+     */
+    omit?: PostViewCountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostViewCountInclude<ExtArgs> | null
+    /**
+     * Filter, which PostViewCount to fetch.
+     */
+    where: PostViewCountWhereUniqueInput
+  }
+
+  /**
+   * PostViewCount findFirst
+   */
+  export type PostViewCountFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostViewCount
+     */
+    select?: PostViewCountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostViewCount
+     */
+    omit?: PostViewCountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostViewCountInclude<ExtArgs> | null
+    /**
+     * Filter, which PostViewCount to fetch.
+     */
+    where?: PostViewCountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostViewCounts to fetch.
+     */
+    orderBy?: PostViewCountOrderByWithRelationInput | PostViewCountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PostViewCounts.
+     */
+    cursor?: PostViewCountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostViewCounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostViewCounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PostViewCounts.
+     */
+    distinct?: PostViewCountScalarFieldEnum | PostViewCountScalarFieldEnum[]
+  }
+
+  /**
+   * PostViewCount findFirstOrThrow
+   */
+  export type PostViewCountFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostViewCount
+     */
+    select?: PostViewCountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostViewCount
+     */
+    omit?: PostViewCountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostViewCountInclude<ExtArgs> | null
+    /**
+     * Filter, which PostViewCount to fetch.
+     */
+    where?: PostViewCountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostViewCounts to fetch.
+     */
+    orderBy?: PostViewCountOrderByWithRelationInput | PostViewCountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PostViewCounts.
+     */
+    cursor?: PostViewCountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostViewCounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostViewCounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PostViewCounts.
+     */
+    distinct?: PostViewCountScalarFieldEnum | PostViewCountScalarFieldEnum[]
+  }
+
+  /**
+   * PostViewCount findMany
+   */
+  export type PostViewCountFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostViewCount
+     */
+    select?: PostViewCountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostViewCount
+     */
+    omit?: PostViewCountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostViewCountInclude<ExtArgs> | null
+    /**
+     * Filter, which PostViewCounts to fetch.
+     */
+    where?: PostViewCountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostViewCounts to fetch.
+     */
+    orderBy?: PostViewCountOrderByWithRelationInput | PostViewCountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PostViewCounts.
+     */
+    cursor?: PostViewCountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostViewCounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostViewCounts.
+     */
+    skip?: number
+    distinct?: PostViewCountScalarFieldEnum | PostViewCountScalarFieldEnum[]
+  }
+
+  /**
+   * PostViewCount create
+   */
+  export type PostViewCountCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostViewCount
+     */
+    select?: PostViewCountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostViewCount
+     */
+    omit?: PostViewCountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostViewCountInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PostViewCount.
+     */
+    data: XOR<PostViewCountCreateInput, PostViewCountUncheckedCreateInput>
+  }
+
+  /**
+   * PostViewCount createMany
+   */
+  export type PostViewCountCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PostViewCounts.
+     */
+    data: PostViewCountCreateManyInput | PostViewCountCreateManyInput[]
+  }
+
+  /**
+   * PostViewCount update
+   */
+  export type PostViewCountUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostViewCount
+     */
+    select?: PostViewCountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostViewCount
+     */
+    omit?: PostViewCountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostViewCountInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PostViewCount.
+     */
+    data: XOR<PostViewCountUpdateInput, PostViewCountUncheckedUpdateInput>
+    /**
+     * Choose, which PostViewCount to update.
+     */
+    where: PostViewCountWhereUniqueInput
+  }
+
+  /**
+   * PostViewCount updateMany
+   */
+  export type PostViewCountUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PostViewCounts.
+     */
+    data: XOR<PostViewCountUpdateManyMutationInput, PostViewCountUncheckedUpdateManyInput>
+    /**
+     * Filter which PostViewCounts to update
+     */
+    where?: PostViewCountWhereInput
+    /**
+     * Limit how many PostViewCounts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PostViewCount upsert
+   */
+  export type PostViewCountUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostViewCount
+     */
+    select?: PostViewCountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostViewCount
+     */
+    omit?: PostViewCountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostViewCountInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PostViewCount to update in case it exists.
+     */
+    where: PostViewCountWhereUniqueInput
+    /**
+     * In case the PostViewCount found by the `where` argument doesn't exist, create a new PostViewCount with this data.
+     */
+    create: XOR<PostViewCountCreateInput, PostViewCountUncheckedCreateInput>
+    /**
+     * In case the PostViewCount was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PostViewCountUpdateInput, PostViewCountUncheckedUpdateInput>
+  }
+
+  /**
+   * PostViewCount delete
+   */
+  export type PostViewCountDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostViewCount
+     */
+    select?: PostViewCountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostViewCount
+     */
+    omit?: PostViewCountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostViewCountInclude<ExtArgs> | null
+    /**
+     * Filter which PostViewCount to delete.
+     */
+    where: PostViewCountWhereUniqueInput
+  }
+
+  /**
+   * PostViewCount deleteMany
+   */
+  export type PostViewCountDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PostViewCounts to delete
+     */
+    where?: PostViewCountWhereInput
+    /**
+     * Limit how many PostViewCounts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PostViewCount findRaw
+   */
+  export type PostViewCountFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * PostViewCount aggregateRaw
+   */
+  export type PostViewCountAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * PostViewCount without action
+   */
+  export type PostViewCountDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostViewCount
+     */
+    select?: PostViewCountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostViewCount
+     */
+    omit?: PostViewCountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostViewCountInclude<ExtArgs> | null
   }
 
 
@@ -11907,6 +14216,17 @@ export namespace Prisma {
   export type PaymentHistoryScalarFieldEnum = (typeof PaymentHistoryScalarFieldEnum)[keyof typeof PaymentHistoryScalarFieldEnum]
 
 
+  export const SavedPostScalarFieldEnum: {
+    id: 'id',
+    postId: 'postId',
+    userId: 'userId',
+    savedDate: 'savedDate',
+    createdAt: 'createdAt'
+  };
+
+  export type SavedPostScalarFieldEnum = (typeof SavedPostScalarFieldEnum)[keyof typeof SavedPostScalarFieldEnum]
+
+
   export const PostsScalarFieldEnum: {
     id: 'id',
     roomId: 'roomId',
@@ -11915,6 +14235,16 @@ export namespace Prisma {
   };
 
   export type PostsScalarFieldEnum = (typeof PostsScalarFieldEnum)[keyof typeof PostsScalarFieldEnum]
+
+
+  export const PostViewCountScalarFieldEnum: {
+    id: 'id',
+    postId: 'postId',
+    userId: 'userId',
+    viewDate: 'viewDate'
+  };
+
+  export type PostViewCountScalarFieldEnum = (typeof PostViewCountScalarFieldEnum)[keyof typeof PostViewCountScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -12101,6 +14431,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordListRelationFilter
     payedBy?: RoomPaymentRecordListRelationFilter
     posts?: PostsListRelationFilter
+    savedPost?: SavedPostListRelationFilter
+    postViewCount?: PostViewCountListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -12127,6 +14459,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordOrderByRelationAggregateInput
     payedBy?: RoomPaymentRecordOrderByRelationAggregateInput
     posts?: PostsOrderByRelationAggregateInput
+    savedPost?: SavedPostOrderByRelationAggregateInput
+    postViewCount?: PostViewCountOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -12156,6 +14490,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordListRelationFilter
     payedBy?: RoomPaymentRecordListRelationFilter
     posts?: PostsListRelationFilter
+    savedPost?: SavedPostListRelationFilter
+    postViewCount?: PostViewCountListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -12829,6 +15165,64 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"PaymentHistory"> | Date | string
   }
 
+  export type SavedPostWhereInput = {
+    AND?: SavedPostWhereInput | SavedPostWhereInput[]
+    OR?: SavedPostWhereInput[]
+    NOT?: SavedPostWhereInput | SavedPostWhereInput[]
+    id?: StringFilter<"SavedPost"> | string
+    postId?: StringFilter<"SavedPost"> | string
+    userId?: StringFilter<"SavedPost"> | string
+    savedDate?: DateTimeFilter<"SavedPost"> | Date | string
+    createdAt?: DateTimeFilter<"SavedPost"> | Date | string
+    post?: XOR<PostsScalarRelationFilter, PostsWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type SavedPostOrderByWithRelationInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    userId?: SortOrder
+    savedDate?: SortOrder
+    createdAt?: SortOrder
+    post?: PostsOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type SavedPostWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SavedPostWhereInput | SavedPostWhereInput[]
+    OR?: SavedPostWhereInput[]
+    NOT?: SavedPostWhereInput | SavedPostWhereInput[]
+    postId?: StringFilter<"SavedPost"> | string
+    userId?: StringFilter<"SavedPost"> | string
+    savedDate?: DateTimeFilter<"SavedPost"> | Date | string
+    createdAt?: DateTimeFilter<"SavedPost"> | Date | string
+    post?: XOR<PostsScalarRelationFilter, PostsWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type SavedPostOrderByWithAggregationInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    userId?: SortOrder
+    savedDate?: SortOrder
+    createdAt?: SortOrder
+    _count?: SavedPostCountOrderByAggregateInput
+    _max?: SavedPostMaxOrderByAggregateInput
+    _min?: SavedPostMinOrderByAggregateInput
+  }
+
+  export type SavedPostScalarWhereWithAggregatesInput = {
+    AND?: SavedPostScalarWhereWithAggregatesInput | SavedPostScalarWhereWithAggregatesInput[]
+    OR?: SavedPostScalarWhereWithAggregatesInput[]
+    NOT?: SavedPostScalarWhereWithAggregatesInput | SavedPostScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SavedPost"> | string
+    postId?: StringWithAggregatesFilter<"SavedPost"> | string
+    userId?: StringWithAggregatesFilter<"SavedPost"> | string
+    savedDate?: DateTimeWithAggregatesFilter<"SavedPost"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"SavedPost"> | Date | string
+  }
+
   export type PostsWhereInput = {
     AND?: PostsWhereInput | PostsWhereInput[]
     OR?: PostsWhereInput[]
@@ -12839,6 +15233,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Posts"> | Date | string
     room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+    savedPost?: SavedPostListRelationFilter
+    totalCount?: PostViewCountListRelationFilter
   }
 
   export type PostsOrderByWithRelationInput = {
@@ -12848,6 +15244,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     room?: RoomOrderByWithRelationInput
     owner?: UserOrderByWithRelationInput
+    savedPost?: SavedPostOrderByRelationAggregateInput
+    totalCount?: PostViewCountOrderByRelationAggregateInput
   }
 
   export type PostsWhereUniqueInput = Prisma.AtLeast<{
@@ -12860,6 +15258,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Posts"> | Date | string
     room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+    savedPost?: SavedPostListRelationFilter
+    totalCount?: PostViewCountListRelationFilter
   }, "id" | "roomId">
 
   export type PostsOrderByWithAggregationInput = {
@@ -12880,6 +15280,59 @@ export namespace Prisma {
     roomId?: StringWithAggregatesFilter<"Posts"> | string
     ownerId?: StringWithAggregatesFilter<"Posts"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Posts"> | Date | string
+  }
+
+  export type PostViewCountWhereInput = {
+    AND?: PostViewCountWhereInput | PostViewCountWhereInput[]
+    OR?: PostViewCountWhereInput[]
+    NOT?: PostViewCountWhereInput | PostViewCountWhereInput[]
+    id?: StringFilter<"PostViewCount"> | string
+    postId?: StringFilter<"PostViewCount"> | string
+    userId?: StringFilter<"PostViewCount"> | string
+    viewDate?: DateTimeFilter<"PostViewCount"> | Date | string
+    post?: XOR<PostsScalarRelationFilter, PostsWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type PostViewCountOrderByWithRelationInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    userId?: SortOrder
+    viewDate?: SortOrder
+    post?: PostsOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type PostViewCountWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PostViewCountWhereInput | PostViewCountWhereInput[]
+    OR?: PostViewCountWhereInput[]
+    NOT?: PostViewCountWhereInput | PostViewCountWhereInput[]
+    postId?: StringFilter<"PostViewCount"> | string
+    userId?: StringFilter<"PostViewCount"> | string
+    viewDate?: DateTimeFilter<"PostViewCount"> | Date | string
+    post?: XOR<PostsScalarRelationFilter, PostsWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type PostViewCountOrderByWithAggregationInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    userId?: SortOrder
+    viewDate?: SortOrder
+    _count?: PostViewCountCountOrderByAggregateInput
+    _max?: PostViewCountMaxOrderByAggregateInput
+    _min?: PostViewCountMinOrderByAggregateInput
+  }
+
+  export type PostViewCountScalarWhereWithAggregatesInput = {
+    AND?: PostViewCountScalarWhereWithAggregatesInput | PostViewCountScalarWhereWithAggregatesInput[]
+    OR?: PostViewCountScalarWhereWithAggregatesInput[]
+    NOT?: PostViewCountScalarWhereWithAggregatesInput | PostViewCountScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PostViewCount"> | string
+    postId?: StringWithAggregatesFilter<"PostViewCount"> | string
+    userId?: StringWithAggregatesFilter<"PostViewCount"> | string
+    viewDate?: DateTimeWithAggregatesFilter<"PostViewCount"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -12906,6 +15359,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
     posts?: PostsCreateNestedManyWithoutOwnerInput
+    savedPost?: SavedPostCreateNestedManyWithoutUserInput
+    postViewCount?: PostViewCountCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -12932,6 +15387,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
     posts?: PostsUncheckedCreateNestedManyWithoutOwnerInput
+    savedPost?: SavedPostUncheckedCreateNestedManyWithoutUserInput
+    postViewCount?: PostViewCountUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -12957,6 +15414,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
     posts?: PostsUpdateManyWithoutOwnerNestedInput
+    savedPost?: SavedPostUpdateManyWithoutUserNestedInput
+    postViewCount?: PostViewCountUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -12982,6 +15441,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
     posts?: PostsUncheckedUpdateManyWithoutOwnerNestedInput
+    savedPost?: SavedPostUncheckedUpdateManyWithoutUserNestedInput
+    postViewCount?: PostViewCountUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -13692,11 +16153,63 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SavedPostCreateInput = {
+    id?: string
+    savedDate?: Date | string
+    createdAt?: Date | string
+    post: PostsCreateNestedOneWithoutSavedPostInput
+    user: UserCreateNestedOneWithoutSavedPostInput
+  }
+
+  export type SavedPostUncheckedCreateInput = {
+    id?: string
+    postId: string
+    userId: string
+    savedDate?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type SavedPostUpdateInput = {
+    savedDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    post?: PostsUpdateOneRequiredWithoutSavedPostNestedInput
+    user?: UserUpdateOneRequiredWithoutSavedPostNestedInput
+  }
+
+  export type SavedPostUncheckedUpdateInput = {
+    postId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    savedDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SavedPostCreateManyInput = {
+    id?: string
+    postId: string
+    userId: string
+    savedDate?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type SavedPostUpdateManyMutationInput = {
+    savedDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SavedPostUncheckedUpdateManyInput = {
+    postId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    savedDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PostsCreateInput = {
     id?: string
     createdAt?: Date | string
     room: RoomCreateNestedOneWithoutPostsInput
     owner: UserCreateNestedOneWithoutPostsInput
+    savedPost?: SavedPostCreateNestedManyWithoutPostInput
+    totalCount?: PostViewCountCreateNestedManyWithoutPostInput
   }
 
   export type PostsUncheckedCreateInput = {
@@ -13704,18 +16217,24 @@ export namespace Prisma {
     roomId: string
     ownerId: string
     createdAt?: Date | string
+    savedPost?: SavedPostUncheckedCreateNestedManyWithoutPostInput
+    totalCount?: PostViewCountUncheckedCreateNestedManyWithoutPostInput
   }
 
   export type PostsUpdateInput = {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     room?: RoomUpdateOneRequiredWithoutPostsNestedInput
     owner?: UserUpdateOneRequiredWithoutPostsNestedInput
+    savedPost?: SavedPostUpdateManyWithoutPostNestedInput
+    totalCount?: PostViewCountUpdateManyWithoutPostNestedInput
   }
 
   export type PostsUncheckedUpdateInput = {
     roomId?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    savedPost?: SavedPostUncheckedUpdateManyWithoutPostNestedInput
+    totalCount?: PostViewCountUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type PostsCreateManyInput = {
@@ -13733,6 +16252,49 @@ export namespace Prisma {
     roomId?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostViewCountCreateInput = {
+    id?: string
+    viewDate?: Date | string
+    post: PostsCreateNestedOneWithoutTotalCountInput
+    user: UserCreateNestedOneWithoutPostViewCountInput
+  }
+
+  export type PostViewCountUncheckedCreateInput = {
+    id?: string
+    postId: string
+    userId: string
+    viewDate?: Date | string
+  }
+
+  export type PostViewCountUpdateInput = {
+    viewDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    post?: PostsUpdateOneRequiredWithoutTotalCountNestedInput
+    user?: UserUpdateOneRequiredWithoutPostViewCountNestedInput
+  }
+
+  export type PostViewCountUncheckedUpdateInput = {
+    postId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    viewDate?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostViewCountCreateManyInput = {
+    id?: string
+    postId: string
+    userId: string
+    viewDate?: Date | string
+  }
+
+  export type PostViewCountUpdateManyMutationInput = {
+    viewDate?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostViewCountUncheckedUpdateManyInput = {
+    postId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    viewDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -13849,6 +16411,18 @@ export namespace Prisma {
     none?: PostsWhereInput
   }
 
+  export type SavedPostListRelationFilter = {
+    every?: SavedPostWhereInput
+    some?: SavedPostWhereInput
+    none?: SavedPostWhereInput
+  }
+
+  export type PostViewCountListRelationFilter = {
+    every?: PostViewCountWhereInput
+    some?: PostViewCountWhereInput
+    none?: PostViewCountWhereInput
+  }
+
   export type AccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -13878,6 +16452,14 @@ export namespace Prisma {
   }
 
   export type PostsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SavedPostOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PostViewCountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -14581,6 +17163,35 @@ export namespace Prisma {
     dueAmount?: SortOrder
   }
 
+  export type PostsScalarRelationFilter = {
+    is?: PostsWhereInput
+    isNot?: PostsWhereInput
+  }
+
+  export type SavedPostCountOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    userId?: SortOrder
+    savedDate?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SavedPostMaxOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    userId?: SortOrder
+    savedDate?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SavedPostMinOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    userId?: SortOrder
+    savedDate?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type PostsCountOrderByAggregateInput = {
     id?: SortOrder
     roomId?: SortOrder
@@ -14600,6 +17211,27 @@ export namespace Prisma {
     roomId?: SortOrder
     ownerId?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type PostViewCountCountOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    userId?: SortOrder
+    viewDate?: SortOrder
+  }
+
+  export type PostViewCountMaxOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    userId?: SortOrder
+    viewDate?: SortOrder
+  }
+
+  export type PostViewCountMinOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    userId?: SortOrder
+    viewDate?: SortOrder
   }
 
   export type AccountCreateNestedManyWithoutUserInput = {
@@ -14672,6 +17304,20 @@ export namespace Prisma {
     connect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
   }
 
+  export type SavedPostCreateNestedManyWithoutUserInput = {
+    create?: XOR<SavedPostCreateWithoutUserInput, SavedPostUncheckedCreateWithoutUserInput> | SavedPostCreateWithoutUserInput[] | SavedPostUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SavedPostCreateOrConnectWithoutUserInput | SavedPostCreateOrConnectWithoutUserInput[]
+    createMany?: SavedPostCreateManyUserInputEnvelope
+    connect?: SavedPostWhereUniqueInput | SavedPostWhereUniqueInput[]
+  }
+
+  export type PostViewCountCreateNestedManyWithoutUserInput = {
+    create?: XOR<PostViewCountCreateWithoutUserInput, PostViewCountUncheckedCreateWithoutUserInput> | PostViewCountCreateWithoutUserInput[] | PostViewCountUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PostViewCountCreateOrConnectWithoutUserInput | PostViewCountCreateOrConnectWithoutUserInput[]
+    createMany?: PostViewCountCreateManyUserInputEnvelope
+    connect?: PostViewCountWhereUniqueInput | PostViewCountWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -14740,6 +17386,20 @@ export namespace Prisma {
     connectOrCreate?: PostsCreateOrConnectWithoutOwnerInput | PostsCreateOrConnectWithoutOwnerInput[]
     createMany?: PostsCreateManyOwnerInputEnvelope
     connect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+  }
+
+  export type SavedPostUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<SavedPostCreateWithoutUserInput, SavedPostUncheckedCreateWithoutUserInput> | SavedPostCreateWithoutUserInput[] | SavedPostUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SavedPostCreateOrConnectWithoutUserInput | SavedPostCreateOrConnectWithoutUserInput[]
+    createMany?: SavedPostCreateManyUserInputEnvelope
+    connect?: SavedPostWhereUniqueInput | SavedPostWhereUniqueInput[]
+  }
+
+  export type PostViewCountUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<PostViewCountCreateWithoutUserInput, PostViewCountUncheckedCreateWithoutUserInput> | PostViewCountCreateWithoutUserInput[] | PostViewCountUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PostViewCountCreateOrConnectWithoutUserInput | PostViewCountCreateOrConnectWithoutUserInput[]
+    createMany?: PostViewCountCreateManyUserInputEnvelope
+    connect?: PostViewCountWhereUniqueInput | PostViewCountWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -14904,6 +17564,34 @@ export namespace Prisma {
     deleteMany?: PostsScalarWhereInput | PostsScalarWhereInput[]
   }
 
+  export type SavedPostUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SavedPostCreateWithoutUserInput, SavedPostUncheckedCreateWithoutUserInput> | SavedPostCreateWithoutUserInput[] | SavedPostUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SavedPostCreateOrConnectWithoutUserInput | SavedPostCreateOrConnectWithoutUserInput[]
+    upsert?: SavedPostUpsertWithWhereUniqueWithoutUserInput | SavedPostUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SavedPostCreateManyUserInputEnvelope
+    set?: SavedPostWhereUniqueInput | SavedPostWhereUniqueInput[]
+    disconnect?: SavedPostWhereUniqueInput | SavedPostWhereUniqueInput[]
+    delete?: SavedPostWhereUniqueInput | SavedPostWhereUniqueInput[]
+    connect?: SavedPostWhereUniqueInput | SavedPostWhereUniqueInput[]
+    update?: SavedPostUpdateWithWhereUniqueWithoutUserInput | SavedPostUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SavedPostUpdateManyWithWhereWithoutUserInput | SavedPostUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SavedPostScalarWhereInput | SavedPostScalarWhereInput[]
+  }
+
+  export type PostViewCountUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PostViewCountCreateWithoutUserInput, PostViewCountUncheckedCreateWithoutUserInput> | PostViewCountCreateWithoutUserInput[] | PostViewCountUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PostViewCountCreateOrConnectWithoutUserInput | PostViewCountCreateOrConnectWithoutUserInput[]
+    upsert?: PostViewCountUpsertWithWhereUniqueWithoutUserInput | PostViewCountUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PostViewCountCreateManyUserInputEnvelope
+    set?: PostViewCountWhereUniqueInput | PostViewCountWhereUniqueInput[]
+    disconnect?: PostViewCountWhereUniqueInput | PostViewCountWhereUniqueInput[]
+    delete?: PostViewCountWhereUniqueInput | PostViewCountWhereUniqueInput[]
+    connect?: PostViewCountWhereUniqueInput | PostViewCountWhereUniqueInput[]
+    update?: PostViewCountUpdateWithWhereUniqueWithoutUserInput | PostViewCountUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PostViewCountUpdateManyWithWhereWithoutUserInput | PostViewCountUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PostViewCountScalarWhereInput | PostViewCountScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -15042,6 +17730,34 @@ export namespace Prisma {
     update?: PostsUpdateWithWhereUniqueWithoutOwnerInput | PostsUpdateWithWhereUniqueWithoutOwnerInput[]
     updateMany?: PostsUpdateManyWithWhereWithoutOwnerInput | PostsUpdateManyWithWhereWithoutOwnerInput[]
     deleteMany?: PostsScalarWhereInput | PostsScalarWhereInput[]
+  }
+
+  export type SavedPostUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SavedPostCreateWithoutUserInput, SavedPostUncheckedCreateWithoutUserInput> | SavedPostCreateWithoutUserInput[] | SavedPostUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SavedPostCreateOrConnectWithoutUserInput | SavedPostCreateOrConnectWithoutUserInput[]
+    upsert?: SavedPostUpsertWithWhereUniqueWithoutUserInput | SavedPostUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SavedPostCreateManyUserInputEnvelope
+    set?: SavedPostWhereUniqueInput | SavedPostWhereUniqueInput[]
+    disconnect?: SavedPostWhereUniqueInput | SavedPostWhereUniqueInput[]
+    delete?: SavedPostWhereUniqueInput | SavedPostWhereUniqueInput[]
+    connect?: SavedPostWhereUniqueInput | SavedPostWhereUniqueInput[]
+    update?: SavedPostUpdateWithWhereUniqueWithoutUserInput | SavedPostUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SavedPostUpdateManyWithWhereWithoutUserInput | SavedPostUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SavedPostScalarWhereInput | SavedPostScalarWhereInput[]
+  }
+
+  export type PostViewCountUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PostViewCountCreateWithoutUserInput, PostViewCountUncheckedCreateWithoutUserInput> | PostViewCountCreateWithoutUserInput[] | PostViewCountUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PostViewCountCreateOrConnectWithoutUserInput | PostViewCountCreateOrConnectWithoutUserInput[]
+    upsert?: PostViewCountUpsertWithWhereUniqueWithoutUserInput | PostViewCountUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PostViewCountCreateManyUserInputEnvelope
+    set?: PostViewCountWhereUniqueInput | PostViewCountWhereUniqueInput[]
+    disconnect?: PostViewCountWhereUniqueInput | PostViewCountWhereUniqueInput[]
+    delete?: PostViewCountWhereUniqueInput | PostViewCountWhereUniqueInput[]
+    connect?: PostViewCountWhereUniqueInput | PostViewCountWhereUniqueInput[]
+    update?: PostViewCountUpdateWithWhereUniqueWithoutUserInput | PostViewCountUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PostViewCountUpdateManyWithWhereWithoutUserInput | PostViewCountUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PostViewCountScalarWhereInput | PostViewCountScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutAccountsInput = {
@@ -15442,6 +18158,34 @@ export namespace Prisma {
     update?: XOR<XOR<RoomUpdateToOneWithWhereWithoutRoomPaymentInput, RoomUpdateWithoutRoomPaymentInput>, RoomUncheckedUpdateWithoutRoomPaymentInput>
   }
 
+  export type PostsCreateNestedOneWithoutSavedPostInput = {
+    create?: XOR<PostsCreateWithoutSavedPostInput, PostsUncheckedCreateWithoutSavedPostInput>
+    connectOrCreate?: PostsCreateOrConnectWithoutSavedPostInput
+    connect?: PostsWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutSavedPostInput = {
+    create?: XOR<UserCreateWithoutSavedPostInput, UserUncheckedCreateWithoutSavedPostInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSavedPostInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PostsUpdateOneRequiredWithoutSavedPostNestedInput = {
+    create?: XOR<PostsCreateWithoutSavedPostInput, PostsUncheckedCreateWithoutSavedPostInput>
+    connectOrCreate?: PostsCreateOrConnectWithoutSavedPostInput
+    upsert?: PostsUpsertWithoutSavedPostInput
+    connect?: PostsWhereUniqueInput
+    update?: XOR<XOR<PostsUpdateToOneWithWhereWithoutSavedPostInput, PostsUpdateWithoutSavedPostInput>, PostsUncheckedUpdateWithoutSavedPostInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutSavedPostNestedInput = {
+    create?: XOR<UserCreateWithoutSavedPostInput, UserUncheckedCreateWithoutSavedPostInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSavedPostInput
+    upsert?: UserUpsertWithoutSavedPostInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSavedPostInput, UserUpdateWithoutSavedPostInput>, UserUncheckedUpdateWithoutSavedPostInput>
+  }
+
   export type RoomCreateNestedOneWithoutPostsInput = {
     create?: XOR<RoomCreateWithoutPostsInput, RoomUncheckedCreateWithoutPostsInput>
     connectOrCreate?: RoomCreateOrConnectWithoutPostsInput
@@ -15452,6 +18196,34 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
     connectOrCreate?: UserCreateOrConnectWithoutPostsInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type SavedPostCreateNestedManyWithoutPostInput = {
+    create?: XOR<SavedPostCreateWithoutPostInput, SavedPostUncheckedCreateWithoutPostInput> | SavedPostCreateWithoutPostInput[] | SavedPostUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: SavedPostCreateOrConnectWithoutPostInput | SavedPostCreateOrConnectWithoutPostInput[]
+    createMany?: SavedPostCreateManyPostInputEnvelope
+    connect?: SavedPostWhereUniqueInput | SavedPostWhereUniqueInput[]
+  }
+
+  export type PostViewCountCreateNestedManyWithoutPostInput = {
+    create?: XOR<PostViewCountCreateWithoutPostInput, PostViewCountUncheckedCreateWithoutPostInput> | PostViewCountCreateWithoutPostInput[] | PostViewCountUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: PostViewCountCreateOrConnectWithoutPostInput | PostViewCountCreateOrConnectWithoutPostInput[]
+    createMany?: PostViewCountCreateManyPostInputEnvelope
+    connect?: PostViewCountWhereUniqueInput | PostViewCountWhereUniqueInput[]
+  }
+
+  export type SavedPostUncheckedCreateNestedManyWithoutPostInput = {
+    create?: XOR<SavedPostCreateWithoutPostInput, SavedPostUncheckedCreateWithoutPostInput> | SavedPostCreateWithoutPostInput[] | SavedPostUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: SavedPostCreateOrConnectWithoutPostInput | SavedPostCreateOrConnectWithoutPostInput[]
+    createMany?: SavedPostCreateManyPostInputEnvelope
+    connect?: SavedPostWhereUniqueInput | SavedPostWhereUniqueInput[]
+  }
+
+  export type PostViewCountUncheckedCreateNestedManyWithoutPostInput = {
+    create?: XOR<PostViewCountCreateWithoutPostInput, PostViewCountUncheckedCreateWithoutPostInput> | PostViewCountCreateWithoutPostInput[] | PostViewCountUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: PostViewCountCreateOrConnectWithoutPostInput | PostViewCountCreateOrConnectWithoutPostInput[]
+    createMany?: PostViewCountCreateManyPostInputEnvelope
+    connect?: PostViewCountWhereUniqueInput | PostViewCountWhereUniqueInput[]
   }
 
   export type RoomUpdateOneRequiredWithoutPostsNestedInput = {
@@ -15468,6 +18240,90 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutPostsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPostsInput, UserUpdateWithoutPostsInput>, UserUncheckedUpdateWithoutPostsInput>
+  }
+
+  export type SavedPostUpdateManyWithoutPostNestedInput = {
+    create?: XOR<SavedPostCreateWithoutPostInput, SavedPostUncheckedCreateWithoutPostInput> | SavedPostCreateWithoutPostInput[] | SavedPostUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: SavedPostCreateOrConnectWithoutPostInput | SavedPostCreateOrConnectWithoutPostInput[]
+    upsert?: SavedPostUpsertWithWhereUniqueWithoutPostInput | SavedPostUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: SavedPostCreateManyPostInputEnvelope
+    set?: SavedPostWhereUniqueInput | SavedPostWhereUniqueInput[]
+    disconnect?: SavedPostWhereUniqueInput | SavedPostWhereUniqueInput[]
+    delete?: SavedPostWhereUniqueInput | SavedPostWhereUniqueInput[]
+    connect?: SavedPostWhereUniqueInput | SavedPostWhereUniqueInput[]
+    update?: SavedPostUpdateWithWhereUniqueWithoutPostInput | SavedPostUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: SavedPostUpdateManyWithWhereWithoutPostInput | SavedPostUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: SavedPostScalarWhereInput | SavedPostScalarWhereInput[]
+  }
+
+  export type PostViewCountUpdateManyWithoutPostNestedInput = {
+    create?: XOR<PostViewCountCreateWithoutPostInput, PostViewCountUncheckedCreateWithoutPostInput> | PostViewCountCreateWithoutPostInput[] | PostViewCountUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: PostViewCountCreateOrConnectWithoutPostInput | PostViewCountCreateOrConnectWithoutPostInput[]
+    upsert?: PostViewCountUpsertWithWhereUniqueWithoutPostInput | PostViewCountUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: PostViewCountCreateManyPostInputEnvelope
+    set?: PostViewCountWhereUniqueInput | PostViewCountWhereUniqueInput[]
+    disconnect?: PostViewCountWhereUniqueInput | PostViewCountWhereUniqueInput[]
+    delete?: PostViewCountWhereUniqueInput | PostViewCountWhereUniqueInput[]
+    connect?: PostViewCountWhereUniqueInput | PostViewCountWhereUniqueInput[]
+    update?: PostViewCountUpdateWithWhereUniqueWithoutPostInput | PostViewCountUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: PostViewCountUpdateManyWithWhereWithoutPostInput | PostViewCountUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: PostViewCountScalarWhereInput | PostViewCountScalarWhereInput[]
+  }
+
+  export type SavedPostUncheckedUpdateManyWithoutPostNestedInput = {
+    create?: XOR<SavedPostCreateWithoutPostInput, SavedPostUncheckedCreateWithoutPostInput> | SavedPostCreateWithoutPostInput[] | SavedPostUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: SavedPostCreateOrConnectWithoutPostInput | SavedPostCreateOrConnectWithoutPostInput[]
+    upsert?: SavedPostUpsertWithWhereUniqueWithoutPostInput | SavedPostUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: SavedPostCreateManyPostInputEnvelope
+    set?: SavedPostWhereUniqueInput | SavedPostWhereUniqueInput[]
+    disconnect?: SavedPostWhereUniqueInput | SavedPostWhereUniqueInput[]
+    delete?: SavedPostWhereUniqueInput | SavedPostWhereUniqueInput[]
+    connect?: SavedPostWhereUniqueInput | SavedPostWhereUniqueInput[]
+    update?: SavedPostUpdateWithWhereUniqueWithoutPostInput | SavedPostUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: SavedPostUpdateManyWithWhereWithoutPostInput | SavedPostUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: SavedPostScalarWhereInput | SavedPostScalarWhereInput[]
+  }
+
+  export type PostViewCountUncheckedUpdateManyWithoutPostNestedInput = {
+    create?: XOR<PostViewCountCreateWithoutPostInput, PostViewCountUncheckedCreateWithoutPostInput> | PostViewCountCreateWithoutPostInput[] | PostViewCountUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: PostViewCountCreateOrConnectWithoutPostInput | PostViewCountCreateOrConnectWithoutPostInput[]
+    upsert?: PostViewCountUpsertWithWhereUniqueWithoutPostInput | PostViewCountUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: PostViewCountCreateManyPostInputEnvelope
+    set?: PostViewCountWhereUniqueInput | PostViewCountWhereUniqueInput[]
+    disconnect?: PostViewCountWhereUniqueInput | PostViewCountWhereUniqueInput[]
+    delete?: PostViewCountWhereUniqueInput | PostViewCountWhereUniqueInput[]
+    connect?: PostViewCountWhereUniqueInput | PostViewCountWhereUniqueInput[]
+    update?: PostViewCountUpdateWithWhereUniqueWithoutPostInput | PostViewCountUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: PostViewCountUpdateManyWithWhereWithoutPostInput | PostViewCountUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: PostViewCountScalarWhereInput | PostViewCountScalarWhereInput[]
+  }
+
+  export type PostsCreateNestedOneWithoutTotalCountInput = {
+    create?: XOR<PostsCreateWithoutTotalCountInput, PostsUncheckedCreateWithoutTotalCountInput>
+    connectOrCreate?: PostsCreateOrConnectWithoutTotalCountInput
+    connect?: PostsWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutPostViewCountInput = {
+    create?: XOR<UserCreateWithoutPostViewCountInput, UserUncheckedCreateWithoutPostViewCountInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPostViewCountInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PostsUpdateOneRequiredWithoutTotalCountNestedInput = {
+    create?: XOR<PostsCreateWithoutTotalCountInput, PostsUncheckedCreateWithoutTotalCountInput>
+    connectOrCreate?: PostsCreateOrConnectWithoutTotalCountInput
+    upsert?: PostsUpsertWithoutTotalCountInput
+    connect?: PostsWhereUniqueInput
+    update?: XOR<XOR<PostsUpdateToOneWithWhereWithoutTotalCountInput, PostsUpdateWithoutTotalCountInput>, PostsUncheckedUpdateWithoutTotalCountInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutPostViewCountNestedInput = {
+    create?: XOR<UserCreateWithoutPostViewCountInput, UserUncheckedCreateWithoutPostViewCountInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPostViewCountInput
+    upsert?: UserUpsertWithoutPostViewCountInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPostViewCountInput, UserUpdateWithoutPostViewCountInput>, UserUncheckedUpdateWithoutPostViewCountInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -16119,12 +18975,16 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     room: RoomCreateNestedOneWithoutPostsInput
+    savedPost?: SavedPostCreateNestedManyWithoutPostInput
+    totalCount?: PostViewCountCreateNestedManyWithoutPostInput
   }
 
   export type PostsUncheckedCreateWithoutOwnerInput = {
     id?: string
     roomId: string
     createdAt?: Date | string
+    savedPost?: SavedPostUncheckedCreateNestedManyWithoutPostInput
+    totalCount?: PostViewCountUncheckedCreateNestedManyWithoutPostInput
   }
 
   export type PostsCreateOrConnectWithoutOwnerInput = {
@@ -16134,6 +18994,50 @@ export namespace Prisma {
 
   export type PostsCreateManyOwnerInputEnvelope = {
     data: PostsCreateManyOwnerInput | PostsCreateManyOwnerInput[]
+  }
+
+  export type SavedPostCreateWithoutUserInput = {
+    id?: string
+    savedDate?: Date | string
+    createdAt?: Date | string
+    post: PostsCreateNestedOneWithoutSavedPostInput
+  }
+
+  export type SavedPostUncheckedCreateWithoutUserInput = {
+    id?: string
+    postId: string
+    savedDate?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type SavedPostCreateOrConnectWithoutUserInput = {
+    where: SavedPostWhereUniqueInput
+    create: XOR<SavedPostCreateWithoutUserInput, SavedPostUncheckedCreateWithoutUserInput>
+  }
+
+  export type SavedPostCreateManyUserInputEnvelope = {
+    data: SavedPostCreateManyUserInput | SavedPostCreateManyUserInput[]
+  }
+
+  export type PostViewCountCreateWithoutUserInput = {
+    id?: string
+    viewDate?: Date | string
+    post: PostsCreateNestedOneWithoutTotalCountInput
+  }
+
+  export type PostViewCountUncheckedCreateWithoutUserInput = {
+    id?: string
+    postId: string
+    viewDate?: Date | string
+  }
+
+  export type PostViewCountCreateOrConnectWithoutUserInput = {
+    where: PostViewCountWhereUniqueInput
+    create: XOR<PostViewCountCreateWithoutUserInput, PostViewCountUncheckedCreateWithoutUserInput>
+  }
+
+  export type PostViewCountCreateManyUserInputEnvelope = {
+    data: PostViewCountCreateManyUserInput | PostViewCountCreateManyUserInput[]
   }
 
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
@@ -16425,6 +19329,59 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Posts"> | Date | string
   }
 
+  export type SavedPostUpsertWithWhereUniqueWithoutUserInput = {
+    where: SavedPostWhereUniqueInput
+    update: XOR<SavedPostUpdateWithoutUserInput, SavedPostUncheckedUpdateWithoutUserInput>
+    create: XOR<SavedPostCreateWithoutUserInput, SavedPostUncheckedCreateWithoutUserInput>
+  }
+
+  export type SavedPostUpdateWithWhereUniqueWithoutUserInput = {
+    where: SavedPostWhereUniqueInput
+    data: XOR<SavedPostUpdateWithoutUserInput, SavedPostUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SavedPostUpdateManyWithWhereWithoutUserInput = {
+    where: SavedPostScalarWhereInput
+    data: XOR<SavedPostUpdateManyMutationInput, SavedPostUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type SavedPostScalarWhereInput = {
+    AND?: SavedPostScalarWhereInput | SavedPostScalarWhereInput[]
+    OR?: SavedPostScalarWhereInput[]
+    NOT?: SavedPostScalarWhereInput | SavedPostScalarWhereInput[]
+    id?: StringFilter<"SavedPost"> | string
+    postId?: StringFilter<"SavedPost"> | string
+    userId?: StringFilter<"SavedPost"> | string
+    savedDate?: DateTimeFilter<"SavedPost"> | Date | string
+    createdAt?: DateTimeFilter<"SavedPost"> | Date | string
+  }
+
+  export type PostViewCountUpsertWithWhereUniqueWithoutUserInput = {
+    where: PostViewCountWhereUniqueInput
+    update: XOR<PostViewCountUpdateWithoutUserInput, PostViewCountUncheckedUpdateWithoutUserInput>
+    create: XOR<PostViewCountCreateWithoutUserInput, PostViewCountUncheckedCreateWithoutUserInput>
+  }
+
+  export type PostViewCountUpdateWithWhereUniqueWithoutUserInput = {
+    where: PostViewCountWhereUniqueInput
+    data: XOR<PostViewCountUpdateWithoutUserInput, PostViewCountUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PostViewCountUpdateManyWithWhereWithoutUserInput = {
+    where: PostViewCountScalarWhereInput
+    data: XOR<PostViewCountUpdateManyMutationInput, PostViewCountUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type PostViewCountScalarWhereInput = {
+    AND?: PostViewCountScalarWhereInput | PostViewCountScalarWhereInput[]
+    OR?: PostViewCountScalarWhereInput[]
+    NOT?: PostViewCountScalarWhereInput | PostViewCountScalarWhereInput[]
+    id?: StringFilter<"PostViewCount"> | string
+    postId?: StringFilter<"PostViewCount"> | string
+    userId?: StringFilter<"PostViewCount"> | string
+    viewDate?: DateTimeFilter<"PostViewCount"> | Date | string
+  }
+
   export type UserCreateWithoutAccountsInput = {
     id?: string
     name?: string | null
@@ -16448,6 +19405,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
     posts?: PostsCreateNestedManyWithoutOwnerInput
+    savedPost?: SavedPostCreateNestedManyWithoutUserInput
+    postViewCount?: PostViewCountCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -16473,6 +19432,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
     posts?: PostsUncheckedCreateNestedManyWithoutOwnerInput
+    savedPost?: SavedPostUncheckedCreateNestedManyWithoutUserInput
+    postViewCount?: PostViewCountUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -16513,6 +19474,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
     posts?: PostsUpdateManyWithoutOwnerNestedInput
+    savedPost?: SavedPostUpdateManyWithoutUserNestedInput
+    postViewCount?: PostViewCountUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -16537,6 +19500,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
     posts?: PostsUncheckedUpdateManyWithoutOwnerNestedInput
+    savedPost?: SavedPostUncheckedUpdateManyWithoutUserNestedInput
+    postViewCount?: PostViewCountUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutUserRequestInput = {
@@ -16562,6 +19527,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
     posts?: PostsCreateNestedManyWithoutOwnerInput
+    savedPost?: SavedPostCreateNestedManyWithoutUserInput
+    postViewCount?: PostViewCountCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserRequestInput = {
@@ -16587,6 +19554,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
     posts?: PostsUncheckedCreateNestedManyWithoutOwnerInput
+    savedPost?: SavedPostUncheckedCreateNestedManyWithoutUserInput
+    postViewCount?: PostViewCountUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserRequestInput = {
@@ -16627,6 +19596,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
     posts?: PostsUpdateManyWithoutOwnerNestedInput
+    savedPost?: SavedPostUpdateManyWithoutUserNestedInput
+    postViewCount?: PostViewCountUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserRequestInput = {
@@ -16651,6 +19622,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
     posts?: PostsUncheckedUpdateManyWithoutOwnerNestedInput
+    savedPost?: SavedPostUncheckedUpdateManyWithoutUserNestedInput
+    postViewCount?: PostViewCountUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSubscriptionPlanInput = {
@@ -16676,6 +19649,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
     posts?: PostsCreateNestedManyWithoutOwnerInput
+    savedPost?: SavedPostCreateNestedManyWithoutUserInput
+    postViewCount?: PostViewCountCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSubscriptionPlanInput = {
@@ -16701,6 +19676,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
     posts?: PostsUncheckedCreateNestedManyWithoutOwnerInput
+    savedPost?: SavedPostUncheckedCreateNestedManyWithoutUserInput
+    postViewCount?: PostViewCountUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSubscriptionPlanInput = {
@@ -16741,6 +19718,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
     posts?: PostsUpdateManyWithoutOwnerNestedInput
+    savedPost?: SavedPostUpdateManyWithoutUserNestedInput
+    postViewCount?: PostViewCountUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubscriptionPlanInput = {
@@ -16765,6 +19744,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
     posts?: PostsUncheckedUpdateManyWithoutOwnerNestedInput
+    savedPost?: SavedPostUncheckedUpdateManyWithoutUserNestedInput
+    postViewCount?: PostViewCountUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutRoomInput = {
@@ -16790,6 +19771,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
     posts?: PostsCreateNestedManyWithoutOwnerInput
+    savedPost?: SavedPostCreateNestedManyWithoutUserInput
+    postViewCount?: PostViewCountCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRoomInput = {
@@ -16815,6 +19798,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
     posts?: PostsUncheckedCreateNestedManyWithoutOwnerInput
+    savedPost?: SavedPostUncheckedCreateNestedManyWithoutUserInput
+    postViewCount?: PostViewCountUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRoomInput = {
@@ -16917,12 +19902,16 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     owner: UserCreateNestedOneWithoutPostsInput
+    savedPost?: SavedPostCreateNestedManyWithoutPostInput
+    totalCount?: PostViewCountCreateNestedManyWithoutPostInput
   }
 
   export type PostsUncheckedCreateWithoutRoomInput = {
     id?: string
     ownerId: string
     createdAt?: Date | string
+    savedPost?: SavedPostUncheckedCreateNestedManyWithoutPostInput
+    totalCount?: PostViewCountUncheckedCreateNestedManyWithoutPostInput
   }
 
   export type PostsCreateOrConnectWithoutRoomInput = {
@@ -16967,6 +19956,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
     posts?: PostsUpdateManyWithoutOwnerNestedInput
+    savedPost?: SavedPostUpdateManyWithoutUserNestedInput
+    postViewCount?: PostViewCountUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoomInput = {
@@ -16991,6 +19982,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
     posts?: PostsUncheckedUpdateManyWithoutOwnerNestedInput
+    savedPost?: SavedPostUncheckedUpdateManyWithoutUserNestedInput
+    postViewCount?: PostViewCountUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RoomBillingUpsertWithoutRoomInput = {
@@ -17093,6 +20086,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
     posts?: PostsCreateNestedManyWithoutOwnerInput
+    savedPost?: SavedPostCreateNestedManyWithoutUserInput
+    postViewCount?: PostViewCountCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRoomBillingInput = {
@@ -17118,6 +20113,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
     posts?: PostsUncheckedCreateNestedManyWithoutOwnerInput
+    savedPost?: SavedPostUncheckedCreateNestedManyWithoutUserInput
+    postViewCount?: PostViewCountUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRoomBillingInput = {
@@ -17217,6 +20214,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
     posts?: PostsUpdateManyWithoutOwnerNestedInput
+    savedPost?: SavedPostUpdateManyWithoutUserNestedInput
+    postViewCount?: PostViewCountUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoomBillingInput = {
@@ -17241,6 +20240,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
     posts?: PostsUncheckedUpdateManyWithoutOwnerNestedInput
+    savedPost?: SavedPostUncheckedUpdateManyWithoutUserNestedInput
+    postViewCount?: PostViewCountUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RoomUpsertWithoutRoomBillingInput = {
@@ -17329,6 +20330,8 @@ export namespace Prisma {
     client?: PaymentHistoryCreateNestedManyWithoutClientInput
     payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
     posts?: PostsCreateNestedManyWithoutOwnerInput
+    savedPost?: SavedPostCreateNestedManyWithoutUserInput
+    postViewCount?: PostViewCountCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRoomPaymentRecordInput = {
@@ -17354,6 +20357,8 @@ export namespace Prisma {
     client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
     payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
     posts?: PostsUncheckedCreateNestedManyWithoutOwnerInput
+    savedPost?: SavedPostUncheckedCreateNestedManyWithoutUserInput
+    postViewCount?: PostViewCountUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRoomPaymentRecordInput = {
@@ -17443,6 +20448,8 @@ export namespace Prisma {
     client?: PaymentHistoryCreateNestedManyWithoutClientInput
     roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
     posts?: PostsCreateNestedManyWithoutOwnerInput
+    savedPost?: SavedPostCreateNestedManyWithoutUserInput
+    postViewCount?: PostViewCountCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPayedByInput = {
@@ -17468,6 +20475,8 @@ export namespace Prisma {
     client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
     posts?: PostsUncheckedCreateNestedManyWithoutOwnerInput
+    savedPost?: SavedPostUncheckedCreateNestedManyWithoutUserInput
+    postViewCount?: PostViewCountUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPayedByInput = {
@@ -17508,6 +20517,8 @@ export namespace Prisma {
     client?: PaymentHistoryUpdateManyWithoutClientNestedInput
     payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
     posts?: PostsUpdateManyWithoutOwnerNestedInput
+    savedPost?: SavedPostUpdateManyWithoutUserNestedInput
+    postViewCount?: PostViewCountUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoomPaymentRecordInput = {
@@ -17532,6 +20543,8 @@ export namespace Prisma {
     client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
     payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
     posts?: PostsUncheckedUpdateManyWithoutOwnerNestedInput
+    savedPost?: SavedPostUncheckedUpdateManyWithoutUserNestedInput
+    postViewCount?: PostViewCountUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RoomUpsertWithoutRoomPaymentRecordInput = {
@@ -17630,6 +20643,8 @@ export namespace Prisma {
     client?: PaymentHistoryUpdateManyWithoutClientNestedInput
     roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
     posts?: PostsUpdateManyWithoutOwnerNestedInput
+    savedPost?: SavedPostUpdateManyWithoutUserNestedInput
+    postViewCount?: PostViewCountUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPayedByInput = {
@@ -17654,6 +20669,8 @@ export namespace Prisma {
     client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
     posts?: PostsUncheckedUpdateManyWithoutOwnerNestedInput
+    savedPost?: SavedPostUncheckedUpdateManyWithoutUserNestedInput
+    postViewCount?: PostViewCountUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPaymentHistoryInput = {
@@ -17679,6 +20696,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
     posts?: PostsCreateNestedManyWithoutOwnerInput
+    savedPost?: SavedPostCreateNestedManyWithoutUserInput
+    postViewCount?: PostViewCountCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPaymentHistoryInput = {
@@ -17704,6 +20723,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
     posts?: PostsUncheckedCreateNestedManyWithoutOwnerInput
+    savedPost?: SavedPostUncheckedCreateNestedManyWithoutUserInput
+    postViewCount?: PostViewCountUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPaymentHistoryInput = {
@@ -17734,6 +20755,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
     posts?: PostsCreateNestedManyWithoutOwnerInput
+    savedPost?: SavedPostCreateNestedManyWithoutUserInput
+    postViewCount?: PostViewCountCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutClientInput = {
@@ -17759,6 +20782,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
     posts?: PostsUncheckedCreateNestedManyWithoutOwnerInput
+    savedPost?: SavedPostUncheckedCreateNestedManyWithoutUserInput
+    postViewCount?: PostViewCountUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutClientInput = {
@@ -17858,6 +20883,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
     posts?: PostsUpdateManyWithoutOwnerNestedInput
+    savedPost?: SavedPostUpdateManyWithoutUserNestedInput
+    postViewCount?: PostViewCountUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPaymentHistoryInput = {
@@ -17882,6 +20909,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
     posts?: PostsUncheckedUpdateManyWithoutOwnerNestedInput
+    savedPost?: SavedPostUncheckedUpdateManyWithoutUserNestedInput
+    postViewCount?: PostViewCountUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutClientInput = {
@@ -17917,6 +20946,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
     posts?: PostsUpdateManyWithoutOwnerNestedInput
+    savedPost?: SavedPostUpdateManyWithoutUserNestedInput
+    postViewCount?: PostViewCountUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutClientInput = {
@@ -17941,6 +20972,8 @@ export namespace Prisma {
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
     posts?: PostsUncheckedUpdateManyWithoutOwnerNestedInput
+    savedPost?: SavedPostUncheckedUpdateManyWithoutUserNestedInput
+    postViewCount?: PostViewCountUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RoomUpsertWithoutRoomPaymentInput = {
@@ -18004,6 +21037,174 @@ export namespace Prisma {
     roomBilling?: RoomBillingUncheckedUpdateOneWithoutRoomNestedInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutRoomNestedInput
     posts?: PostsUncheckedUpdateManyWithoutRoomNestedInput
+  }
+
+  export type PostsCreateWithoutSavedPostInput = {
+    id?: string
+    createdAt?: Date | string
+    room: RoomCreateNestedOneWithoutPostsInput
+    owner: UserCreateNestedOneWithoutPostsInput
+    totalCount?: PostViewCountCreateNestedManyWithoutPostInput
+  }
+
+  export type PostsUncheckedCreateWithoutSavedPostInput = {
+    id?: string
+    roomId: string
+    ownerId: string
+    createdAt?: Date | string
+    totalCount?: PostViewCountUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type PostsCreateOrConnectWithoutSavedPostInput = {
+    where: PostsWhereUniqueInput
+    create: XOR<PostsCreateWithoutSavedPostInput, PostsUncheckedCreateWithoutSavedPostInput>
+  }
+
+  export type UserCreateWithoutSavedPostInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    phoneNumber?: string | null
+    role?: $Enums.UserRole
+    isOnboarded?: boolean
+    isVerified?: boolean
+    isAssignedOwner?: boolean
+    isAdmin?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    userRequest?: UserRequestCreateNestedManyWithoutUserInput
+    subscriptionPlan?: SubscriptionPlanCreateNestedManyWithoutUserInput
+    room?: RoomCreateNestedManyWithoutOwnerInput
+    roomBilling?: RoomBillingCreateNestedManyWithoutOwnerInput
+    paymentHistory?: PaymentHistoryCreateNestedManyWithoutOwnerInput
+    client?: PaymentHistoryCreateNestedManyWithoutClientInput
+    roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
+    payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
+    posts?: PostsCreateNestedManyWithoutOwnerInput
+    postViewCount?: PostViewCountCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutSavedPostInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    phoneNumber?: string | null
+    role?: $Enums.UserRole
+    isOnboarded?: boolean
+    isVerified?: boolean
+    isAssignedOwner?: boolean
+    isAdmin?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    userRequest?: UserRequestUncheckedCreateNestedManyWithoutUserInput
+    subscriptionPlan?: SubscriptionPlanUncheckedCreateNestedManyWithoutUserInput
+    room?: RoomUncheckedCreateNestedManyWithoutOwnerInput
+    roomBilling?: RoomBillingUncheckedCreateNestedManyWithoutOwnerInput
+    paymentHistory?: PaymentHistoryUncheckedCreateNestedManyWithoutOwnerInput
+    client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
+    payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
+    posts?: PostsUncheckedCreateNestedManyWithoutOwnerInput
+    postViewCount?: PostViewCountUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutSavedPostInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSavedPostInput, UserUncheckedCreateWithoutSavedPostInput>
+  }
+
+  export type PostsUpsertWithoutSavedPostInput = {
+    update: XOR<PostsUpdateWithoutSavedPostInput, PostsUncheckedUpdateWithoutSavedPostInput>
+    create: XOR<PostsCreateWithoutSavedPostInput, PostsUncheckedCreateWithoutSavedPostInput>
+    where?: PostsWhereInput
+  }
+
+  export type PostsUpdateToOneWithWhereWithoutSavedPostInput = {
+    where?: PostsWhereInput
+    data: XOR<PostsUpdateWithoutSavedPostInput, PostsUncheckedUpdateWithoutSavedPostInput>
+  }
+
+  export type PostsUpdateWithoutSavedPostInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    room?: RoomUpdateOneRequiredWithoutPostsNestedInput
+    owner?: UserUpdateOneRequiredWithoutPostsNestedInput
+    totalCount?: PostViewCountUpdateManyWithoutPostNestedInput
+  }
+
+  export type PostsUncheckedUpdateWithoutSavedPostInput = {
+    roomId?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalCount?: PostViewCountUncheckedUpdateManyWithoutPostNestedInput
+  }
+
+  export type UserUpsertWithoutSavedPostInput = {
+    update: XOR<UserUpdateWithoutSavedPostInput, UserUncheckedUpdateWithoutSavedPostInput>
+    create: XOR<UserCreateWithoutSavedPostInput, UserUncheckedCreateWithoutSavedPostInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSavedPostInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSavedPostInput, UserUncheckedUpdateWithoutSavedPostInput>
+  }
+
+  export type UserUpdateWithoutSavedPostInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isOnboarded?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    isAssignedOwner?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    userRequest?: UserRequestUpdateManyWithoutUserNestedInput
+    subscriptionPlan?: SubscriptionPlanUpdateManyWithoutUserNestedInput
+    room?: RoomUpdateManyWithoutOwnerNestedInput
+    roomBilling?: RoomBillingUpdateManyWithoutOwnerNestedInput
+    paymentHistory?: PaymentHistoryUpdateManyWithoutOwnerNestedInput
+    client?: PaymentHistoryUpdateManyWithoutClientNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
+    payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
+    posts?: PostsUpdateManyWithoutOwnerNestedInput
+    postViewCount?: PostViewCountUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSavedPostInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isOnboarded?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    isAssignedOwner?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    userRequest?: UserRequestUncheckedUpdateManyWithoutUserNestedInput
+    subscriptionPlan?: SubscriptionPlanUncheckedUpdateManyWithoutUserNestedInput
+    room?: RoomUncheckedUpdateManyWithoutOwnerNestedInput
+    roomBilling?: RoomBillingUncheckedUpdateManyWithoutOwnerNestedInput
+    paymentHistory?: PaymentHistoryUncheckedUpdateManyWithoutOwnerNestedInput
+    client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
+    payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutOwnerNestedInput
+    postViewCount?: PostViewCountUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RoomCreateWithoutPostsInput = {
@@ -18088,6 +21289,8 @@ export namespace Prisma {
     client?: PaymentHistoryCreateNestedManyWithoutClientInput
     roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
+    savedPost?: SavedPostCreateNestedManyWithoutUserInput
+    postViewCount?: PostViewCountCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
@@ -18113,11 +21316,57 @@ export namespace Prisma {
     client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
     payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
+    savedPost?: SavedPostUncheckedCreateNestedManyWithoutUserInput
+    postViewCount?: PostViewCountUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
+  }
+
+  export type SavedPostCreateWithoutPostInput = {
+    id?: string
+    savedDate?: Date | string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutSavedPostInput
+  }
+
+  export type SavedPostUncheckedCreateWithoutPostInput = {
+    id?: string
+    userId: string
+    savedDate?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type SavedPostCreateOrConnectWithoutPostInput = {
+    where: SavedPostWhereUniqueInput
+    create: XOR<SavedPostCreateWithoutPostInput, SavedPostUncheckedCreateWithoutPostInput>
+  }
+
+  export type SavedPostCreateManyPostInputEnvelope = {
+    data: SavedPostCreateManyPostInput | SavedPostCreateManyPostInput[]
+  }
+
+  export type PostViewCountCreateWithoutPostInput = {
+    id?: string
+    viewDate?: Date | string
+    user: UserCreateNestedOneWithoutPostViewCountInput
+  }
+
+  export type PostViewCountUncheckedCreateWithoutPostInput = {
+    id?: string
+    userId: string
+    viewDate?: Date | string
+  }
+
+  export type PostViewCountCreateOrConnectWithoutPostInput = {
+    where: PostViewCountWhereUniqueInput
+    create: XOR<PostViewCountCreateWithoutPostInput, PostViewCountUncheckedCreateWithoutPostInput>
+  }
+
+  export type PostViewCountCreateManyPostInputEnvelope = {
+    data: PostViewCountCreateManyPostInput | PostViewCountCreateManyPostInput[]
   }
 
   export type RoomUpsertWithoutPostsInput = {
@@ -18216,6 +21465,8 @@ export namespace Prisma {
     client?: PaymentHistoryUpdateManyWithoutClientNestedInput
     roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
+    savedPost?: SavedPostUpdateManyWithoutUserNestedInput
+    postViewCount?: PostViewCountUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
@@ -18240,6 +21491,208 @@ export namespace Prisma {
     client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
     roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
     payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
+    savedPost?: SavedPostUncheckedUpdateManyWithoutUserNestedInput
+    postViewCount?: PostViewCountUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type SavedPostUpsertWithWhereUniqueWithoutPostInput = {
+    where: SavedPostWhereUniqueInput
+    update: XOR<SavedPostUpdateWithoutPostInput, SavedPostUncheckedUpdateWithoutPostInput>
+    create: XOR<SavedPostCreateWithoutPostInput, SavedPostUncheckedCreateWithoutPostInput>
+  }
+
+  export type SavedPostUpdateWithWhereUniqueWithoutPostInput = {
+    where: SavedPostWhereUniqueInput
+    data: XOR<SavedPostUpdateWithoutPostInput, SavedPostUncheckedUpdateWithoutPostInput>
+  }
+
+  export type SavedPostUpdateManyWithWhereWithoutPostInput = {
+    where: SavedPostScalarWhereInput
+    data: XOR<SavedPostUpdateManyMutationInput, SavedPostUncheckedUpdateManyWithoutPostInput>
+  }
+
+  export type PostViewCountUpsertWithWhereUniqueWithoutPostInput = {
+    where: PostViewCountWhereUniqueInput
+    update: XOR<PostViewCountUpdateWithoutPostInput, PostViewCountUncheckedUpdateWithoutPostInput>
+    create: XOR<PostViewCountCreateWithoutPostInput, PostViewCountUncheckedCreateWithoutPostInput>
+  }
+
+  export type PostViewCountUpdateWithWhereUniqueWithoutPostInput = {
+    where: PostViewCountWhereUniqueInput
+    data: XOR<PostViewCountUpdateWithoutPostInput, PostViewCountUncheckedUpdateWithoutPostInput>
+  }
+
+  export type PostViewCountUpdateManyWithWhereWithoutPostInput = {
+    where: PostViewCountScalarWhereInput
+    data: XOR<PostViewCountUpdateManyMutationInput, PostViewCountUncheckedUpdateManyWithoutPostInput>
+  }
+
+  export type PostsCreateWithoutTotalCountInput = {
+    id?: string
+    createdAt?: Date | string
+    room: RoomCreateNestedOneWithoutPostsInput
+    owner: UserCreateNestedOneWithoutPostsInput
+    savedPost?: SavedPostCreateNestedManyWithoutPostInput
+  }
+
+  export type PostsUncheckedCreateWithoutTotalCountInput = {
+    id?: string
+    roomId: string
+    ownerId: string
+    createdAt?: Date | string
+    savedPost?: SavedPostUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type PostsCreateOrConnectWithoutTotalCountInput = {
+    where: PostsWhereUniqueInput
+    create: XOR<PostsCreateWithoutTotalCountInput, PostsUncheckedCreateWithoutTotalCountInput>
+  }
+
+  export type UserCreateWithoutPostViewCountInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    phoneNumber?: string | null
+    role?: $Enums.UserRole
+    isOnboarded?: boolean
+    isVerified?: boolean
+    isAssignedOwner?: boolean
+    isAdmin?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    userRequest?: UserRequestCreateNestedManyWithoutUserInput
+    subscriptionPlan?: SubscriptionPlanCreateNestedManyWithoutUserInput
+    room?: RoomCreateNestedManyWithoutOwnerInput
+    roomBilling?: RoomBillingCreateNestedManyWithoutOwnerInput
+    paymentHistory?: PaymentHistoryCreateNestedManyWithoutOwnerInput
+    client?: PaymentHistoryCreateNestedManyWithoutClientInput
+    roomPaymentRecord?: RoomPaymentRecordCreateNestedManyWithoutOwnerInput
+    payedBy?: RoomPaymentRecordCreateNestedManyWithoutClientInput
+    posts?: PostsCreateNestedManyWithoutOwnerInput
+    savedPost?: SavedPostCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPostViewCountInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    phoneNumber?: string | null
+    role?: $Enums.UserRole
+    isOnboarded?: boolean
+    isVerified?: boolean
+    isAssignedOwner?: boolean
+    isAdmin?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    userRequest?: UserRequestUncheckedCreateNestedManyWithoutUserInput
+    subscriptionPlan?: SubscriptionPlanUncheckedCreateNestedManyWithoutUserInput
+    room?: RoomUncheckedCreateNestedManyWithoutOwnerInput
+    roomBilling?: RoomBillingUncheckedCreateNestedManyWithoutOwnerInput
+    paymentHistory?: PaymentHistoryUncheckedCreateNestedManyWithoutOwnerInput
+    client?: PaymentHistoryUncheckedCreateNestedManyWithoutClientInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedCreateNestedManyWithoutOwnerInput
+    payedBy?: RoomPaymentRecordUncheckedCreateNestedManyWithoutClientInput
+    posts?: PostsUncheckedCreateNestedManyWithoutOwnerInput
+    savedPost?: SavedPostUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPostViewCountInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPostViewCountInput, UserUncheckedCreateWithoutPostViewCountInput>
+  }
+
+  export type PostsUpsertWithoutTotalCountInput = {
+    update: XOR<PostsUpdateWithoutTotalCountInput, PostsUncheckedUpdateWithoutTotalCountInput>
+    create: XOR<PostsCreateWithoutTotalCountInput, PostsUncheckedCreateWithoutTotalCountInput>
+    where?: PostsWhereInput
+  }
+
+  export type PostsUpdateToOneWithWhereWithoutTotalCountInput = {
+    where?: PostsWhereInput
+    data: XOR<PostsUpdateWithoutTotalCountInput, PostsUncheckedUpdateWithoutTotalCountInput>
+  }
+
+  export type PostsUpdateWithoutTotalCountInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    room?: RoomUpdateOneRequiredWithoutPostsNestedInput
+    owner?: UserUpdateOneRequiredWithoutPostsNestedInput
+    savedPost?: SavedPostUpdateManyWithoutPostNestedInput
+  }
+
+  export type PostsUncheckedUpdateWithoutTotalCountInput = {
+    roomId?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    savedPost?: SavedPostUncheckedUpdateManyWithoutPostNestedInput
+  }
+
+  export type UserUpsertWithoutPostViewCountInput = {
+    update: XOR<UserUpdateWithoutPostViewCountInput, UserUncheckedUpdateWithoutPostViewCountInput>
+    create: XOR<UserCreateWithoutPostViewCountInput, UserUncheckedCreateWithoutPostViewCountInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPostViewCountInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPostViewCountInput, UserUncheckedUpdateWithoutPostViewCountInput>
+  }
+
+  export type UserUpdateWithoutPostViewCountInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isOnboarded?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    isAssignedOwner?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    userRequest?: UserRequestUpdateManyWithoutUserNestedInput
+    subscriptionPlan?: SubscriptionPlanUpdateManyWithoutUserNestedInput
+    room?: RoomUpdateManyWithoutOwnerNestedInput
+    roomBilling?: RoomBillingUpdateManyWithoutOwnerNestedInput
+    paymentHistory?: PaymentHistoryUpdateManyWithoutOwnerNestedInput
+    client?: PaymentHistoryUpdateManyWithoutClientNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUpdateManyWithoutOwnerNestedInput
+    payedBy?: RoomPaymentRecordUpdateManyWithoutClientNestedInput
+    posts?: PostsUpdateManyWithoutOwnerNestedInput
+    savedPost?: SavedPostUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPostViewCountInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isOnboarded?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    isAssignedOwner?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    userRequest?: UserRequestUncheckedUpdateManyWithoutUserNestedInput
+    subscriptionPlan?: SubscriptionPlanUncheckedUpdateManyWithoutUserNestedInput
+    room?: RoomUncheckedUpdateManyWithoutOwnerNestedInput
+    roomBilling?: RoomBillingUncheckedUpdateManyWithoutOwnerNestedInput
+    paymentHistory?: PaymentHistoryUncheckedUpdateManyWithoutOwnerNestedInput
+    client?: PaymentHistoryUncheckedUpdateManyWithoutClientNestedInput
+    roomPaymentRecord?: RoomPaymentRecordUncheckedUpdateManyWithoutOwnerNestedInput
+    payedBy?: RoomPaymentRecordUncheckedUpdateManyWithoutClientNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutOwnerNestedInput
+    savedPost?: SavedPostUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -18361,6 +21814,19 @@ export namespace Prisma {
     id?: string
     roomId: string
     createdAt?: Date | string
+  }
+
+  export type SavedPostCreateManyUserInput = {
+    id?: string
+    postId: string
+    savedDate?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type PostViewCountCreateManyUserInput = {
+    id?: string
+    postId: string
+    viewDate?: Date | string
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -18692,16 +22158,53 @@ export namespace Prisma {
   export type PostsUpdateWithoutOwnerInput = {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     room?: RoomUpdateOneRequiredWithoutPostsNestedInput
+    savedPost?: SavedPostUpdateManyWithoutPostNestedInput
+    totalCount?: PostViewCountUpdateManyWithoutPostNestedInput
   }
 
   export type PostsUncheckedUpdateWithoutOwnerInput = {
     roomId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    savedPost?: SavedPostUncheckedUpdateManyWithoutPostNestedInput
+    totalCount?: PostViewCountUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type PostsUncheckedUpdateManyWithoutOwnerInput = {
     roomId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SavedPostUpdateWithoutUserInput = {
+    savedDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    post?: PostsUpdateOneRequiredWithoutSavedPostNestedInput
+  }
+
+  export type SavedPostUncheckedUpdateWithoutUserInput = {
+    postId?: StringFieldUpdateOperationsInput | string
+    savedDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SavedPostUncheckedUpdateManyWithoutUserInput = {
+    postId?: StringFieldUpdateOperationsInput | string
+    savedDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostViewCountUpdateWithoutUserInput = {
+    viewDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    post?: PostsUpdateOneRequiredWithoutTotalCountNestedInput
+  }
+
+  export type PostViewCountUncheckedUpdateWithoutUserInput = {
+    postId?: StringFieldUpdateOperationsInput | string
+    viewDate?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostViewCountUncheckedUpdateManyWithoutUserInput = {
+    postId?: StringFieldUpdateOperationsInput | string
+    viewDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PaymentHistoryCreateManyRoomInput = {
@@ -18803,16 +22306,66 @@ export namespace Prisma {
   export type PostsUpdateWithoutRoomInput = {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutPostsNestedInput
+    savedPost?: SavedPostUpdateManyWithoutPostNestedInput
+    totalCount?: PostViewCountUpdateManyWithoutPostNestedInput
   }
 
   export type PostsUncheckedUpdateWithoutRoomInput = {
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    savedPost?: SavedPostUncheckedUpdateManyWithoutPostNestedInput
+    totalCount?: PostViewCountUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type PostsUncheckedUpdateManyWithoutRoomInput = {
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SavedPostCreateManyPostInput = {
+    id?: string
+    userId: string
+    savedDate?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type PostViewCountCreateManyPostInput = {
+    id?: string
+    userId: string
+    viewDate?: Date | string
+  }
+
+  export type SavedPostUpdateWithoutPostInput = {
+    savedDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutSavedPostNestedInput
+  }
+
+  export type SavedPostUncheckedUpdateWithoutPostInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    savedDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SavedPostUncheckedUpdateManyWithoutPostInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    savedDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostViewCountUpdateWithoutPostInput = {
+    viewDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPostViewCountNestedInput
+  }
+
+  export type PostViewCountUncheckedUpdateWithoutPostInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    viewDate?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostViewCountUncheckedUpdateManyWithoutPostInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    viewDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 
