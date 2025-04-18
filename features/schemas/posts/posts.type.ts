@@ -15,6 +15,8 @@ export interface RoomDataType{
     beds : number,
     toilet : number,
     roomCapacity : number,
+    lat ?: number,
+    lon ?: number,
 }
 
 

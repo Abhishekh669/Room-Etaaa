@@ -112,7 +112,7 @@ export function RoomDetailsCards({ room }: { room: RoomWithClientDataType }) {
         </div>
 
           <Hint label={room.location} align='start'>
-          <span className="flex items-center  w-auto">
+          <span className="flex items-center  w-auto p-1">
           <MapPin className="h-4 w-4 mr-2 text-[#ff0000] flex-shrink-0" />
             <span className="text-sm font-medium truncate flex-1">
               {room.location}
@@ -120,9 +120,9 @@ export function RoomDetailsCards({ room }: { room: RoomWithClientDataType }) {
           </span>
           </Hint>
 
-        <div className="flex justify-between px-2 pt-2 border-t border-gray-100">
+        <div className="flex justify-between p-1  border-t border-gray-100">
           <Hint label="Room Beds">
-          <div className="flex items-center text-sm text-gray-600">
+          <div className="flex items-center  text-sm text-gray-600">
             <BedDouble className="h-4 w-4 mr-2 text-[#ff0000]" />
             <span>{room.beds} Beds</span>
           </div>

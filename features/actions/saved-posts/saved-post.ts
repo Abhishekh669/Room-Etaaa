@@ -71,3 +71,106 @@ export const toggleSavePost = async (values: toggleSavePost) => {
     }
 
 }
+
+
+export const deleteSavedPost = async(id : string) =>{
+    try {
+        const currentUser = await getCurrentUser();
+        if (!currentUser || !currentUser.id || !currentUser.isOnboarded) {
+            return {
+                error: "user not authenticated"
+            }
+        }
+
+
+        const checkSavedPost = await db.savedPost.findFirst({
+            where : {
+                id
+            }
+        });
+        if(!checkSavedPost){
+            return {
+                error : "failed to remove from the save collection"
+            }
+        }
+        await db.savedPost.delete({
+            where  :{
+                id 
+            }
+        })
+        
+        return {
+            message : "successfully removed from the saved colleciton",
+            success : true,
+        }
+    } catch (error) {
+        return {
+            error : "faild to remove from the saved collection"
+        }
+        
+    }
+}
+
+
+
+
+export const getSavedPosts = async () => {
+    try {
+        const currentUser = await getCurrentUser();
+        if (!currentUser || !currentUser.id || !currentUser.isOnboarded) {
+            return {
+                error: "user not authenticated"
+            }
+        }
+
+        const getUserSavedPost = await db.savedPost.findMany({
+            where: {
+                userId: currentUser.id
+            },
+            include: {
+                post: {
+                    select: {
+                        id: true,
+                        owner: {
+                            select: {
+                                id: true,
+                                name: true,
+                                email: true,
+                                image: true,
+                                phoneNumber: true,
+                            }
+                        },
+                        room: {
+                            select: {
+                                id: true,
+                                roomImages: true,
+                                roomBilling: {
+                                    select: {
+                                        id: true,
+                                        roomCost: true,
+                                    }
+                                },
+                                title: true,
+                                roomStatus: true,
+                                description: true,
+                                location: true,
+                                lat: true,
+                                lon: true,
+                                beds: true,
+                                toilet: true,
+                                roomCapacity: true,
+                            }
+                        },
+                        
+                    }
+                }
+            }
+        })
+        return getUserSavedPost;
+    } catch (error) {
+        return {
+            error: "failed to get posts"
+        }
+
+    }
+}
