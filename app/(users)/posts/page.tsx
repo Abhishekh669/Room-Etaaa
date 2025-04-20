@@ -119,7 +119,7 @@ function PostMainPage() {
                 </CardContent>
               </Card>
 
-              <Card className="">
+              <Card className="hidden md:block">
                 <CardHeader className="p-3 md:p-4">
                   <CardTitle className="text-base flex items-center gap-2">
                     <TrendingUp className="h-4 w-4 text-primary" />
