@@ -116,7 +116,18 @@ export function PricingSection() {
         </div>
         <div className="text-center mt-12">
           <p className="text-gray-600">
-            Need a custom plan? <Link href="/contact" className="text-red-600 hover:underline font-semibold">Contact us</Link>
+            Need a custom plan?{" "}
+            <button 
+              onClick={() => {
+                const contactSection = document.getElementById('contact')
+                if (contactSection) {
+                  contactSection.scrollIntoView({ behavior: 'smooth' })
+                }
+              }}
+              className="text-red-600 hover:text-red-700 font-semibold underline"
+            >
+              Contact us
+            </button>
           </p>
         </div>
       </div>

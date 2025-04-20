@@ -12,7 +12,7 @@ export function HeroSection() {
           Find Your Perfect <span className="text-red-600">Room</span>
         </h1>
         <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
-          Discover thousands of rooms, apartments, and shared spaces in Kathmandu. 
+          Discover thousands of rooms, apartments, and shared spaces nearby you. 
           Your next home is just a click away.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
