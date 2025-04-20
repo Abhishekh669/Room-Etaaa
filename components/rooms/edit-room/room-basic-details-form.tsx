@@ -61,59 +61,59 @@ function RoomBasicDetailsForm({ form, images, previewUrls, handleImageChange, fi
 
 
                     <div className="md:flex md:flex-col md:gap-y-3 ">
-                    <FormField
-  control={form.control}
-  name="roomFor"
-  render={({ field }) => (
-    <FormItem>
-      <FormLabel>Room Category</FormLabel>
-      <Select defaultValue={field.value} onValueChange={field.onChange}>
-        <FormControl>
-          <SelectTrigger>
-            <SelectValue placeholder="Select room category">
-              {field.value === "STUDENTS" && "Students"}
-              {field.value === "FAMILY" && "Family"}
-              {field.value === "BUSINESS" && "Business"}
-            </SelectValue>
-          </SelectTrigger>
-        </FormControl>
-        <SelectContent>
-          <SelectItem value="STUDENTS">Students</SelectItem>
-          <SelectItem value="FAMILY">Family</SelectItem>
-          <SelectItem value="BUSINESS">Business</SelectItem>
-        </SelectContent>
-      </Select>
-      <FormMessage />
-    </FormItem>
-  )}
-/>
+                        <FormField
+                            control={form.control}
+                            name="roomFor"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Room Category</FormLabel>
+                                    <Select defaultValue={field.value} onValueChange={field.onChange}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Select room category">
+                                                    {field.value === "STUDENTS" && "Students"}
+                                                    {field.value === "FAMILY" && "Family"}
+                                                    {field.value === "BUSINESS" && "Business"}
+                                                </SelectValue>
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="STUDENTS">Students</SelectItem>
+                                            <SelectItem value="FAMILY">Family</SelectItem>
+                                            <SelectItem value="BUSINESS">Business</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-<FormField
-  control={form.control}
-  name="roomType"
-  render={({ field }) => (
-    <FormItem>
-      <FormLabel>Room Type</FormLabel>
-      <Select defaultValue={field.value} onValueChange={field.onChange}>
-        <FormControl>
-          <SelectTrigger>
-            <SelectValue placeholder="Select room type">
-              {field.value === "FLAT" && "Flat"}
-              {field.value === "ROOM" && "Room"}
-              {field.value === "SHUTTER" && "Shutter"}
-            </SelectValue>
-          </SelectTrigger>
-        </FormControl>
-        <SelectContent>
-          <SelectItem value="FLAT">Flat</SelectItem>
-          <SelectItem value="ROOM">Room</SelectItem>
-          <SelectItem value="SHUTTER">Shutter</SelectItem>
-        </SelectContent>
-      </Select>
-      <FormMessage />
-    </FormItem>
-  )}
-/>
+                        <FormField
+                            control={form.control}
+                            name="roomType"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Room Type</FormLabel>
+                                    <Select defaultValue={field.value} onValueChange={field.onChange}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Select room type">
+                                                    {field.value === "FLAT" && "Flat"}
+                                                    {field.value === "ROOM" && "Room"}
+                                                    {field.value === "SHUTTER" && "Shutter"}
+                                                </SelectValue>
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="FLAT">Flat</SelectItem>
+                                            <SelectItem value="ROOM">Room</SelectItem>
+                                            <SelectItem value="SHUTTER">Shutter</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                     </div>
 
 

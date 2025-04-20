@@ -9,4 +9,4 @@ function PostIdPage() {
   )
 }
 
-export default PostIdPage
+export default PostIdPage;
