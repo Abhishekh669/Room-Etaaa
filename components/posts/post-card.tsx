@@ -10,6 +10,7 @@ import { formatDistanceToNow } from "date-fns"
 import { PostsDataTypeFromServer } from "@/features/schemas/posts/posts.type"
 import { useGetUserSession } from "@/features/hooks/tanstacks/query-hooks/users/use-get-session"
 import { useMemo, useState } from "react"
+import { useRouter } from "next/navigation"
 
 interface PostCardProps {
   post: PostsDataTypeFromServer
@@ -19,6 +20,7 @@ interface PostCardProps {
 
 export function PostCard({ post, handleSave, pending = false }: PostCardProps) {
   const { data: session, isLoading: isSessionLoading } = useGetUserSession();
+  const router = useRouter()
   const getBadgeVariant = (status: string) => {
     switch (status) {
       case "VACANT":
@@ -156,8 +158,10 @@ export function PostCard({ post, handleSave, pending = false }: PostCardProps) {
             {checkUserSavedStatus() ? "Saved" : "Save"}
           </Button>
         )}
-        <Button disabled={pending} variant="default" size="sm" className="w-1/2 bg-red-500 text-white hover:bg-red-500/50 cursor-pointer hover:text-white">
-          <MessageSquare className="h-4 w-4 mr-2" /> Inquire
+        <Button disabled={pending} variant="default" size="sm" className="w-1/2 bg-red-500 text-white hover:bg-red-500/50 cursor-pointer hover:text-white"
+          onClick={()=> router.push(`/posts/${post.room.id}`)}
+        >
+          <MessageSquare className="h-4 w-4 mr-2" /> Visit Room
         </Button>
       </CardFooter>
     </Card>

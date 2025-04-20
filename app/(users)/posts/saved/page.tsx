@@ -72,11 +72,13 @@ const SavedPage = () => {
   }
 
   return (
-    <div className="max-h-screen h-screen">
+    <div className="max-h-screen h-screen md:px-4 lg:px-20">
       <div className="space-y-2 p-3 mb-2 shadow-sm rounded-lg ">
         <div className="flex items-center justify-between">
           <p className="text-2xl font-bold mb-2 new-font">Saved <span className="text-red-600">Rooms</span></p>
-          <Button variant={"outline"} onClick={() => router.push("/posts")}>
+          <Button variant={"outline"} onClick={() => router.push("/posts")}
+            className='bg-red-500 text-white hover:bg-red-500/50 cursor-pointer hover:text-white'
+          >
             <ArrowLeft />
             Go Back
           </Button>
@@ -85,10 +87,10 @@ const SavedPage = () => {
       </div>
 
       <div className=" max-h-[85%] h-full mx-1 my-2">
-        <div className="max-h-full space-y-4 overflow-y-auto p-2">
-        {savedPosts.length > 0 && savedPosts.map((savedPost) => (
-          <SavedPostCard key={savedPost.id} savedPost={savedPost} onRemove={handleRemoveSavedPost} />
-        ))}
+        <div className="max-h-full space-y-4 overflow-y-auto p-2 grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-6 lg:grid-cols-3 xl:grid-cols-4 md:gap-x-4 lg:gap-x-6 md:gap-y-6 lg:gap-y-10">
+          {savedPosts.length > 0 && savedPosts.map((savedPost) => (
+            <SavedPostCard key={savedPost.id} savedPost={savedPost} onRemove={handleRemoveSavedPost} />
+          ))}
         </div>
       </div>
     </div>

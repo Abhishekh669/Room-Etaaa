@@ -27,6 +27,8 @@ function PostMainPage() {
     numberOfRooms: searchParams.get("numberOfRooms") ? Number(searchParams.get("numberOfRooms")) : undefined,
     title: searchParams.get("title") || undefined,
     topSearch: searchParams.get("topSearch") === "true",
+    category : searchParams.get("category") || undefined,
+    roomFor : searchParams.get("roomFor")  || undefined,
   }
 
   const {
@@ -106,8 +108,8 @@ function PostMainPage() {
 
         <div className="mx-1 bg-white shadow-none my-2 md:mx-2 md:my-3 rounded-md border-0">
           <div className="flex flex-col md:flex-row gap-4 max-h-[80vh] h-[80vh] md:max-h-[85vh] md:h-[85vh]">
-            <div className=" shadow-md  rounded-md px-2 space-y-4 py-2 m-2">
-              <Card className="max-w-80 hidden md:block shadow-none border-0">
+            <div className=" shadow-md  rounded-md px-2 space-y-4 py-2 m-2 hidden md:flex md:flex-col md:h-full">
+              <Card className="max-w-80 shadow-none border-0">
                 <CardContent className="p-1 m-1">
                   <CardHeader>
                     <CardTitle className="text-base flex items-center gap-2">
@@ -119,7 +121,7 @@ function PostMainPage() {
                 </CardContent>
               </Card>
 
-              <Card className="hidden md:block">
+              <Card >
                 <CardHeader className="p-3 md:p-4">
                   <CardTitle className="text-base flex items-center gap-2">
                     <TrendingUp className="h-4 w-4 text-primary" />
@@ -144,7 +146,7 @@ function PostMainPage() {
             <div className="flex-1 p-2 md:p-4 max-h-full overflow-y-auto">
               <div className="max-h-[95%] overflow-y-auto">
               {isLoading ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
+                <div className="grid grid-cols-1  lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
                   {[...Array(6)].map((_, i) => (
                     <Card key={i} className="overflow-hidden">
                       <Skeleton className="h-40 md:h-48 w-full rounded-t-lg" />
@@ -154,6 +156,7 @@ function PostMainPage() {
                       </CardContent>
                     </Card>
                   ))}
+
                 </div>
               ) : isError ? (
                 <div className="flex flex-col items-center justify-center py-12 space-y-4">

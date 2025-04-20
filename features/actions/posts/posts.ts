@@ -1,5 +1,6 @@
 'use server'
 
+import RoomAddPage from "@/app/(users)/ghar/rooms/add-room/page"
 import { getCurrentUser } from "../users/user"
 import { db } from "@/prisma"
 
@@ -11,7 +12,9 @@ export const getAllPosts = async (params?: {
   maxPrice?: number
   numberOfRooms?: number
   title?: string
-  topSearch?: boolean
+  topSearch?: boolean,
+  category ?: string,
+  roomFor ?: string,
 }) => {
   try {
     const currentUser = await getCurrentUser()
@@ -21,6 +24,14 @@ export const getAllPosts = async (params?: {
 
     const where: any = {
       roomStatus: "VACANT"
+    }
+
+    if(params?.category){
+      where.roomType = params.category  
+    }
+
+    if(params?.roomFor){
+      where.roomFor = params.roomFor
     }
 
     if (params?.location) {

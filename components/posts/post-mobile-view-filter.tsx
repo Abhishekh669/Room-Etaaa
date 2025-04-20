@@ -13,12 +13,16 @@ import { Badge } from "@/components/ui/badge"
 import { Search, X, Filter } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
+
+
 const formSchema = z.object({
   location: z.string().optional(),
   minPrice: z.coerce.number().min(0).optional(),
   maxPrice: z.coerce.number().min(0).optional(),
   rooms: z.coerce.number().min(0).optional(),
   title: z.string().optional(),
+  category: z.string().optional(),
+  roomFor: z.string().optional(),
 })
 
 type FilterFormValues = z.infer<typeof formSchema>
@@ -28,7 +32,6 @@ export function PostFiltersForMobile({open, onClose}: {open: boolean, onClose: (
   const searchParams = useSearchParams()
   const [activeFilters, setActiveFilters] = useState<string[]>([])
 
-
   const form = useForm<FilterFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,6 +40,8 @@ export function PostFiltersForMobile({open, onClose}: {open: boolean, onClose: (
       maxPrice: searchParams.get("maxPrice") ? Number(searchParams.get("maxPrice")) : 20000,
       rooms: searchParams.get("rooms") ? Number(searchParams.get("rooms")) : undefined,
       title: searchParams.get("title") || "",
+      category: searchParams.get("category") || "",
+      roomFor: searchParams.get("roomFor") || "",
     },
   })
 
@@ -48,10 +53,10 @@ export function PostFiltersForMobile({open, onClose}: {open: boolean, onClose: (
       newActiveFilters.push(`Location: ${values.location}`)
     }
     if (values.minPrice && values.minPrice > 0) {
-      newActiveFilters.push(`Min Price: $${values.minPrice}`)
+      newActiveFilters.push(`Min Price: Rs ${values.minPrice}`)
     }
     if (values.maxPrice && values.maxPrice < 20000) {
-      newActiveFilters.push(`Max Price: $${values.maxPrice}`)
+      newActiveFilters.push(`Max Price: Rs ${values.maxPrice}`)
     }
     if (values.rooms) {
       newActiveFilters.push(`Rooms: ${values.rooms}`)
@@ -59,26 +64,14 @@ export function PostFiltersForMobile({open, onClose}: {open: boolean, onClose: (
     if (values.title) {
       newActiveFilters.push(`Search: ${values.title}`)
     }
+    if (values.category) {
+      newActiveFilters.push(`Category: ${values.category}`)
+    }
+    if (values.roomFor) {
+      newActiveFilters.push(`Room For: ${values.roomFor}`)
+    }
 
     setActiveFilters(newActiveFilters)
-  }
-
-  const resetFilters = useCallback(() => {
-    form.reset({
-      location: "",
-      minPrice: 0,
-      maxPrice: 20000,
-      rooms: undefined,
-      title: "",
-    })
-    setActiveFilters([])
-    router.replace("/posts")
-    onClose();
-  }, [form, router, onClose])
-
-  const clearSearch = () => {
-    form.setValue("title", "")
-    updateActiveFilters()
   }
 
   const onSubmit = (values: FilterFormValues) => {
@@ -93,80 +86,100 @@ export function PostFiltersForMobile({open, onClose}: {open: boolean, onClose: (
     })
 
     router.push(`?${params.toString()}`)
-    onClose();
+    onClose()
   }
 
+  const resetFilters = useCallback(() => {
+    form.reset({
+      location: "",
+      minPrice: 0,
+      maxPrice: 20000,
+      rooms: undefined,
+      title: "",
+      category: "",
+      roomFor: "",
+    })
+    setActiveFilters([])
+    router.replace("/posts")
+    onClose()
+  }, [form, router, onClose])
 
+  const clearSearch = () => {
+    form.setValue("title", "")
+    updateActiveFilters()
+  }
   return (
-    <>
-      {/* Mobile Trigger Button */}
-      <div className="sm:hidden fixed bg-red-600 bottom-6 right-6 z-999">
-        <Dialog open={open} onOpenChange={onClose}>
-          <DialogTrigger asChild>
-            <Button
-              size="lg"
-              className="rounded-full shadow-lg h-14 w-14"
-              variant="default"
-            >
-              <Filter className="h-6 w-6" />
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Filter Rooms</DialogTitle>
-            </DialogHeader>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} onChange={updateActiveFilters}>
-                <div className="grid gap-4 py-4">
-                  <div className="relative">
-                    <FormField
-                      control={form.control}
-                      name="title"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <div className="relative">
-                              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                              <Input placeholder="Search by description..." className="pl-9" {...field} />
-                              {field.value && (
-                                <Button
-                                  type="button"
-                                  variant="ghost"
-                                  size="sm"
-                                  className="absolute right-1 top-1 h-7 w-7 p-0"
-                                  onClick={clearSearch}
-                                >
-                                  <X className="h-4 w-4" />
-                                  <span className="sr-only">Clear</span>
-                                </Button>
-                              )}
-                            </div>
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+    <div className="sm:hidden fixed bg-red-600 bottom-6 right-6 z-999">
+      <Dialog open={open} onOpenChange={onClose}>
+        <DialogTrigger asChild>
+          <Button
+            size="lg"
+            className="rounded-full shadow-lg h-14 w-14"
+            variant="default"
+          >
+            <Filter className="h-6 w-6" />
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Filter Rooms</DialogTitle>
+          </DialogHeader>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} onChange={updateActiveFilters}>
+              <div className="grid gap-4 py-4">
+                {/* Search Input (remains the same) */}
+                <div className="relative">
+                  <FormField
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <div className="relative">
+                            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                            <Input placeholder="Search by description..." className="pl-9" {...field} />
+                            {field.value && (
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                className="absolute right-1 top-1 h-7 w-7 p-0"
+                                onClick={clearSearch}
+                              >
+                                <X className="h-4 w-4" />
+                                <span className="sr-only">Clear</span>
+                              </Button>
+                            )}
+                          </div>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
 
-                  <div className="grid gap-4">
-                    <FormField
-                      control={form.control}
-                      name="location"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-sm font-medium">Location</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Enter location..." {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
+                <div className="grid gap-4 w-full">
+                  {/* Location Input (remains the same) */}
+                  <FormField
+                    control={form.control}
+                    name="location"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel className="text-sm font-medium">Location</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter location..." {...field} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
 
+                  {/* Min/Max Price (remains the same) */}
+                  <div className="flex gap-4 w-full">
                     <FormField
                       control={form.control}
                       name="minPrice"
                       render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-sm font-medium">Min Price ($)</FormLabel>
+                        <FormItem className="w-full">
+                          <FormLabel className="text-sm font-medium">Min Price (Rs)</FormLabel>
                           <FormControl>
                             <Input
                               type="number"
@@ -187,8 +200,8 @@ export function PostFiltersForMobile({open, onClose}: {open: boolean, onClose: (
                       control={form.control}
                       name="maxPrice"
                       render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-sm font-medium">Max Price ($)</FormLabel>
+                        <FormItem className="w-full">
+                          <FormLabel className="text-sm font-medium">Max Price (Rs)</FormLabel>
                           <FormControl>
                             <Input
                               type="number"
@@ -204,219 +217,132 @@ export function PostFiltersForMobile({open, onClose}: {open: boolean, onClose: (
                         </FormItem>
                       )}
                     />
-
-                    <FormField
-                      control={form.control}
-                      name="rooms"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-sm font-medium">Number of Rooms</FormLabel>
-                          <Select
-                            onValueChange={(value) => {
-                              field.onChange(value === "any" ? undefined : Number(value))
-                              updateActiveFilters()
-                            }}
-                            value={field.value?.toString() || "any"}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Any" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="any">Any</SelectItem>
-                              <SelectItem value="1">1</SelectItem>
-                              <SelectItem value="2">2</SelectItem>
-                              <SelectItem value="3">3</SelectItem>
-                              <SelectItem value="4">4+</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </FormItem>
-                      )}
-                    />
                   </div>
 
-                  {activeFilters.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {activeFilters.map((filter, index) => (
-                        <Badge key={index} variant="secondary" className="px-2 py-1">
-                          {filter}
-                        </Badge>
-                      ))}
-                    </div>
-                  )}
+                  <FormField
+                    control={form.control}
+                    name="rooms"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel className="text-sm font-medium">Number of Rooms</FormLabel>
+                        <Select
+                          onValueChange={(value) => {
+                            field.onChange(value === "any" ? undefined : Number(value))
+                            updateActiveFilters()
+                          }}
+                          value={field.value?.toString() || "any"}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Any" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent className="w-full">
+                            <SelectItem value="any">Any</SelectItem>
+                            <SelectItem value="1">1</SelectItem>
+                            <SelectItem value="2">2</SelectItem>
+                            <SelectItem value="3">3</SelectItem>
+                            <SelectItem value="4">4+</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormItem>
+                    )}
+                  />
 
-                  <div className="flex justify-between gap-2 mt-4">
-                    <Button 
-                      type="button" 
-                      variant="outline" 
-                      onClick={resetFilters}
-                    >
-                      Reset
-                    </Button>
-                    <Button 
-                      type="submit"
-                      className=" bg-red-500 text-white hover:bg-red-500/50 hover:text-white"
-                    >
-                      Apply Filters
-                    </Button>
+                  {/* Room Category Select */}
+                  <FormField
+                    control={form.control}
+                    name="category"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel className="text-sm font-medium">Room Category</FormLabel>
+                        <Select
+                          onValueChange={(value) => {
+                            field.onChange(value === "ALL" ? "" : value)
+                            updateActiveFilters()
+                          }}
+                          value={field.value?.toString() || "ALL"}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Select room category" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent className="w-full">
+                            {["ALL", "FLAT", "ROOM", "SHUTTER"].map((type) => (
+                              <SelectItem key={type} value={type}>
+                                {type}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Room For Select */}
+                  <FormField
+                    control={form.control}
+                    name="roomFor"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel className="text-sm font-medium">Room For</FormLabel>
+                        <Select
+                          onValueChange={(value) => {
+                            field.onChange(value === "ALL" ? "" : value)
+                            updateActiveFilters()
+                          }}
+                          value={field.value?.toString() || "ALL"}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Select for whom room is" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent className="w-full">
+                            {["ALL", "STUDENTS", "FAMILY", "BUSINESS"].map((type) => (
+                              <SelectItem key={type} value={type}>
+                                {type}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                {/* Active Filters and Buttons (remain the same) */}
+                {activeFilters.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {activeFilters.map((filter, index) => (
+                      <Badge key={index} variant="secondary" className="px-2 py-1">
+                        {filter}
+                      </Badge>
+                    ))}
                   </div>
+                )}
+
+                <div className="flex justify-between gap-2 mt-4">
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    onClick={resetFilters}
+                  >
+                    Reset
+                  </Button>
+                  <Button 
+                    type="submit"
+                    className="bg-red-500 text-white hover:bg-red-500/50 hover:text-white"
+                  >
+                    Apply Filters
+                  </Button>
                 </div>
-              </form>
-            </Form>
-          </DialogContent>
-        </Dialog>
-      </div>
-
-      {/* Desktop View (unchanged) */}
-      <div className="hidden lg:block w-full bg-card rounded-lg shadow-sm p-4">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} onChange={updateActiveFilters}>
-            <div className="grid gap-4">
-              <div className="relative">
-                <FormField
-                  control={form.control}
-                  name="title"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <div className="relative">
-                          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                          <Input placeholder="Search by description..." className="pl-9" {...field} />
-                          {field.value && (
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="sm"
-                              className="absolute right-1 top-1 h-7 w-7 p-0"
-                              onClick={clearSearch}
-                            >
-                              <X className="h-4 w-4" />
-                              <span className="sr-only">Clear</span>
-                            </Button>
-                          )}
-                        </div>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
               </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <FormField
-                  control={form.control}
-                  name="location"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium">Location</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter location..." {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="minPrice"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium">Min Price ($)</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="0"
-                          min={0}
-                          {...field}
-                          onChange={(e) => {
-                            field.onChange(e.target.valueAsNumber || 0)
-                            updateActiveFilters()
-                          }}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="maxPrice"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium">Max Price ($)</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="20000"
-                          min={0}
-                          {...field}
-                          onChange={(e) => {
-                            field.onChange(e.target.valueAsNumber || 20000)
-                            updateActiveFilters()
-                          }}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="rooms"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium">Number of Rooms</FormLabel>
-                      <Select
-                        onValueChange={(value) => {
-                          field.onChange(value === "any" ? undefined : Number(value))
-                          updateActiveFilters()
-                        }}
-                        value={field.value?.toString() || "any"}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Any" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="any">Any</SelectItem>
-                          <SelectItem value="1">1</SelectItem>
-                          <SelectItem value="2">2</SelectItem>
-                          <SelectItem value="3">3</SelectItem>
-                          <SelectItem value="4">4+</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="flex justify-end gap-2 mt-2">
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  onClick={resetFilters}
-                >
-                  Reset
-                </Button>
-                <Button type="submit"
-                className="bg-red-500 text-white hover:bg-red-500/50 cursor-pointer hover:text-white"
-                >Apply Filters</Button>
-              </div>
-
-              {activeFilters.length > 0 && (
-                <div className="flex flex-wrap gap-2 pt-2">
-                  {activeFilters.map((filter, index) => (
-                    <Badge key={index} variant="secondary" className="px-2 py-1">
-                      {filter}
-                    </Badge>
-                  ))}
-                </div>
-              )}
-            </div>
-          </form>
-        </Form>
-      </div>
-    </>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
+    </div>
   )
 }

@@ -12,12 +12,23 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Search, X } from "lucide-react"
 
+
+const RoomFor = z.enum(["STUDENTS",
+  "FAMILY",
+  "BUSINESS", "ALL"])
+
+const RoomType = z.enum(["FLAT",
+  "ROOM",
+  "SHUTTER", "ALL"])
+
 const formSchema = z.object({
   location: z.string().optional(),
   minPrice: z.coerce.number().min(0).optional(),
   maxPrice: z.coerce.number().min(0).optional(),
   rooms: z.coerce.number().min(0).optional(),
   title: z.string().optional(),
+  category: z.string().optional(),
+  roomFor: z.string().optional(),
 })
 
 type FilterFormValues = z.infer<typeof formSchema>
@@ -27,6 +38,7 @@ export function PostFilters() {
   const searchParams = useSearchParams()
   const [activeFilters, setActiveFilters] = useState<string[]>([])
 
+
   const form = useForm<FilterFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -35,6 +47,8 @@ export function PostFilters() {
       maxPrice: searchParams.get("maxPrice") ? Number(searchParams.get("maxPrice")) : 20000,
       rooms: searchParams.get("rooms") ? Number(searchParams.get("rooms")) : undefined,
       title: searchParams.get("title") || "",
+      category: searchParams.get("category") || "",
+      roomFor: searchParams.get("roomFor") || "",
     },
   })
 
@@ -57,7 +71,12 @@ export function PostFilters() {
     if (values.title) {
       newActiveFilters.push(`Search: ${values.title}`)
     }
-
+    if (values.category) {
+      newActiveFilters.push(`Category: ${values.category}`)
+    }
+    if (values.roomFor) {
+      newActiveFilters.push(`Room For: ${values.roomFor}`)
+    }
     setActiveFilters(newActiveFilters)
   }
 
@@ -82,6 +101,8 @@ export function PostFilters() {
       maxPrice: 20000,
       rooms: undefined,
       title: "",
+      category: "",
+      roomFor: "",
     })
     setActiveFilters([])
     router.replace("/posts")
@@ -91,13 +112,12 @@ export function PostFilters() {
     form.setValue("title", "")
     updateActiveFilters()
   }
-
   return (
     <div className="w-full hidden sm:block bg-card rounded-lg shadow-sm p-4">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} onChange={updateActiveFilters}>
           <div className="flex flex-col gap-4">
-            {/* Search Input */}
+            {/* Search Input (remains the same) */}
             <div className="relative">
               <FormField
                 control={form.control}
@@ -107,7 +127,7 @@ export function PostFilters() {
                     <FormControl>
                       <div className="relative">
                         <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                        <Input placeholder="Search by description..." className="pl-9" {...field} />
+                        <Input placeholder="Search by title..." className="pl-9" {...field} />
                         {field.value && (
                           <Button
                             type="button"
@@ -127,13 +147,13 @@ export function PostFilters() {
               />
             </div>
 
-            {/* Vertical Form Fields */}
-            <div className="flex flex-col gap-4">
+            {/* Form Fields - Updated for full width selects */}
+            <div className="flex flex-col gap-4 w-full">
               <FormField
                 control={form.control}
                 name="location"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="w-full">
                     <FormLabel className="text-xs font-medium">Location</FormLabel>
                     <FormControl>
                       <Input placeholder="Enter location..." {...field} />
@@ -142,11 +162,12 @@ export function PostFilters() {
                 )}
               />
 
-              <FormField
+             <div className="flex gap-x-4">
+             <FormField
                 control={form.control}
                 name="minPrice"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="w-full">
                     <FormLabel className="text-xs font-medium">Min Price (Rs)</FormLabel>
                     <FormControl>
                       <Input
@@ -168,7 +189,7 @@ export function PostFilters() {
                 control={form.control}
                 name="maxPrice"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="w-full">
                     <FormLabel className="text-xs font-medium">Max Price (Rs)</FormLabel>
                     <FormControl>
                       <Input
@@ -185,12 +206,13 @@ export function PostFilters() {
                   </FormItem>
                 )}
               />
+             </div>
 
               <FormField
                 control={form.control}
                 name="rooms"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="w-full">
                     <FormLabel className="text-xs font-medium">Number of Rooms</FormLabel>
                     <Select
                       onValueChange={(value) => {
@@ -200,7 +222,7 @@ export function PostFilters() {
                       value={field.value?.toString() || "any"}
                     >
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger className="w-full">
                           <SelectValue placeholder="Any" />
                         </SelectTrigger>
                       </FormControl>
@@ -215,18 +237,78 @@ export function PostFilters() {
                   </FormItem>
                 )}
               />
+              
+              <FormField
+                control={form.control}
+                name="category"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="text-xs font-medium">Room Category</FormLabel>
+                    <Select
+                      onValueChange={(value) => {
+                        field.onChange(value === "ALL" ? "" : value)
+                        updateActiveFilters()
+                      }}
+                      value={field.value?.toString() || "ALL"}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select room category" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="w-full">
+                        {["ALL", "FLAT", "ROOM", "SHUTTER"].map((type) => (
+                          <SelectItem key={type} value={type}>
+                            {type}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="roomFor"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="text-xs font-medium">Room For</FormLabel>
+                    <Select
+                      onValueChange={(value) => {
+                        field.onChange(value === "ALL" ? "" : value)
+                        updateActiveFilters()
+                      }}
+                      value={field.value?.toString() || "ALL"}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select for whom room is" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="w-full">
+                        {["ALL", "STUDENTS", "FAMILY", "BUSINESS"].map((type) => (
+                          <SelectItem key={type} value={type}>
+                            {type}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
             </div>
 
-            {/* Buttons */}
+            {/* Buttons (remain the same) */}
             <div className="flex justify-between gap-2 mt-2">
-              <Button 
-                type="button" 
-                variant="outline" 
+              <Button
+                type="button"
+                variant="outline"
                 onClick={resetFilters}
               >
                 Reset
               </Button>
-              <Button 
+              <Button
                 type="submit"
                 className="bg-red-500 text-white hover:bg-red-500/50 cursor-pointer hover:text-white"
               >
@@ -234,7 +316,7 @@ export function PostFilters() {
               </Button>
             </div>
 
-            {/* Active Filters */}
+            {/* Active Filters (remain the same) */}
             {activeFilters.length > 0 && (
               <div className="flex flex-wrap gap-2 pt-2">
                 {activeFilters.map((filter, index) => (

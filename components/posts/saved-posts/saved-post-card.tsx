@@ -70,7 +70,7 @@ export function SavedPostCard({ savedPost, onRemove }: SavedPostCardProps) {
         </div>
       </CardHeader>
 
-      <CardContent className="p-4 space-y-3 flex-grow">
+      <CardContent className=" flex-grow">
         <div className="flex justify-between items-start">
           <div>
             <CardTitle className="text-md">Room #{post.room.roomNumber}</CardTitle>
@@ -124,8 +124,8 @@ export function SavedPostCard({ savedPost, onRemove }: SavedPostCardProps) {
            <span className='font-semibold'> Room For</span> : {post.room.roomFor}
           </div>
         </div>
-        <div>
-          <span className="text-muted-foreground font-semibold">Owner Details</span>
+        <div className=" border-y py-2">
+          <span className="text-muted-foreground font-semibold ">Owner Details</span>
           <div className="text-muted-foreground  text-sm flex flex-wrap gap-x-4">
             <span><span className="font-semibold">Name :</span> {post.owner.name}</span>
             <span><span className="font-semibold">Email :</span> {post.owner.email}</span>
@@ -134,7 +134,7 @@ export function SavedPostCard({ savedPost, onRemove }: SavedPostCardProps) {
         </div>
       </CardContent>
 
-      <CardFooter className="flex justify-between p-4 pt-0  border-t mt-auto">
+      <CardFooter className="flex justify-between ">
         <Button variant="outline" size="sm" className="w-1/2 mr-2 bg-[#ff0000]" onClick={handleRemove}>
           <Trash2 className="h-4 w-4 mr-2" /> Remove
         </Button>
