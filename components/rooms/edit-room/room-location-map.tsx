@@ -206,7 +206,7 @@ export function RoomLocationMap({
         {
           headers: {
             'Accept-Language': 'en-US,en;q=0.9',
-            'User-Agent': 'YourAppName/1.0'
+            'User-Agent': 'Room-Etaaa/1.0'
           }
         }
       )
@@ -270,7 +270,7 @@ export function RoomLocationMap({
     setZoomToMarker(true)
   }, [manualLat, manualLon, manualLocation, onLocationSelect])
 
-  if (!isMounted) {
+  if (!isMounted){
     return (
       <div className="w-full h-[500px] flex items-center justify-center bg-gray-50">
         <div className="flex flex-col items-center">

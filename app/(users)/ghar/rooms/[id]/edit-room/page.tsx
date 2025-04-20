@@ -3,10 +3,6 @@ import HeaderPage from '@/components/shared/Header';
 import React from 'react'
 
 function EditRoomIdPage() {
-
-  
-  
- 
   return (
     <div className='w-full flex flex-col gap-y-4 '>
       <HeaderPage title1="Room" title2="Management (Edit)" />

@@ -14,6 +14,8 @@ import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { PostFiltersForMobile } from "@/components/posts/post-mobile-view-filter"
+import Hint from "@/components/shared/hint"
+import { cn } from "@/lib/utils"
 
 function PostMainPage() {
   const queryClient = useQueryClient()
@@ -79,7 +81,7 @@ function PostMainPage() {
           <PostFiltersForMobile open={open} onClose={() => setOpen(false)} />
         </div>
 
-        <div className="w-full px-4 py-3 md:py-4 shadow-md rounded-md mx-1">
+        <div className="w-full relative px-4 py-3 md:py-4 shadow-md rounded-md mx-1">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
             <div>
               <h1 className="text-2xl md:text-3xl font-bold new-font">
@@ -89,6 +91,7 @@ function PostMainPage() {
             </div>
             <div className="w-full md:w-auto flex items-center justify-between gap-2 md:gap-3">
               <Button
+                onMouseEnter={() => router.prefetch("/post/saved")}
                 onClick={() => router.push("/posts/saved")}
                 variant={"outline"}
                 className="bg-red-500 text-white hover:bg-red-500/80 md:px-4 md:py-2"
@@ -97,6 +100,34 @@ function PostMainPage() {
               >
                 Saved Posts
               </Button>
+              <Hint label="Rooms Near To Me">
+  <Button
+    onMouseEnter={() => router.prefetch("/posts/location")}
+    onClick={() => router.push("/posts/location")}
+    className={cn(
+      "group relative transition-all duration-200",
+      "bg-white hover:bg-gray-50 shadow-sm",
+      "absolute left-0 -bottom-12",
+      "rounded-full p-2 md:px-4 md:py-2",
+      "border border-gray-200 hover:border-gray-300",
+      "flex items-center gap-1"
+    )}
+    disabled={isSaving}
+    size="sm"
+    variant="ghost"
+  >
+    <MapPin className={cn(
+      "size-5 md:size-6 transition-colors",
+      "text-red-500 group-hover:text-red-600"
+    )} />
+    <span className="hidden md:inline text-sm font-medium text-gray-700">
+      Nearby
+    </span>
+  </Button>
+</Hint>
+
+             
+              
               <Button variant="outline" className="md:hidden" size="sm" onClick={() => setOpen(true)}>
                 <Menu className="h-4 w-4" />
               </Button>
@@ -116,7 +147,6 @@ function PostMainPage() {
                       Filters
                     </CardTitle>
                   </CardHeader>
-
                   <PostFilters />
                 </CardContent>
               </Card>

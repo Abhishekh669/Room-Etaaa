@@ -1,13 +1,21 @@
-import Link from 'next/link'
-import React from 'react'
+import { HeroSection } from "@/components/landingpage/hero-section"
+import { FeaturesSection } from "@/components/landingpage/features-section"
+import { TestimonialsSection } from "@/components/landingpage/testimonials-section"
+import { CTASection } from "@/components/landingpage/cta-section"
+import { Navbar } from "@/components/landingpage/navbar"
+import { ServicesSection } from "@/components/landingpage/services-section"
+import { PricingSection } from "@/components/landingpage/pricing-section"
 
-function MainPage() {
+export default function Home() {
   return (
-    <div className='flex min-h-screen items-center justify-center gap-3'>
-      <Link href={"/login"} className='rounded-md border p-2'>login</Link>
-      <Link href={"/ghar/dashboard"} className='rounded-md border p-2'>dashboard</Link>
-    </div>
+    <main className="min-h-screen">
+      <Navbar />
+      <HeroSection />
+      <FeaturesSection />
+      <ServicesSection />
+      <TestimonialsSection />
+      <PricingSection />
+      <CTASection />
+    </main>
   )
 }
-
-export default MainPage

@@ -147,7 +147,6 @@ export function PostFilters() {
               />
             </div>
 
-            {/* Form Fields - Updated for full width selects */}
             <div className="flex flex-col gap-4 w-full">
               <FormField
                 control={form.control}
@@ -194,11 +193,10 @@ export function PostFilters() {
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="20000"
-                        min={0}
+                        placeholder="0"
                         {...field}
                         onChange={(e) => {
-                          field.onChange(e.target.valueAsNumber || 20000)
+                          field.onChange(e.target.valueAsNumber || 0)
                           updateActiveFilters()
                         }}
                       />

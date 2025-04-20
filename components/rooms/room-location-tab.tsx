@@ -1,13 +1,11 @@
 "use client";
 import { MapPin } from "lucide-react";
-import { Card } from "@/components/ui/card";
 import { RoomType } from "@/features/schemas/room/room.type";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useEffect, useState } from 'react';
 import L from 'leaflet';
 
-// Fix for default marker icon
 const DefaultIcon = L.icon({
   iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png',

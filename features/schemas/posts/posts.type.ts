@@ -1,4 +1,4 @@
-import {  RoomFor, RoomStatus, SavedPost } from "@/generated/prisma";
+import {  RoomStatus, SavedPost } from "@/generated/prisma";
 import { UserType } from "../room/room.type";
 
 export interface RoomDataType{
@@ -15,8 +15,6 @@ export interface RoomDataType{
     beds : number,
     toilet : number,
     roomCapacity : number,
-    roomFor : "STUDENTS" | "FAMILY" | "BUSINESS";
-    roomType : "FLAT" | "ROOM" | "SHUTTER";
     lat ?: number,
     lon ?: number,
 }
@@ -31,3 +29,6 @@ export interface PostsDataTypeFromServer{
     room : RoomDataType,
     savedPost : SavedPost[]
 }
+
+
+
