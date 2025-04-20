@@ -31,6 +31,8 @@ export interface RoomWithClientDataType{
     startedPriceFromDate ?: Date,
     title : string,
     toilet : number,
+    roomFor : "STUDENTS" | "FAMILY" | "BUSINESS";
+    roomType : "FLAT" | "ROOM" | "SHUTTER";
 
 }
 

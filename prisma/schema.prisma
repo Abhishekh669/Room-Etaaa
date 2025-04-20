@@ -122,6 +122,22 @@ enum RoomStatus {
   MAINTENANCE
 }
 
+
+enum RoomType{
+  FLAT
+  ROOM
+  SHUTTER
+}
+
+
+enum RoomFor{
+  STUDENTS
+  FAMILY
+  BUSINESS
+}
+
+
+
 model Room {
   id            String     @id @default(auto()) @map("_id") @db.ObjectId
   ownerId       String     @db.ObjectId
@@ -140,6 +156,11 @@ model Room {
   toilet        Int
   clients       String[]
   roomCapacity  Int        @default(1)
+
+  roomType  RoomType
+  roomFor   RoomFor
+
+
 
   dueAmount Float @default(0) //total due amount till now 
 

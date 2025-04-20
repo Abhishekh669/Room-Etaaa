@@ -46,10 +46,10 @@ export function PostFilters() {
       newActiveFilters.push(`Location: ${values.location}`)
     }
     if (values.minPrice && values.minPrice > 0) {
-      newActiveFilters.push(`Min Price: $${values.minPrice}`)
+      newActiveFilters.push(`Min Price: Rs ${values.minPrice}`)
     }
     if (values.maxPrice && values.maxPrice < 20000) {
-      newActiveFilters.push(`Max Price: $${values.maxPrice}`)
+      newActiveFilters.push(`Max Price: Rs ${values.maxPrice}`)
     }
     if (values.rooms) {
       newActiveFilters.push(`Rooms: ${values.rooms}`)
@@ -93,10 +93,11 @@ export function PostFilters() {
   }
 
   return (
-    <div className="w-full bg-card rounded-lg shadow-sm p-4">
+    <div className="w-full hidden sm:block bg-card rounded-lg shadow-sm p-4">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} onChange={updateActiveFilters}>
-          <div className="grid gap-4">
+          <div className="flex flex-col gap-4">
+            {/* Search Input */}
             <div className="relative">
               <FormField
                 control={form.control}
@@ -126,7 +127,8 @@ export function PostFilters() {
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            {/* Vertical Form Fields */}
+            <div className="flex flex-col gap-4">
               <FormField
                 control={form.control}
                 name="location"
@@ -145,7 +147,7 @@ export function PostFilters() {
                 name="minPrice"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-xs font-medium">Min Price ($)</FormLabel>
+                    <FormLabel className="text-xs font-medium">Min Price (Rs)</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -167,7 +169,7 @@ export function PostFilters() {
                 name="maxPrice"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-xs font-medium">Max Price ($)</FormLabel>
+                    <FormLabel className="text-xs font-medium">Max Price (Rs)</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -215,7 +217,8 @@ export function PostFilters() {
               />
             </div>
 
-            <div className="flex justify-end gap-2 mt-2">
+            {/* Buttons */}
+            <div className="flex justify-between gap-2 mt-2">
               <Button 
                 type="button" 
                 variant="outline" 
@@ -223,11 +226,15 @@ export function PostFilters() {
               >
                 Reset
               </Button>
-              <Button type="submit"
-              className="bg-red-500 text-white hover:bg-red-500/50 cursor-pointer hover:text-white"
-              >Apply Filters</Button>
+              <Button 
+                type="submit"
+                className="bg-red-500 text-white hover:bg-red-500/50 cursor-pointer hover:text-white"
+              >
+                Apply Filters
+              </Button>
             </div>
 
+            {/* Active Filters */}
             {activeFilters.length > 0 && (
               <div className="flex flex-wrap gap-2 pt-2">
                 {activeFilters.map((filter, index) => (
@@ -243,4 +250,3 @@ export function PostFilters() {
     </div>
   )
 }
-

@@ -1,4 +1,6 @@
+import { isNumberObject } from "util/types";
 import { UserType } from "../../room/room.type";
+import { number } from "zod";
 
 export interface SavedPostTypeFromServer{
     id : string,
@@ -29,5 +31,9 @@ export interface SavedPostDataType{
         beds : number,
         toilet : number,
         roomCapacity : number,
+        numberOfRooms : number,
+        roomNumber : number,
+        roomFor : "STUDENTS" | "FAMILY" | "BUSINESS",
+        roomType : "FLAT" | "ROOM" | "SHUTTER",
     }
 }

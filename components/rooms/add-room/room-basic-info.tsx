@@ -10,6 +10,17 @@ import { RoomSchema } from "@/features/schemas/room/room.schema"
 import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+
 
 interface RoomBasicInfoFormProps {
   form: UseFormReturn<z.infer<typeof RoomSchema>>
@@ -26,7 +37,7 @@ export const RoomBasicInfoForm = ({ form, onImageChange }: RoomBasicInfoFormProp
     if (!newFiles) return
 
     const fileArray = Array.from(newFiles)
-    
+
     // Check if adding new files would exceed the limit
     if (filesRef.current.length + fileArray.length > 10) {
       toast.error("You can only upload up to 10 images")
@@ -85,18 +96,83 @@ export const RoomBasicInfoForm = ({ form, onImageChange }: RoomBasicInfoFormProp
           <FormItem>
             <FormLabel className="font-semibold">Room Number</FormLabel>
             <FormControl>
-              <Input 
-                type="number" 
-                placeholder="Room number" 
-                {...field} 
+              <Input
+                type="number"
+                placeholder="Room number"
+                {...field}
                 onChange={e => field.onChange(e.target.value && parseInt(e.target.value))}
-                className="border-gray-300 focus-visible:ring-[#ff0000]" 
+                className="border-gray-300 focus-visible:ring-[#ff0000]"
               />
             </FormControl>
             <FormMessage className="text-[#ff0000]" />
           </FormItem>
         )}
       />
+
+      <div className="md:flex md:flex-col md:gap-y-3 ">
+        <FormField
+          control={form.control}
+          name="roomFor"
+          render={({ field }) => (
+            <FormItem className="md:col-span-2">
+              <FormLabel className="font-semibold">Room Category</FormLabel>
+              <FormControl>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select a room category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {
+                        ["STUDENTS",
+                          "FAMILY",
+                          "BUSINESS"].map((category) =>
+                            <SelectItem key={category} value={category}>
+                              {category}
+                            </SelectItem>
+                          )
+                      }
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage className="text-[#ff0000]" />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="roomType"
+          render={({ field }) => (
+            <FormItem className="md:col-span-2">
+              <FormLabel className="font-semibold">Room Type</FormLabel>
+              <FormControl>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select a room type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {
+                        ["FLAT",
+                          "ROOM",
+                          "SHUTTER"].map((type) =>
+                          <SelectItem key={type} value={type}>
+                            {type}
+                          </SelectItem>
+                        )
+                      }
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage className="text-[#ff0000]" />
+            </FormItem>
+          )}
+        />
+      </div>
+
 
       <FormField
         control={form.control}
@@ -135,6 +211,8 @@ export const RoomBasicInfoForm = ({ form, onImageChange }: RoomBasicInfoFormProp
         )}
       />
 
+
+
       <FormField
         control={form.control}
         name="description"
@@ -142,16 +220,17 @@ export const RoomBasicInfoForm = ({ form, onImageChange }: RoomBasicInfoFormProp
           <FormItem className="md:col-span-2">
             <FormLabel className="font-semibold">Description</FormLabel>
             <FormControl>
-              <Textarea 
-                placeholder="Describe the room" 
-                className="min-h-32 resize-none border-gray-300 focus-visible:ring-[#ff0000]" 
-                {...field} 
+              <Textarea
+                placeholder="Describe the room"
+                className="min-h-32 resize-none border-gray-300 focus-visible:ring-[#ff0000]"
+                {...field}
               />
             </FormControl>
             <FormMessage className="text-[#ff0000]" />
           </FormItem>
         )}
       />
+
 
       <div className="md:col-span-2">
         <FormLabel className="font-semibold block mb-2">
@@ -170,14 +249,14 @@ export const RoomBasicInfoForm = ({ form, onImageChange }: RoomBasicInfoFormProp
             onChange={handleImageChange}
             disabled={files.length >= 10}
           />
-          <label 
-            htmlFor="roomImages" 
+          <label
+            htmlFor="roomImages"
             className={`flex flex-col items-center justify-center ${files.length >= 10 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
           >
             <Upload className="h-10 w-10 text-gray-400 mb-2" />
             <span className="text-sm text-gray-500">
-              {files.length >= 10 
-                ? "Maximum 10 images reached" 
+              {files.length >= 10
+                ? "Maximum 10 images reached"
                 : "Drag & drop images or click to browse"}
             </span>
           </label>

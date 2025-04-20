@@ -11,8 +11,14 @@ interface RoomDetailsTabProps {
 export const RoomDetailsTab = ({ room }: RoomDetailsTabProps) => {
   return (
     <div className="p-6 border rounded-lg bg-white">
-      <h3 className="text-lg font-semibold mb-2">Room Description</h3>
-      <p className="text-muted-foreground mb-4">{room.description}</p>
+     <div>
+        <h3 className="text-lg font-semibold mb-2">Room Title</h3>
+        <p className="text-muted-foreground mb-4">{room.title}</p>
+      </div>
+      <div>
+        <h3 className="text-lg font-semibold mb-2">Room Description</h3>
+        <p className="text-muted-foreground mb-4">{room.description}</p>
+      </div>
 
       <Separator className="my-4" />
 
@@ -56,16 +62,16 @@ export const RoomDetailsTab = ({ room }: RoomDetailsTabProps) => {
           <div>
             <p className="text-sm text-muted-foreground">Client Since</p>
             <p className="font-medium">{
-                room.clientInitationDate ? (
-                    <>
-                    {/* TODO : Here add the data  */}
-                    {formatDate(room.clientInitationDate,"eeee, MMMM do yyyy, h:mm:ss a")}
-                    </>
-                ) : (
-                    <span>
-                        No Client arrived till now
-                    </span>
-                )
+              room.clientInitationDate ? (
+                <>
+                  {/* TODO : Here add the data  */}
+                  {formatDate(room.clientInitationDate, "eeee, MMMM do yyyy, h:mm:ss a")}
+                </>
+              ) : (
+                <span>
+                  No Client arrived till now
+                </span>
+              )
             }</p>
           </div>
         </div>

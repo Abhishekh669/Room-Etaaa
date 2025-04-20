@@ -180,6 +180,8 @@ exports.Prisma.RoomScalarFieldEnum = {
   toilet: 'toilet',
   clients: 'clients',
   roomCapacity: 'roomCapacity',
+  roomType: 'roomType',
+  roomFor: 'roomFor',
   dueAmount: 'dueAmount',
   clientInitationData: 'clientInitationData',
   startedPriceFromDate: 'startedPriceFromDate',
@@ -278,6 +280,18 @@ exports.RoomStatus = exports.$Enums.RoomStatus = {
   VACANT: 'VACANT',
   OCCUPIED: 'OCCUPIED',
   MAINTENANCE: 'MAINTENANCE'
+};
+
+exports.RoomType = exports.$Enums.RoomType = {
+  FLAT: 'FLAT',
+  ROOM: 'ROOM',
+  SHUTTER: 'SHUTTER'
+};
+
+exports.RoomFor = exports.$Enums.RoomFor = {
+  STUDENTS: 'STUDENTS',
+  FAMILY: 'FAMILY',
+  BUSINESS: 'BUSINESS'
 };
 
 exports.PaymentStatus = exports.$Enums.PaymentStatus = {

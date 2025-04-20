@@ -159,6 +159,10 @@ export const getSavedPosts = async () => {
                                 beds: true,
                                 toilet: true,
                                 roomCapacity: true,
+                                numberOfRooms : true,
+                                roomNumber : true,
+                                roomFor: true,
+                                roomType: true,
                             }
                         },
                         

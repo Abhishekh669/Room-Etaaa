@@ -3,23 +3,22 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card"
 import Image from "next/image"
-import { Heart, MessageSquare, MapPin, BedDouble, Phone } from "lucide-react"
+import { Heart, MessageSquare, MapPin, BedDouble, Phone, Users, Toilet } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 import { formatDistanceToNow } from "date-fns"
 import { PostsDataTypeFromServer } from "@/features/schemas/posts/posts.type"
 import { useGetUserSession } from "@/features/hooks/tanstacks/query-hooks/users/use-get-session"
 import { useMemo, useState } from "react"
-import { PostFiltersForMobile } from "./post-mobile-view-filter"
 
 interface PostCardProps {
   post: PostsDataTypeFromServer
-  handleSave?: (postId : string, userId : string ) => void
+  handleSave?: (postId: string, userId: string) => void
   pending?: boolean
 }
 
 export function PostCard({ post, handleSave, pending = false }: PostCardProps) {
-  const {data : session, isLoading : isSessionLoading} = useGetUserSession();
+  const { data: session, isLoading: isSessionLoading } = useGetUserSession();
   const getBadgeVariant = (status: string) => {
     switch (status) {
       case "VACANT":
@@ -44,11 +43,11 @@ export function PostCard({ post, handleSave, pending = false }: PostCardProps) {
     };
   }, [isSessionLoading, session, post.id, post.savedPost]);
 
-  if(!session)return null;
+  if (!session) return null;
 
   return (
     <Card className="hover:shadow-lg transition-all duration-300 overflow-hidden">
-     
+
       <CardHeader className="p-0 relative">
         <div className="relative h-56 w-full">
           {post.room.roomImages && post.room.roomImages.length > 0 ? (
@@ -87,70 +86,75 @@ export function PostCard({ post, handleSave, pending = false }: PostCardProps) {
       </CardHeader>
 
       <CardContent className="">
-        <div className="flex justify-between items-start">
+        <div className="flex justify-between items-center">
           <div>
             <CardTitle className="text-xl">{post.room.title}</CardTitle>
-            <div className="flex items-center mt-1 text-sm text-muted-foreground">
-              <MapPin className="h-4 w-4 mr-1 flex-shrink-0" />
-              <span className="truncate max-w-[200px]">{post.room.location}</span>
-            </div>
           </div>
           <div className="bg-primary/10 rounded-full px-3 py-2 text-primary font-semibold">
             Rs {post.room.roomBilling ? formatPrice(post.room.roomBilling.roomCost) : 'N/A'}/mo
           </div>
         </div>
+        <p className="text-sm text-muted-foreground line-clamp-2 max-h-[100px] max-w-[300px] truncate">{post.room.description}</p>
+        <div className="flex items-center mt-1 text-sm text-muted-foreground">
+          <MapPin className="h-4 w-4 mr-1 flex-shrink-0 text-red-600" />
+          <span className="truncate max-w-[200px]">{post.room.location}</span>
+        </div>
 
-        <p className="text-sm text-muted-foreground line-clamp-2">{post.room.description}</p>
-
-        <div className="flex flex-wrap gap-4 pt-1">
+        <div className="flex justify-between my-1 gap-4 pt-1">
           <div className="flex items-center">
-            <BedDouble className="h-4 w-4 mr-1 text-muted-foreground" />
-            <span className="text-sm font-medium">
+            <BedDouble className="h-4 w-4 mr-1 text-[#ff0000]" />
+            <span className="text-sm font-medium ]">
               {post.room.beds} {post.room.beds === 1 ? "Bed" : "Beds"}
             </span>
           </div>
           <div className="flex items-center">
+            <Toilet className="h-4 w-4 mr-1 text-[#ff0000]" />
             <span className="text-sm font-medium">
               {post.room.toilet} {post.room.toilet === 1 ? "Bathroom" : "Bathrooms"}
             </span>
           </div>
-          {post.owner && post.owner.name && (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className="flex items-center text-sm text-muted-foreground">
-                    <span>Listed by {post.owner.name}</span>
-                  </div>
-                </TooltipTrigger>
-                {post.owner.phoneNumber && (
-                  <TooltipContent>
-                    <div className="flex items-center gap-1">
-                      <Phone className="h-3 w-3" />
-                      <span>{post.owner.phoneNumber}</span>
-                    </div>
-                  </TooltipContent>
-                )}
-              </Tooltip>
-            </TooltipProvider>
-          )}
+
+          <div className="flex items-center">
+            <Users className="h-4 w-4 mr-1 text-[#ff0000]" />
+            <span className="text-sm font-medium">
+              {post.room.roomCapacity} {post.room.roomCapacity === 1 ? "client" : "clients"}
+            </span>
+          </div>
+        </div>
+
+        <div className='flex justify-between text-sm border-t py-1 text-muted-foreground'>
+          <div>
+            <span className='font-semibold'>Room Type</span> : {post.room.roomType}
+          </div>
+          <div>
+            <span className='font-semibold'> Room For</span> : {post.room.roomFor}
+          </div>
+        </div>
+        <div className="border-t pt-1">
+          <span className="text-muted-foreground bg-red-200 rounded-md p-1 font-semibold">Owner Details</span>
+          <div className="text-muted-foreground   text-sm flex flex-wrap gap-x-4">
+            <span><span className="font-semibold">Name :</span> {post.owner.name}</span>
+            <span><span className="font-semibold">Email :</span> {post.owner.email}</span>
+            <span><span className="font-semibold">Phone Number :</span> {post.owner.phoneNumber}</span>
+          </div>
         </div>
       </CardContent>
 
       <CardFooter className="flex justify-between p-4 pt-0 border-t">
         {handleSave && (
-           <Button
-           variant={checkUserSavedStatus() ? "default" : "outline"}
-           size="sm"
-           disabled={pending}
-           className={cn(
-             "w-1/2 mr-2",
-             checkUserSavedStatus() && "bg-rose-100 hover:bg-rose-200 text-rose-600 border-rose-200",
-           )}
-           onClick={() => handleSave(post.id, session?.id)}
-         >
-           <Heart className={cn("h-4 w-4 mr-2", checkUserSavedStatus() && "fill-rose-600")} />
-           {checkUserSavedStatus() ? "Saved" : "Save"}
-         </Button>
+          <Button
+            variant={checkUserSavedStatus() ? "default" : "outline"}
+            size="sm"
+            disabled={pending}
+            className={cn(
+              "w-1/2 mr-2",
+              checkUserSavedStatus() && "bg-rose-100 hover:bg-rose-200 text-rose-600 border-rose-200",
+            )}
+            onClick={() => handleSave(post.id, session?.id)}
+          >
+            <Heart className={cn("h-4 w-4 mr-2", checkUserSavedStatus() && "fill-rose-600")} />
+            {checkUserSavedStatus() ? "Saved" : "Save"}
+          </Button>
         )}
         <Button disabled={pending} variant="default" size="sm" className="w-1/2 bg-red-500 text-white hover:bg-red-500/50 cursor-pointer hover:text-white">
           <MessageSquare className="h-4 w-4 mr-2" /> Inquire

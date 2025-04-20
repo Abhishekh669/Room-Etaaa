@@ -22,37 +22,37 @@ import { toast } from 'sonner';
 
 export function RoomDetailsCards({ room }: { room: RoomWithClientDataType }) {
   const router = useRouter()
-  const {data : isInMyPosts} = useQuery({
-    queryKey : ["isInMyPosts", room.id],
-    queryFn : () => checkInMyPosts(room.id)
+  const { data: isInMyPosts } = useQuery({
+    queryKey: ["isInMyPosts", room.id],
+    queryFn: () => checkInMyPosts(room.id)
   })
 
-  const {mutate : deleteRoom, isPending : isDeleting} = useDeleteRoom()
+  const { mutate: deleteRoom, isPending: isDeleting } = useDeleteRoom()
 
-  const handleDeleteRoom = (id : string) =>{
-    if(!id || isDeleting){
+  const handleDeleteRoom = (id: string) => {
+    if (!id || isDeleting) {
       return;
     }
 
-    deleteRoom(id,{
-      onSuccess : (res) => {
-        if(res.success){
+    deleteRoom(id, {
+      onSuccess: (res) => {
+        if (res.success) {
           toast.success(res.message)
         }
       },
-      onError : (error) => {
+      onError: (error) => {
         toast.error(error.message)
       }
     })
 
-   
+
   }
 
 
   return (
     <Card className="w-full h-full bg-white shadow-sm hover:shadow-lg lg:max-w-[400px] transition-all duration-300 border border-gray-100 rounded-xl  group ">
       <div className="relative aspect-video w-full overflow-hidden">
-      
+
         {room.roomImages?.[0] ? (
           <div className="relative h-full w-full">
             <Image
@@ -73,8 +73,8 @@ export function RoomDetailsCards({ room }: { room: RoomWithClientDataType }) {
             <div className="h-16 w-16 rounded-full bg-gray-200 flex items-center justify-center">
               <BedDouble className="h-8 w-8 text-gray-400" />
               <div className="absolute bottom-3 right-3">
-              <RoomStatusBadge status={room.roomStatus} />
-            </div>
+                <RoomStatusBadge status={room.roomStatus} />
+              </div>
             </div>
           </div>
         )}
@@ -89,9 +89,9 @@ export function RoomDetailsCards({ room }: { room: RoomWithClientDataType }) {
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => router.push(`/ghar/rooms/${room.id}/edit-room`)}>
                 <Pencil className="mr-2 h-4 w-4" />
-                  Edit
+                Edit
               </DropdownMenuItem>
-              <DropdownMenuItem 
+              <DropdownMenuItem
                 className="text-destructive focus:text-destructive"
                 onClick={() => handleDeleteRoom(room.id)}
               >
@@ -104,41 +104,57 @@ export function RoomDetailsCards({ room }: { room: RoomWithClientDataType }) {
       </div>
 
       <CardContent className=" ">
+        
         <div className="">
-          <h3 className="font-bold text-lg leading-tight line-clamp-1">{room.title}</h3>
+          <div className="font-bold text-lg leading-tight line-clamp-1">
+            <span>
+              {room.title}
+            </span>
+           
+            
+          </div>
           <p className="text-gray-600 text-sm line-clamp-2 min-h-[40px]">
             {room.description || 'No description available'}
           </p>
         </div>
 
-          <Hint label={room.location} align='start'>
+        <Hint label={room.location} align='start'>
           <span className="flex items-center  w-auto p-1">
-          <MapPin className="h-4 w-4 mr-2 text-[#ff0000] flex-shrink-0" />
+            <MapPin className="h-4 w-4 mr-2 text-[#ff0000] flex-shrink-0" />
             <span className="text-sm font-medium truncate flex-1">
               {room.location}
             </span>
+            
           </span>
-          </Hint>
+        </Hint>
 
         <div className="flex justify-between p-1  border-t border-gray-100">
           <Hint label="Room Beds">
-          <div className="flex items-center  text-sm text-gray-600">
-            <BedDouble className="h-4 w-4 mr-2 text-[#ff0000]" />
-            <span>{room.beds} Beds</span>
-          </div>
+            <div className="flex items-center  text-sm text-gray-600">
+              <BedDouble className="h-4 w-4 mr-2 text-[#ff0000]" />
+              <span>{room.beds} Beds</span>
+            </div>
           </Hint>
           <Hint label='Room Toilet'>
-          <div className="flex items-center text-sm text-gray-600">
-            <Bath className="h-4 w-4 mr-2 text-[#ff0000]" />
-            <span>{room.toilet} Baths</span>
-          </div>
+            <div className="flex items-center text-sm text-gray-600">
+              <Bath className="h-4 w-4 mr-2 text-[#ff0000]" />
+              <span>{room.toilet} Baths</span>
+            </div>
           </Hint>
           <Hint label='Room Capacity'>
-          <div className="flex items-center text-sm text-gray-600">
-            <Users className="h-4 w-4 mr-2 text-[#ff0000]" />
-            <span>{room.roomCapacity} Clients</span>
-          </div>
+            <div className="flex items-center text-sm text-gray-600">
+              <Users className="h-4 w-4 mr-2 text-[#ff0000]" />
+              <span>{room.roomCapacity} Clients</span>
+            </div>
           </Hint>
+        </div>
+        <div className='flex justify-between text-sm border-t py-1 text-muted-foreground'>
+          <div>
+            <span className='font-semibold'>Room Type</span> : {room.roomType}
+          </div>
+          <div>
+           <span className='font-semibold'> Room For</span> : {room.roomFor}
+          </div>
         </div>
 
         <div className="flex justify-between items-center pt-2 border-t border-gray-100 ">

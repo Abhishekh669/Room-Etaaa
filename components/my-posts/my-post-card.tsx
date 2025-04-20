@@ -1,7 +1,7 @@
 "use client"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { BedDouble, Bath, Users, MoreHorizontal, Pencil, Trash2 } from "lucide-react"
+import { BedDouble, Bath, Users, MoreHorizontal, Pencil, Trash2, Map, MapPin } from "lucide-react"
 import { format } from "date-fns"
 import { Room } from "@/generated/prisma"
 import Image from "next/image"
@@ -12,6 +12,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import Hint from "../shared/hint"
 
 interface PostCardProps {
   post: {
@@ -25,7 +26,7 @@ interface PostCardProps {
 function PostCard({ post,  onDelete }: PostCardProps) {
   const router = useRouter();
   return (
-    <Card className="bg-white overflow-hidden transition-all hover:shadow-lg border border-gray-200 h-full flex flex-col ">
+    <Card className="bg-white overflow-hidden group transition-all hover:shadow-lg border border-gray-200 h-full flex flex-col ">
       <div className="relative aspect-video bg-black">
         {post.room.roomImages && post.room.roomImages.length > 0 ? (
           <Image
@@ -56,7 +57,7 @@ function PostCard({ post,  onDelete }: PostCardProps) {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="h-8 w-8">
-                <MoreHorizontal className="h-4 w-4" />
+                <MoreHorizontal className="size-6 text-red-600 font-semibold" />
                 <span className="sr-only">Open menu</span>
               </Button>
             </DropdownMenuTrigger>
@@ -86,28 +87,46 @@ function PostCard({ post,  onDelete }: PostCardProps) {
           <h3 className="new-font text-lg font-medium text-gray-900 line-clamp-1 mb-1">{post.room.title}</h3>
           <p className="text-sm text-gray-600 line-clamp-2 mb-3">{post.room.description}</p>
 
-          <div className="grid grid-cols-3 gap-2 text-xs text-gray-600 mb-3">
-            <div className="flex items-center gap-1">
-              <BedDouble className="h-3.5 w-3.5" />
+          <div className="flex justify-between p-1  border-t border-gray-100">
+          <Hint label="Room Beds">
+            <div className="flex items-center  text-sm text-gray-600">
+              <BedDouble className="h-4 w-4 mr-2 text-[#ff0000]" />
               <span>{post.room.beds} Beds</span>
             </div>
-            <div className="flex items-center gap-1">
-              <Bath className="h-3.5 w-3.5" />
-              <span>{post.room.toilet} Bath</span>
+          </Hint>
+          <Hint label='Room Toilet'>
+            <div className="flex items-center text-sm text-gray-600">
+              <Bath className="h-4 w-4 mr-2 text-[#ff0000]" />
+              <span>{post.room.toilet} Baths</span>
             </div>
-            <div className="flex items-center gap-1">
-              <Users className="h-3.5 w-3.5" />
-              <span>{post.room.roomCapacity} People</span>
+          </Hint>
+          <Hint label='Room Capacity'>
+            <div className="flex items-center text-sm text-gray-600">
+              <Users className="h-4 w-4 mr-2 text-[#ff0000]" />
+              <span>{post.room.roomCapacity} Clients</span>
             </div>
+          </Hint>
+        </div>
+        <div className='flex justify-between text-sm border-t py-1 text-muted-foreground'>
+          <div>
+            <span className='font-semibold'>Room Type</span> : {post.room.roomType}
           </div>
+          <div>
+           <span className='font-semibold'> Room For</span> : {post.room.roomFor}
+          </div>
+        </div>
 
-          <div className="flex items-center justify-between text-xs mb-4">
-            <span className="text-gray-600">{post.room.location}</span>
+          <div className="flex items-center border-t pt-2 justify-between text-xs mb-4">
+            <Hint label={post.room.location}>
+            <div className="flex  gap-x-1 "><MapPin className="h-4 w-4 mr-1 text-[#ff0000]" />
+            <span className="text-gray-600 max-h-[100px] max-w-[300px] truncate">{post.room.location}</span>
+            </div>
+            </Hint>
             <span className="font-medium text-gray-900">{post.room.numberOfRooms} Rooms</span>
           </div>
         </div>
 
-        <Button className="w-full mt-auto" variant="outline" size="sm"
+        <Button className="w-full group-hover:bg-red-50 group-hover:border-red-200 group-hover:text-red-600 transition-colors" variant="outline" size="sm"
           onClick={()=> router.push(`/ghar/rooms/${post.room.id}`)}
         >
           View Details

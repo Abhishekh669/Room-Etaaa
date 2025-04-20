@@ -100,7 +100,7 @@ export function PostFiltersForMobile({open, onClose}: {open: boolean, onClose: (
   return (
     <>
       {/* Mobile Trigger Button */}
-      <div className="md:hidden fixed bottom-6 right-6 z-999">
+      <div className="sm:hidden fixed bg-red-600 bottom-6 right-6 z-999">
         <Dialog open={open} onOpenChange={onClose}>
           <DialogTrigger asChild>
             <Button

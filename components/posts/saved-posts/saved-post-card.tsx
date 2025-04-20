@@ -4,11 +4,12 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card"
 
-import { BedDouble, MapPin, MessageSquare, Trash2 } from "lucide-react"
+import { BedDouble, DoorOpen, MapPin, MessageSquare, Toilet, Trash2, Users } from "lucide-react"
 import Image from "next/image"
 import { formatDistanceToNow } from "date-fns"
 import { RoomStatus } from "@/generated/prisma"
 import { SavedPostTypeFromServer } from "@/features/schemas/posts/saved-posts/saved-post.type"
+import Hint from "@/components/shared/hint"
 
 interface SavedPostCardProps {
   savedPost: SavedPostTypeFromServer
@@ -56,7 +57,7 @@ export function SavedPostCard({ savedPost, onRemove }: SavedPostCardProps) {
           )}
           <Badge
             variant={getBadgeVariant(post.room.roomStatus)}
-            className="absolute top-3 left-3 px-2 py-1 text-xs font-medium"
+            className="absolute top-3 bg-green-100 left-3 px-2 py-1 text-xs font-medium"
           >
             {post.room.roomStatus.charAt(0) + post.room.roomStatus.slice(1).toLowerCase()}
           </Badge>
@@ -72,10 +73,12 @@ export function SavedPostCard({ savedPost, onRemove }: SavedPostCardProps) {
       <CardContent className="p-4 space-y-3 flex-grow">
         <div className="flex justify-between items-start">
           <div>
-            <CardTitle className="text-lg">Room #{post.room.title}</CardTitle>
-            <div className="flex items-center mt-1 text-sm text-muted-foreground">
-              <MapPin className="h-4 w-4 mr-1 flex-shrink-0" />
-              <span className="truncate">{post.room.location}</span>
+            <CardTitle className="text-md">Room #{post.room.roomNumber}</CardTitle>
+            <div className=" items-center  mt-1 text-sm text-muted-foreground">
+              <div className="flex items-center m-1 text-sm text-muted-foreground">
+                <MapPin className="h-4 w-4 mr-1 flex-shrink-0" />
+                <span className="truncate max-w-[200px]">{post.room.location}</span>
+              </div>
             </div>
           </div>
           <div className="bg-primary/10 rounded-full px-3 py-1.5 text-primary font-semibold text-sm">
@@ -83,12 +86,50 @@ export function SavedPostCard({ savedPost, onRemove }: SavedPostCardProps) {
           </div>
         </div>
 
+        <p className="text-[16px] font-semibold">{post.room.title}</p>
         <p className="text-sm text-muted-foreground line-clamp-2">{post.room.description}</p>
 
-        <div className="flex gap-4 pt-1">
-          <div className="flex items-center">
-            <BedDouble className="h-4 w-4 mr-1 text-muted-foreground" />
-                <span className="text-sm font-medium">{post.room.beds} Beds</span>
+        <div className="flex gap-4  justify-between pt-1">
+          <Hint label="Number of Beds">
+            <div className="flex items-center">
+              <BedDouble className="h-4 w-4 mr-1 text-[#ff0000]" />
+              <span className="text-sm font-medium">{post.room.beds} Beds</span>
+            </div>
+          </Hint>
+          <Hint label="Number of Rooms">
+            <div className="flex items-center">
+              <DoorOpen className="h-4 w-4 mr-1 text-[#ff0000]" />
+              <span className="text-sm font-medium">{post.room.numberOfRooms} Rooms</span>
+            </div>
+          </Hint>
+          <Hint label="Number of Bathrooms">
+            <div className="flex items-center">
+              <Toilet className="h-4 w-4 mr-1 text-[#ff0000]" />
+              <span className="text-sm font-medium">{post.room.toilet} Toilets</span>
+            </div>
+          </Hint>
+
+          <Hint label="Room Capacity">
+            <div className="flex items-center">
+              <Users className="h-4 w-4 mr-1 text-[#ff0000]" />
+              <span className="text-sm font-medium">{post.room.roomCapacity} Room</span>
+            </div>
+          </Hint>
+        </div>
+        <div className='flex justify-between text-sm border-t py-1 text-muted-foreground'>
+          <div>
+            <span className='font-semibold'>Room Type</span> : {post.room.roomType}
+          </div>
+          <div>
+           <span className='font-semibold'> Room For</span> : {post.room.roomFor}
+          </div>
+        </div>
+        <div>
+          <span className="text-muted-foreground font-semibold">Owner Details</span>
+          <div className="text-muted-foreground  text-sm flex flex-wrap gap-x-4">
+            <span><span className="font-semibold">Name :</span> {post.owner.name}</span>
+            <span><span className="font-semibold">Email :</span> {post.owner.email}</span>
+            <span><span className="font-semibold">Phone Number :</span> {post.owner.phoneNumber}</span>
           </div>
         </div>
       </CardContent>

@@ -72,7 +72,7 @@ const SavedPage = () => {
   }
 
   return (
-    <div className=" max-h-screen">
+    <div className="max-h-screen h-screen">
       <div className="space-y-2 p-3 mb-2 shadow-sm rounded-lg ">
         <div className="flex items-center justify-between">
           <p className="text-2xl font-bold mb-2 new-font">Saved <span className="text-red-600">Rooms</span></p>
@@ -84,12 +84,12 @@ const SavedPage = () => {
         <p className="text-muted-foreground">Manage your saved listings and inquire about availability</p>
       </div>
 
-
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-2 max-h-[80%] h-[80%]  overflow-y-auto">
+      <div className=" max-h-[85%] h-full mx-1 my-2">
+        <div className="max-h-full space-y-4 overflow-y-auto p-2">
         {savedPosts.length > 0 && savedPosts.map((savedPost) => (
           <SavedPostCard key={savedPost.id} savedPost={savedPost} onRemove={handleRemoveSavedPost} />
         ))}
+        </div>
       </div>
     </div>
   )

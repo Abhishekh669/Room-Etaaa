@@ -84,6 +84,8 @@ export const getAllPosts = async (params?: {
             beds: true,
             toilet: true,
             roomCapacity: true,
+            roomFor : true,
+            roomType : true,
           }
         },
       }

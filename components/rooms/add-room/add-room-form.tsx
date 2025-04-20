@@ -43,6 +43,8 @@ export default function AddRoomForm() {
       lon: undefined,
       lat: undefined,
       roomNumber: 0,
+      roomFor : "STUDENTS",
+      roomType : "ROOM",
       title: "",
       description: "",
       roomImages: [],

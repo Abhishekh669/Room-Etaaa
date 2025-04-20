@@ -5,7 +5,7 @@ import { UseFormReturn } from 'react-hook-form'
 import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Upload, Trash2, X } from "lucide-react"
@@ -23,7 +23,7 @@ interface RoomBasicDetailsFormProps {
 }
 
 
-function RoomBasicDetailsForm({ form, images, previewUrls,  handleImageChange, files, removeImage, handleServerImages }: RoomBasicDetailsFormProps) {
+function RoomBasicDetailsForm({ form, images, previewUrls, handleImageChange, files, removeImage, handleServerImages }: RoomBasicDetailsFormProps) {
     return (
         <Card>
             <CardHeader>
@@ -31,6 +31,20 @@ function RoomBasicDetailsForm({ form, images, previewUrls,  handleImageChange, f
             </CardHeader>
             <CardContent className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <FormField
+                        control={form.control}
+                        name="title"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="font-semibold">Room Title</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Enter room title" {...field} className="border-gray-300 focus-visible:ring-[#ff0000]" />
+                                </FormControl>
+                                <FormMessage className="text-[#ff0000]" />
+                            </FormItem>
+                        )}
+                    />
+
                     <FormField
                         control={form.control}
                         name="roomNumber"
@@ -44,6 +58,72 @@ function RoomBasicDetailsForm({ form, images, previewUrls,  handleImageChange, f
                             </FormItem>
                         )}
                     />
+
+
+                    <div className="md:flex md:flex-col md:gap-y-3 ">
+                        <FormField
+                            control={form.control}
+                            name="roomFor"
+                            render={({ field }) => (
+                                <FormItem className="md:col-span-2">
+                                    <FormLabel className="font-semibold">Room Category</FormLabel>
+                                    <FormControl>
+                                        <Select onValueChange={field.onChange} value={field.value}>
+                                            <SelectTrigger className="w-[180px]">
+                                                <SelectValue placeholder="Select a room category" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    {
+                                                        ["STUDENTS",
+                                                            "FAMILY",
+                                                            "BUSINESS"].map((category) =>
+                                                                <SelectItem key={category} value={category} >
+                                                                    {category}
+                                                                </SelectItem>
+                                                            )
+                                                    }
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                    <FormMessage className="text-[#ff0000]" />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="roomType"
+                            render={({ field }) => (
+                                <FormItem className="md:col-span-2">
+                                    <FormLabel className="font-semibold">Room Type</FormLabel>
+                                    <FormControl>
+                                        <Select onValueChange={field.onChange} value={field.value}>
+                                            <SelectTrigger className="w-[180px]">
+                                                <SelectValue placeholder="Select a room type" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    {
+                                                        ["FLAT",
+                                                            "ROOM",
+                                                            "SHUTTER"].map((type) =>
+                                                                <SelectItem key={type} value={type}>
+                                                                    {type}
+                                                                </SelectItem>
+                                                            )
+                                                    }
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                    <FormMessage className="text-[#ff0000]" />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+
 
                     <FormField
                         control={form.control}

@@ -110,6 +110,24 @@ export const RoomStatus: {
 export type RoomStatus = (typeof RoomStatus)[keyof typeof RoomStatus]
 
 
+export const RoomType: {
+  FLAT: 'FLAT',
+  ROOM: 'ROOM',
+  SHUTTER: 'SHUTTER'
+};
+
+export type RoomType = (typeof RoomType)[keyof typeof RoomType]
+
+
+export const RoomFor: {
+  STUDENTS: 'STUDENTS',
+  FAMILY: 'FAMILY',
+  BUSINESS: 'BUSINESS'
+};
+
+export type RoomFor = (typeof RoomFor)[keyof typeof RoomFor]
+
+
 export const PaymentStatus: {
   PENDING: 'PENDING',
   PAID: 'PAID',
@@ -135,6 +153,14 @@ export const SubscriptionStatus: typeof $Enums.SubscriptionStatus
 export type RoomStatus = $Enums.RoomStatus
 
 export const RoomStatus: typeof $Enums.RoomStatus
+
+export type RoomType = $Enums.RoomType
+
+export const RoomType: typeof $Enums.RoomType
+
+export type RoomFor = $Enums.RoomFor
+
+export const RoomFor: typeof $Enums.RoomFor
 
 export type PaymentStatus = $Enums.PaymentStatus
 
@@ -6588,6 +6614,8 @@ export namespace Prisma {
     beds: number | null
     toilet: number | null
     roomCapacity: number | null
+    roomType: $Enums.RoomType | null
+    roomFor: $Enums.RoomFor | null
     dueAmount: number | null
     clientInitationData: Date | null
     startedPriceFromDate: Date | null
@@ -6610,6 +6638,8 @@ export namespace Prisma {
     beds: number | null
     toilet: number | null
     roomCapacity: number | null
+    roomType: $Enums.RoomType | null
+    roomFor: $Enums.RoomFor | null
     dueAmount: number | null
     clientInitationData: Date | null
     startedPriceFromDate: Date | null
@@ -6634,6 +6664,8 @@ export namespace Prisma {
     toilet: number
     clients: number
     roomCapacity: number
+    roomType: number
+    roomFor: number
     dueAmount: number
     clientInitationData: number
     startedPriceFromDate: number
@@ -6682,6 +6714,8 @@ export namespace Prisma {
     beds?: true
     toilet?: true
     roomCapacity?: true
+    roomType?: true
+    roomFor?: true
     dueAmount?: true
     clientInitationData?: true
     startedPriceFromDate?: true
@@ -6704,6 +6738,8 @@ export namespace Prisma {
     beds?: true
     toilet?: true
     roomCapacity?: true
+    roomType?: true
+    roomFor?: true
     dueAmount?: true
     clientInitationData?: true
     startedPriceFromDate?: true
@@ -6728,6 +6764,8 @@ export namespace Prisma {
     toilet?: true
     clients?: true
     roomCapacity?: true
+    roomType?: true
+    roomFor?: true
     dueAmount?: true
     clientInitationData?: true
     startedPriceFromDate?: true
@@ -6839,6 +6877,8 @@ export namespace Prisma {
     toilet: number
     clients: string[]
     roomCapacity: number
+    roomType: $Enums.RoomType
+    roomFor: $Enums.RoomFor
     dueAmount: number
     clientInitationData: Date | null
     startedPriceFromDate: Date | null
@@ -6882,6 +6922,8 @@ export namespace Prisma {
     toilet?: boolean
     clients?: boolean
     roomCapacity?: boolean
+    roomType?: boolean
+    roomFor?: boolean
     dueAmount?: boolean
     clientInitationData?: boolean
     startedPriceFromDate?: boolean
@@ -6914,6 +6956,8 @@ export namespace Prisma {
     toilet?: boolean
     clients?: boolean
     roomCapacity?: boolean
+    roomType?: boolean
+    roomFor?: boolean
     dueAmount?: boolean
     clientInitationData?: boolean
     startedPriceFromDate?: boolean
@@ -6921,7 +6965,7 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type RoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ownerId" | "roomStatus" | "province" | "location" | "lon" | "lat" | "roomNumber" | "title" | "description" | "roomImages" | "numberOfRooms" | "beds" | "toilet" | "clients" | "roomCapacity" | "dueAmount" | "clientInitationData" | "startedPriceFromDate" | "lastPayedDate" | "createdAt", ExtArgs["result"]["room"]>
+  export type RoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ownerId" | "roomStatus" | "province" | "location" | "lon" | "lat" | "roomNumber" | "title" | "description" | "roomImages" | "numberOfRooms" | "beds" | "toilet" | "clients" | "roomCapacity" | "roomType" | "roomFor" | "dueAmount" | "clientInitationData" | "startedPriceFromDate" | "lastPayedDate" | "createdAt", ExtArgs["result"]["room"]>
   export type RoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>
     roomBilling?: boolean | Room$roomBillingArgs<ExtArgs>
@@ -6957,6 +7001,8 @@ export namespace Prisma {
       toilet: number
       clients: string[]
       roomCapacity: number
+      roomType: $Enums.RoomType
+      roomFor: $Enums.RoomFor
       dueAmount: number
       clientInitationData: Date | null
       startedPriceFromDate: Date | null
@@ -7375,6 +7421,8 @@ export namespace Prisma {
     readonly toilet: FieldRef<"Room", 'Int'>
     readonly clients: FieldRef<"Room", 'String[]'>
     readonly roomCapacity: FieldRef<"Room", 'Int'>
+    readonly roomType: FieldRef<"Room", 'RoomType'>
+    readonly roomFor: FieldRef<"Room", 'RoomFor'>
     readonly dueAmount: FieldRef<"Room", 'Float'>
     readonly clientInitationData: FieldRef<"Room", 'DateTime'>
     readonly startedPriceFromDate: FieldRef<"Room", 'DateTime'>
@@ -14160,6 +14208,8 @@ export namespace Prisma {
     toilet: 'toilet',
     clients: 'clients',
     roomCapacity: 'roomCapacity',
+    roomType: 'roomType',
+    roomFor: 'roomFor',
     dueAmount: 'dueAmount',
     clientInitationData: 'clientInitationData',
     startedPriceFromDate: 'startedPriceFromDate',
@@ -14384,6 +14434,34 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'RoomType'
+   */
+  export type EnumRoomTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RoomType'>
+    
+
+
+  /**
+   * Reference to a field of type 'RoomType[]'
+   */
+  export type ListEnumRoomTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RoomType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'RoomFor'
+   */
+  export type EnumRoomForFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RoomFor'>
+    
+
+
+  /**
+   * Reference to a field of type 'RoomFor[]'
+   */
+  export type ListEnumRoomForFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RoomFor[]'>
     
 
 
@@ -14785,6 +14863,8 @@ export namespace Prisma {
     toilet?: IntFilter<"Room"> | number
     clients?: StringNullableListFilter<"Room">
     roomCapacity?: IntFilter<"Room"> | number
+    roomType?: EnumRoomTypeFilter<"Room"> | $Enums.RoomType
+    roomFor?: EnumRoomForFilter<"Room"> | $Enums.RoomFor
     dueAmount?: FloatFilter<"Room"> | number
     clientInitationData?: DateTimeNullableFilter<"Room"> | Date | string | null
     startedPriceFromDate?: DateTimeNullableFilter<"Room"> | Date | string | null
@@ -14814,6 +14894,8 @@ export namespace Prisma {
     toilet?: SortOrder
     clients?: SortOrder
     roomCapacity?: SortOrder
+    roomType?: SortOrder
+    roomFor?: SortOrder
     dueAmount?: SortOrder
     clientInitationData?: SortOrder
     startedPriceFromDate?: SortOrder
@@ -14846,6 +14928,8 @@ export namespace Prisma {
     toilet?: IntFilter<"Room"> | number
     clients?: StringNullableListFilter<"Room">
     roomCapacity?: IntFilter<"Room"> | number
+    roomType?: EnumRoomTypeFilter<"Room"> | $Enums.RoomType
+    roomFor?: EnumRoomForFilter<"Room"> | $Enums.RoomFor
     dueAmount?: FloatFilter<"Room"> | number
     clientInitationData?: DateTimeNullableFilter<"Room"> | Date | string | null
     startedPriceFromDate?: DateTimeNullableFilter<"Room"> | Date | string | null
@@ -14875,6 +14959,8 @@ export namespace Prisma {
     toilet?: SortOrder
     clients?: SortOrder
     roomCapacity?: SortOrder
+    roomType?: SortOrder
+    roomFor?: SortOrder
     dueAmount?: SortOrder
     clientInitationData?: SortOrder
     startedPriceFromDate?: SortOrder
@@ -14907,6 +14993,8 @@ export namespace Prisma {
     toilet?: IntWithAggregatesFilter<"Room"> | number
     clients?: StringNullableListFilter<"Room">
     roomCapacity?: IntWithAggregatesFilter<"Room"> | number
+    roomType?: EnumRoomTypeWithAggregatesFilter<"Room"> | $Enums.RoomType
+    roomFor?: EnumRoomForWithAggregatesFilter<"Room"> | $Enums.RoomFor
     dueAmount?: FloatWithAggregatesFilter<"Room"> | number
     clientInitationData?: DateTimeNullableWithAggregatesFilter<"Room"> | Date | string | null
     startedPriceFromDate?: DateTimeNullableWithAggregatesFilter<"Room"> | Date | string | null
@@ -15751,6 +15839,8 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
+    roomType: $Enums.RoomType
+    roomFor: $Enums.RoomFor
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
@@ -15780,6 +15870,8 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
+    roomType: $Enums.RoomType
+    roomFor: $Enums.RoomFor
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
@@ -15806,6 +15898,8 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
+    roomType?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    roomFor?: EnumRoomForFieldUpdateOperationsInput | $Enums.RoomFor
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -15834,6 +15928,8 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
+    roomType?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    roomFor?: EnumRoomForFieldUpdateOperationsInput | $Enums.RoomFor
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -15862,6 +15958,8 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
+    roomType: $Enums.RoomType
+    roomFor: $Enums.RoomFor
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
@@ -15884,6 +15982,8 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
+    roomType?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    roomFor?: EnumRoomForFieldUpdateOperationsInput | $Enums.RoomFor
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -15907,6 +16007,8 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
+    roomType?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    roomFor?: EnumRoomForFieldUpdateOperationsInput | $Enums.RoomFor
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -16825,6 +16927,20 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type EnumRoomTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.RoomType | EnumRoomTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.RoomType[] | ListEnumRoomTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RoomType[] | ListEnumRoomTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoomTypeFilter<$PrismaModel> | $Enums.RoomType
+  }
+
+  export type EnumRoomForFilter<$PrismaModel = never> = {
+    equals?: $Enums.RoomFor | EnumRoomForFieldRefInput<$PrismaModel>
+    in?: $Enums.RoomFor[] | ListEnumRoomForFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RoomFor[] | ListEnumRoomForFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoomForFilter<$PrismaModel> | $Enums.RoomFor
+  }
+
   export type FloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -16858,6 +16974,8 @@ export namespace Prisma {
     toilet?: SortOrder
     clients?: SortOrder
     roomCapacity?: SortOrder
+    roomType?: SortOrder
+    roomFor?: SortOrder
     dueAmount?: SortOrder
     clientInitationData?: SortOrder
     startedPriceFromDate?: SortOrder
@@ -16892,6 +17010,8 @@ export namespace Prisma {
     beds?: SortOrder
     toilet?: SortOrder
     roomCapacity?: SortOrder
+    roomType?: SortOrder
+    roomFor?: SortOrder
     dueAmount?: SortOrder
     clientInitationData?: SortOrder
     startedPriceFromDate?: SortOrder
@@ -16914,6 +17034,8 @@ export namespace Prisma {
     beds?: SortOrder
     toilet?: SortOrder
     roomCapacity?: SortOrder
+    roomType?: SortOrder
+    roomFor?: SortOrder
     dueAmount?: SortOrder
     clientInitationData?: SortOrder
     startedPriceFromDate?: SortOrder
@@ -16974,6 +17096,26 @@ export namespace Prisma {
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
     isSet?: boolean
+  }
+
+  export type EnumRoomTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RoomType | EnumRoomTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.RoomType[] | ListEnumRoomTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RoomType[] | ListEnumRoomTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoomTypeWithAggregatesFilter<$PrismaModel> | $Enums.RoomType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRoomTypeFilter<$PrismaModel>
+    _max?: NestedEnumRoomTypeFilter<$PrismaModel>
+  }
+
+  export type EnumRoomForWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RoomFor | EnumRoomForFieldRefInput<$PrismaModel>
+    in?: $Enums.RoomFor[] | ListEnumRoomForFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RoomFor[] | ListEnumRoomForFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoomForWithAggregatesFilter<$PrismaModel> | $Enums.RoomFor
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRoomForFilter<$PrismaModel>
+    _max?: NestedEnumRoomForFilter<$PrismaModel>
   }
 
   export type FloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -17922,6 +18064,14 @@ export namespace Prisma {
     push?: string | string[]
   }
 
+  export type EnumRoomTypeFieldUpdateOperationsInput = {
+    set?: $Enums.RoomType
+  }
+
+  export type EnumRoomForFieldUpdateOperationsInput = {
+    set?: $Enums.RoomFor
+  }
+
   export type FloatFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -18565,6 +18715,20 @@ export namespace Prisma {
     not?: NestedEnumRoomStatusFilter<$PrismaModel> | $Enums.RoomStatus
   }
 
+  export type NestedEnumRoomTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.RoomType | EnumRoomTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.RoomType[] | ListEnumRoomTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RoomType[] | ListEnumRoomTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoomTypeFilter<$PrismaModel> | $Enums.RoomType
+  }
+
+  export type NestedEnumRoomForFilter<$PrismaModel = never> = {
+    equals?: $Enums.RoomFor | EnumRoomForFieldRefInput<$PrismaModel>
+    in?: $Enums.RoomFor[] | ListEnumRoomForFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RoomFor[] | ListEnumRoomForFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoomForFilter<$PrismaModel> | $Enums.RoomFor
+  }
+
   export type NestedFloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -18617,6 +18781,26 @@ export namespace Prisma {
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
     isSet?: boolean
+  }
+
+  export type NestedEnumRoomTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RoomType | EnumRoomTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.RoomType[] | ListEnumRoomTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RoomType[] | ListEnumRoomTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoomTypeWithAggregatesFilter<$PrismaModel> | $Enums.RoomType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRoomTypeFilter<$PrismaModel>
+    _max?: NestedEnumRoomTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumRoomForWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RoomFor | EnumRoomForFieldRefInput<$PrismaModel>
+    in?: $Enums.RoomFor[] | ListEnumRoomForFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RoomFor[] | ListEnumRoomForFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoomForWithAggregatesFilter<$PrismaModel> | $Enums.RoomFor
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRoomForFilter<$PrismaModel>
+    _max?: NestedEnumRoomForFilter<$PrismaModel>
   }
 
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -18763,6 +18947,8 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
+    roomType: $Enums.RoomType
+    roomFor: $Enums.RoomFor
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
@@ -18790,6 +18976,8 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
+    roomType: $Enums.RoomType
+    roomFor: $Enums.RoomFor
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
@@ -19170,6 +19358,8 @@ export namespace Prisma {
     toilet?: IntFilter<"Room"> | number
     clients?: StringNullableListFilter<"Room">
     roomCapacity?: IntFilter<"Room"> | number
+    roomType?: EnumRoomTypeFilter<"Room"> | $Enums.RoomType
+    roomFor?: EnumRoomForFilter<"Room"> | $Enums.RoomFor
     dueAmount?: FloatFilter<"Room"> | number
     clientInitationData?: DateTimeNullableFilter<"Room"> | Date | string | null
     startedPriceFromDate?: DateTimeNullableFilter<"Room"> | Date | string | null
@@ -20138,6 +20328,8 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
+    roomType: $Enums.RoomType
+    roomFor: $Enums.RoomFor
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
@@ -20166,6 +20358,8 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
+    roomType: $Enums.RoomType
+    roomFor: $Enums.RoomFor
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
@@ -20270,6 +20464,8 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
+    roomType?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    roomFor?: EnumRoomForFieldUpdateOperationsInput | $Enums.RoomFor
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20297,6 +20493,8 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
+    roomType?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    roomFor?: EnumRoomForFieldUpdateOperationsInput | $Enums.RoomFor
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20382,6 +20580,8 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
+    roomType: $Enums.RoomType
+    roomFor: $Enums.RoomFor
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
@@ -20410,6 +20610,8 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
+    roomType: $Enums.RoomType
+    roomFor: $Enums.RoomFor
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
@@ -20573,6 +20775,8 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
+    roomType?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    roomFor?: EnumRoomForFieldUpdateOperationsInput | $Enums.RoomFor
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20600,6 +20804,8 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
+    roomType?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    roomFor?: EnumRoomForFieldUpdateOperationsInput | $Enums.RoomFor
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20807,6 +21013,8 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
+    roomType: $Enums.RoomType
+    roomFor: $Enums.RoomFor
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
@@ -20835,6 +21043,8 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
+    roomType: $Enums.RoomType
+    roomFor: $Enums.RoomFor
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
@@ -21002,6 +21212,8 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
+    roomType?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    roomFor?: EnumRoomForFieldUpdateOperationsInput | $Enums.RoomFor
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21029,6 +21241,8 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
+    roomType?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    roomFor?: EnumRoomForFieldUpdateOperationsInput | $Enums.RoomFor
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21223,6 +21437,8 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
+    roomType: $Enums.RoomType
+    roomFor: $Enums.RoomFor
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
@@ -21251,6 +21467,8 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
+    roomType: $Enums.RoomType
+    roomFor: $Enums.RoomFor
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
@@ -21395,6 +21613,8 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
+    roomType?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    roomFor?: EnumRoomForFieldUpdateOperationsInput | $Enums.RoomFor
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21422,6 +21642,8 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
+    roomType?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    roomFor?: EnumRoomForFieldUpdateOperationsInput | $Enums.RoomFor
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21745,6 +21967,8 @@ export namespace Prisma {
     toilet: number
     clients?: RoomCreateclientsInput | string[]
     roomCapacity?: number
+    roomType: $Enums.RoomType
+    roomFor: $Enums.RoomFor
     dueAmount?: number
     clientInitationData?: Date | string | null
     startedPriceFromDate?: Date | string | null
@@ -21937,6 +22161,8 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
+    roomType?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    roomFor?: EnumRoomForFieldUpdateOperationsInput | $Enums.RoomFor
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21963,6 +22189,8 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
+    roomType?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    roomFor?: EnumRoomForFieldUpdateOperationsInput | $Enums.RoomFor
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21989,6 +22217,8 @@ export namespace Prisma {
     toilet?: IntFieldUpdateOperationsInput | number
     clients?: RoomUpdateclientsInput | string[]
     roomCapacity?: IntFieldUpdateOperationsInput | number
+    roomType?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    roomFor?: EnumRoomForFieldUpdateOperationsInput | $Enums.RoomFor
     dueAmount?: FloatFieldUpdateOperationsInput | number
     clientInitationData?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedPriceFromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

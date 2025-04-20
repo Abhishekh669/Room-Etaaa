@@ -5,6 +5,12 @@ const dateSchema = z.coerce.date();
 const nonNegativeNumber = z.number().min(0);
 
 export const RoomStatusSchema = z.enum(["VACANT", "OCCUPIED", "MAINTENANCE"]);
+export const RoomFor = z.enum(["STUDENTS",
+  "FAMILY",
+  "BUSINESS"])
+export const RoomType = z.enum(["FLAT",
+  "ROOM",
+  "SHUTTER"])
 
 // export const RoomSchema = z.object({
 //   roomStatus: RoomStatusSchema.default("VACANT"),
@@ -34,6 +40,8 @@ export const RoomSchema = z.object({
   lon: z.number().optional(),
   lat: z.number().optional(),
   roomNumber: z.number(),
+  roomFor : RoomFor,
+  roomType : RoomType,
   title: z.string().min(1, "Title is required"),
   description: z.string().min(1, "Description is required"),
   roomImages: z.array(z.string()),
@@ -48,41 +56,41 @@ export const RoomSchema = z.object({
 })
 
 export const RoomBillingSchema = z.object({
-  id : z.string(),
-  ownerId : z.string(),
-  roomId : z.string(),
-  water : z.number(),
-  electricity : z.number(),
-  internet : z.number(),
-  roomCost : z.number(),
-  createdAt : dateSchema,
+  id: z.string(),
+  ownerId: z.string(),
+  roomId: z.string(),
+  water: z.number(),
+  electricity: z.number(),
+  internet: z.number(),
+  roomCost: z.number(),
+  createdAt: dateSchema,
 })
 
 export const ClientSchema = z.object({
-  id : z.string(),
-  name : z.string(),
-  image : z.string(),
-  email : z.string(),
-  phoneNumber : z.string(),
+  id: z.string(),
+  name: z.string(),
+  image: z.string(),
+  email: z.string(),
+  phoneNumber: z.string(),
 })
 
 export const PaymentHistorySchema = z.object({
-  id : z.string(),
-  ownerId : z.string(),
-  payedBy : z.string(),
-  totalAmount : z.number(),
-  roomId : z.string(),
-  payedamount : z.number(),
-  dueAmount : z.number(),
-  startedDate : dateSchema,
-  createdAt : dateSchema,
+  id: z.string(),
+  ownerId: z.string(),
+  payedBy: z.string(),
+  totalAmount: z.number(),
+  roomId: z.string(),
+  payedamount: z.number(),
+  dueAmount: z.number(),
+  startedDate: dateSchema,
+  createdAt: dateSchema,
 })
 
 export const RoomPaymentSchema = z.object({
-  id : z.string(),
-  ownerId : z.string(),
-  roomId : z.string(),
-  paymentDate : dateSchema,
+  id: z.string(),
+  ownerId: z.string(),
+  roomId: z.string(),
+  paymentDate: dateSchema,
 })
 // export const EditRoomSchema = z.object({
 //   id : z.string(),
@@ -125,12 +133,14 @@ export const EditRoomSchema = z.object({
   beds: z.number().int().nonnegative(),
   clientInitationDate: z.date().optional(),
   clients: z.array(ClientSchema),
+  roomFor : RoomFor,
+  roomType : RoomType,
   description: z.string(),
   dueAmount: z.number().nonnegative(),
   lastPayedDate: z.date().optional(),
   lat: z.number().optional(),
   location: z.string(),
-  id : z.string(),
+  id: z.string(),
   lon: z.number().optional(),
   numberOfRooms: z.number().int().positive(),
   ownerId: z.string(),
