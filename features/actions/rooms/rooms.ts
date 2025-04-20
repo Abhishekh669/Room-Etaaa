@@ -302,6 +302,7 @@ export const removeMultipleRoomImages = async (imageUrls: string[]) => {
 
 export const updateRoom = async (values: z.infer<typeof EditRoomSchema>) => {
     try {
+        console.log("this is values : ",values)
         const errors = EditRoomSchema.safeParse(values);
         if (!errors.success) {
             throw new Error("Invalid input data")

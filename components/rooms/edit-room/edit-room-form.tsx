@@ -28,6 +28,7 @@ import { useRouter } from 'next/navigation'
 function EditRoomFormPage() {
   const id = useRoomId();
   const { data: roomData, isLoading } = useGetRoomById(id)
+  console.log("this is the room data : ",roomData?.data.roomFor, roomData?.data.roomType)
   const { resetAllData } = useLocationStore()
   const [mounted, setMounted] = useState(false)
   const [hasClient, setHasClient] = useState(false)
@@ -98,6 +99,7 @@ function EditRoomFormPage() {
     if (!mounted || isLoading || !roomData?.data) return;
     if (roomData?.data) {
       const room = roomData.data;
+      console.log("this is in form reset : ",room.roomFor, room.roomType)
       form.reset({
         beds: room.beds,
         clientInitationDate: room.clientInitationDate || undefined,
@@ -374,7 +376,7 @@ function EditRoomFormPage() {
   if(!roomData?.data){
     return <div className=' mochiy-pop-one-regular text-2xl w-full h-full flex items-center justify-center'>Room <span className='text-[#ff0000]'>not</span> found</div>
 }
-
+console.log("this is formvalues : ",form.getValues())
   return (
     <div className='py-4 px-4 md:px-6 lg:px-10'>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
