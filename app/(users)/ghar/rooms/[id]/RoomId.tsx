@@ -4,7 +4,6 @@ import { useRoomId } from '@/features/hooks/params-id/use-rooms-id'
 import { useGetRoomById } from '@/features/hooks/tanstacks/query-hooks/rooms/use-get-room-by-id';
 import HeaderPage from '@/components/shared/Header';
 import RouteBackButton from '@/components/shared/route-back-button';
-import AddButton from '@/components/shared/add-button';
 import { RoomImageGallery } from '@/components/rooms/room-image-card';
 import SpinningLoader from '@/components/shared/SpinningLoader';
 import { redirect, useRouter } from 'next/navigation';
@@ -34,12 +33,12 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Plus, Trash } from "lucide-react"
-import { MapPin, Bath, DoorOpen, Users, Wallet, BedDouble, ArrowRight, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
+import {  MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Hint from '@/components/shared/hint';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { checkInMyPosts } from '@/features/actions/rooms/rooms';
-import { addToMyPosts, deleteMyPost, deleteMyPostFromRoomId } from '@/features/actions/my-posts/my-posts';
+import { addToMyPosts, deleteMyPostFromRoomId } from '@/features/actions/my-posts/my-posts';
 function RoomIdClientSide() {
     const queryClient = useQueryClient()
     const roomId = useRoomId();

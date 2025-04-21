@@ -4,78 +4,76 @@ import { LocationList } from '@/components/posts/location/location-list'
 import { LocationMap } from '@/components/posts/location/location-map'
 import { LocationInfo } from '@/components/posts/location/location-info'
 import { locations } from '@/data/locations'
-import { Card } from '@/components/ui/card'
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import { PostsDataTypeFromServer } from '@/features/schemas/posts/posts.type'
+import { LocationSearch } from '@/components/posts/location/location-search'
+import { getNearByLocation } from '@/features/actions/posts/location/location'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+import { Badge } from '@/components/ui/badge'
+import { MapPin, BedDouble, Users, Toilet, MessageSquare } from 'lucide-react'
+import { formatDistanceToNow } from 'date-fns'
+import { cn } from '@/lib/utils'
+
+interface Room {
+  id: string
+  title: string
+  location: string
+  roomType: string
+  roomFor: string
+  lat: number | null
+  lon: number | null
+  createdAt: Date
+  ownerId: string
+  roomStatus: string
+  province: number
+  roomNumber: number
+  lastPayedDate: Date | null
+  roomBilling?: {
+    id: string
+    roomCost: number
+  }
+  beds: number
+  toilet: number
+  roomCapacity: number
+  owner?: {
+    name: string
+    phoneNumber: string
+  }
+}
 
 export default function LocationPage() {
-  const [currentLocation, setCurrentLocation] = useState<string>('')
-  const [userCoordinates, setUserCoordinates] = useState<[number, number] | null>(null)
-  const [error, setError] = useState<string | null>(null)
+  const [location, setLocation] = useState('Kathmandu')
+  const [lat, setLat] = useState<number | undefined>(27.7172)
+  const [lon, setLon] = useState<number | undefined>(85.3240)
+  const [rooms, setRooms] = useState<Room[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [nearbyPosts, setNearbyPosts] = useState<PostsDataTypeFromServer[]>([])
+  const [error, setError] = useState<string | null>(null)
+
+  const handleLocationSelect = async (newLocation: string, newLat: number, newLon: number) => {
+    setLocation(newLocation)
+    setLat(newLat)
+    setLon(newLon)
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      const nearbyRooms = await getNearByLocation(newLocation, newLat, newLon)
+      setRooms(nearbyRooms)
+    } catch (err) {
+      setError('Failed to fetch nearby rooms')
+      console.error(err)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   useEffect(() => {
-    const fetchUserLocation = async () => {
-      try {
-        if (navigator.geolocation) {
-          const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject)
-          })
-          
-          const { latitude, longitude } = position.coords
-          setUserCoordinates([latitude, longitude])
-          
-          // Find the nearest location with coordinates
-          const nearestLocation = locations
-            .filter(loc => loc.lat && loc.lon)
-            .reduce((nearest, current) => {
-              if (!nearest) return current
-              const nearestDist = Math.sqrt(
-                Math.pow(nearest.lat! - latitude, 2) + 
-                Math.pow(nearest.lon! - longitude, 2)
-              )
-              const currentDist = Math.sqrt(
-                Math.pow(current.lat! - latitude, 2) + 
-                Math.pow(current.lon! - longitude, 2)
-              )
-              return currentDist < nearestDist ? current : nearest
-            })
-
-          setCurrentLocation(nearestLocation.location)
-        } else {
-          throw new Error('Geolocation is not supported by your browser')
-        }
-      } catch (error) {
-        setError('Unable to retrieve your location')
-        setCurrentLocation('New York')
-        setUserCoordinates([40.7128, -74.0060])
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchUserLocation()
+    handleLocationSelect(location, lat!, lon!)
   }, [])
 
-  useEffect(() => {
-    const fetchNearbyPosts = async () => {
-      if (!userCoordinates) return
-      
-      try {
-        // TODO: Replace with your actual API call to fetch nearby posts
-        // This is just a placeholder
-        const response = await fetch(`/api/posts/nearby?lat=${userCoordinates[0]}&lon=${userCoordinates[1]}&distance=5`)
-        const data = await response.json()
-        setNearbyPosts(data)
-      } catch (error) {
-        console.error('Error fetching nearby posts:', error)
-      }
-    }
-
-    fetchNearbyPosts()
-  }, [userCoordinates])
-
-  const currentLocationData = locations.find(loc => loc.location === currentLocation)
+  const currentLocationData = locations.find(loc => loc.location === location)
 
   if (isLoading) {
     return (
@@ -87,44 +85,120 @@ export default function LocationPage() {
     )
   }
 
+  console.log("this is hte user coordinate : ",rooms)
+  const nearbyLocations = rooms
+    .filter(room => room.lat !== null && room.lon !== null)
+    .map(room => ({
+      name: room.location,
+      lat: room.lat!,
+      lon: room.lon!
+    }))
+
   return (
-    <div className="container mx-auto py-6 space-y-6">
-      {error && (
-        <Card className="p-4 bg-destructive/10 text-destructive">
-          <p>{error}</p>
-        </Card>
-      )}
-
-      {currentLocationData && (
-        <LocationInfo
-          location={currentLocationData.location}
-          postCount={currentLocationData.postCount}
-          coordinates={currentLocationData.lat && currentLocationData.lon ? {
-            lat: currentLocationData.lat,
-            lon: currentLocationData.lon
-          } : undefined}
-        />
-      )}
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="space-y-6">
-          <Card className="p-4">
-            <h2 className="text-2xl font-bold mb-4">Nearby Locations & Posts (within 5km)</h2>
-            {userCoordinates && (
-              <LocationMap
-                posts={nearbyPosts}
-                center={userCoordinates}
-                zoom={13}
-                maxDistance={5}
-              />
-            )}
-          </Card>
+    <div className="container mx-auto py-4 sm:py-8 space-y-4 sm:space-y-8">
+      <h1 className="text-2xl sm:text-3xl font-bold text-center">Find Rooms by Location</h1>
+      
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8">
+        <div className="lg:h-[calc(100vh-8rem)]">
+          <LocationSearch 
+            onLocationSelect={handleLocationSelect}
+            initialLocation={location}
+            initialLat={lat}
+            initialLon={lon}
+            nearbyLocations={nearbyLocations}
+          />
         </div>
 
-        <div className="space-y-6">
-          <Card className="p-4">
-            <h2 className="text-2xl font-bold mb-4">All Locations</h2>
-            <LocationList currentLocation={currentLocation} />
+        <div className="lg:h-[calc(100vh-8rem)] overflow-y-auto">
+          <Card className="h-full">
+            <CardHeader className="p-0 pb-4">
+              <CardTitle className="text-xl font-semibold">Nearby Rooms</CardTitle>
+            </CardHeader>
+            <CardContent className="p-0">
+              {isLoading ? (
+                <div className="space-y-4">
+                  {[...Array(3)].map((_, i) => (
+                    <Skeleton key={i} className="h-32 w-full" />
+                  ))}
+                </div>
+              ) : error ? (
+                <div className="text-red-500">{error}</div>
+              ) : rooms.length === 0 ? (
+                <div className="text-gray-500">No rooms found in this location</div>
+              ) : (
+                <div className="space-y-4">
+                  {rooms.map((room) => (
+                    <Card key={room.id} className="overflow-hidden hover:shadow-lg transition-all duration-300">
+                      <CardContent className="p-4">
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
+                          <div>
+                            <h3 className="font-semibold text-lg">{room.title}</h3>
+                            <div className="flex items-center mt-1 text-sm text-muted-foreground">
+                              <MapPin className="h-4 w-4 mr-1 flex-shrink-0 text-red-600" />
+                              <span className="truncate max-w-[200px]">{room.location}</span>
+                            </div>
+                          </div>
+                          <Badge variant="outline" className="bg-primary/10 text-primary font-semibold w-fit">
+                            Rs {room.roomBilling?.roomCost?.toLocaleString() || 'N/A'}/mo
+                          </Badge>
+                        </div>
+
+                        <div className="flex flex-wrap justify-between my-2 gap-4 pt-2">
+                          <div className="flex items-center">
+                            <BedDouble className="h-4 w-4 mr-1 text-[#ff0000]" />
+                            <span className="text-sm font-medium">
+                              {room.beds} {room.beds === 1 ? "Bed" : "Beds"}
+                            </span>
+                          </div>
+                          <div className="flex items-center">
+                            <Toilet className="h-4 w-4 mr-1 text-[#ff0000]" />
+                            <span className="text-sm font-medium">
+                              {room.toilet} {room.toilet === 1 ? "Bathroom" : "Bathrooms"}
+                            </span>
+                          </div>
+                          <div className="flex items-center">
+                            <Users className="h-4 w-4 mr-1 text-[#ff0000]" />
+                            <span className="text-sm font-medium">
+                              {room.roomCapacity} {room.roomCapacity === 1 ? "client" : "clients"}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col sm:flex-row justify-between text-sm border-t py-2 text-muted-foreground gap-2">
+                          <div>
+                            <span className="font-semibold">Room Type</span>: {room.roomType}
+                          </div>
+                          <div>
+                            <span className="font-semibold">Room For</span>: {room.roomFor}
+                          </div>
+                        </div>
+
+                        <div className="border-t pt-2">
+                          <span className="text-muted-foreground bg-red-200 rounded-md p-1 font-semibold">Owner Details</span>
+                          <div className="text-muted-foreground text-sm flex flex-col sm:flex-row flex-wrap gap-x-4 mt-1">
+                            <span><span className="font-semibold">Name:</span> {room.owner?.name}</span>
+                            <span><span className="font-semibold">Phone:</span> {room.owner?.phoneNumber}</span>
+                          </div>
+                        </div>
+                      </CardContent>
+
+                      <CardFooter className="flex justify-between p-4 pt-0 border-t">
+                        <Button 
+                          variant="default" 
+                          size="sm" 
+                          className="w-full bg-red-500 text-white hover:bg-red-500/50"
+                          asChild
+                        >
+                          <Link href={`/posts/${room.id}`}>
+                            <MessageSquare className="h-4 w-4 mr-2" /> Visit Room
+                          </Link>
+                        </Button>
+                      </CardFooter>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </CardContent>
           </Card>
         </div>
       </div>
