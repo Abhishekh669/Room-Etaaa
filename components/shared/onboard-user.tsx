@@ -21,9 +21,10 @@ const phoneSchema = z
 interface OnboardingProps {
   isOpen: boolean
   handleUpdate: (phoneNumber: string, role: "USER" | "OWNER") => void
+  isOnboarding: boolean
 }
 
-export default function OnboardingPage({ isOpen, handleUpdate }: OnboardingProps) {
+export default function OnboardingPage({ isOpen, handleUpdate, isOnboarding }: OnboardingProps) {
   const [phoneNumber, setPhoneNumber] = useState("")
   const [role, setRole] = useState<"USER" | "OWNER">("USER")
   const [phoneError, setPhoneError] = useState<string | null>(null)
@@ -62,7 +63,11 @@ export default function OnboardingPage({ isOpen, handleUpdate }: OnboardingProps
     try {
       setIsSubmitting(true)
       await handleUpdate(phoneNumber, role)
-    } finally {
+    } 
+    catch (error) {
+      console.error("Error updating user:", error)
+    }
+    finally {
       setIsSubmitting(false)
     }
   }
@@ -155,11 +160,10 @@ export default function OnboardingPage({ isOpen, handleUpdate }: OnboardingProps
                 <Button
                   type="submit"
                   className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-2"
-                  disabled={isSubmitting}
+                  disabled={isOnboarding}
                 >
-                  {isSubmitting ? (
+                  {isOnboarding ? (
                     <div className="flex items-center gap-2">
-                      <SpinningLoader  />
                       Processing...
                     </div>
                   ) : (

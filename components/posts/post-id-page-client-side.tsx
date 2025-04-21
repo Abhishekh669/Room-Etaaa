@@ -36,7 +36,7 @@ function PostIdClientSide() {
                     <div className='text-xl font-semibold new-font text-gray-800'>
                         Room <span className='text-red-600'>Details</span>
                     </div>
-                    <RouteBackButton location={`/ghar/rooms`} />
+                    <RouteBackButton location={`/posts`} />
                 </div>
             </div>
 

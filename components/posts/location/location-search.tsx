@@ -74,10 +74,8 @@ export function LocationSearch({
 
   console.log("this is hte nearbyLocation : ",nearbyLocations)
 
-  // Memoize the map center to prevent unnecessary re-renders
   const mapCenter = useMemo(() => position, [position])
 
-  // Calculate bounds to fit all markers
   const bounds = useMemo(() => {
     const allLocations = [
       { lat: position[0], lon: position[1] },
@@ -183,7 +181,7 @@ export function LocationSearch({
             placeholder="Enter location in Nepal"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
-            className="w-full"
+            className="w-full "
             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
           />
           {suggestions.length > 0 && (
@@ -210,7 +208,7 @@ export function LocationSearch({
         </div>
         <Button 
           onClick={handleSearch} 
-          className="w-full sm:w-auto"
+          className="w-full sm:w-auto bg-red-600 text-white hover:bg-red-600/90"
           disabled={isSearching}
         >
           <Search className="h-4 w-4 mr-2" />
@@ -232,7 +230,6 @@ export function LocationSearch({
           {isMapReady && <MapEvents />}
           <MapContent />
           
-          {/* Current location circle with label */}
           <Circle
             center={position}
             radius={500}
@@ -253,7 +250,6 @@ export function LocationSearch({
             icon={createCustomMarker(location)}
           />
 
-          {/* Nearby locations markers with labels */}
           {nearbyLocations.map((loc, index) => (
             <Marker 
               key={`nearby-${loc.lat}-${loc.lon}-${index}`}

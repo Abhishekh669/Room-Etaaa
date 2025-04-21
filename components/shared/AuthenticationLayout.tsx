@@ -97,10 +97,11 @@ function AuthenticationLayout({ children }: { children: React.ReactNode }) {
             <OnboardingPage
                 isOpen={isOpen}
                 handleUpdate={handleUpdate}
+                isOnboarding={isPending}    
 
             />
 
-            {user.isVerified || user.isAdmin ? (
+            {user.isVerified || user.isAdmin  || user.role !== "USER" ? (
                 <main>
                     {children}
                 </main>

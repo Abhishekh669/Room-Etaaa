@@ -25,7 +25,7 @@ function AuthenticationCheckLayout({children} : {children : React.ReactNode}) {
     return <SpinningLoader />
    }
   return (
-    <div className='min-w-screen min-h-screen'>
+    <div className='min-w-screen min-h-screen px-4'>
       {children}
     </div>
   )
