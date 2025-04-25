@@ -51,10 +51,8 @@ export const RecentPayments = ({ payments, isLoading }: RecentPaymentsProps) => 
     const formatCurrency = (amount: number) => `Rs ${amount.toLocaleString('en-NP', { minimumFractionDigits: 0 })}`;
 
     return (
-        <div className="bg-white rounded-lg shadow p-6 border border-gray-100 overflow-x-auto">
-            <h2 className="text-lg font-semibold mb-4 text-gray-800 new-font">
-                Recent <span className="text-red-600">Payments</span>
-            </h2>
+        <div className=" overflow-x-auto">
+            
             <table className="min-w-full text-sm text-left border border-gray-200 whitespace-nowrap">
                 <thead className="bg-gray-100 text-gray-700">
                     <tr>

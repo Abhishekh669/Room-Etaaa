@@ -107,11 +107,12 @@ export const RevenueBarChart = ({ data }: RevenueBarChartProps) => {
 
     return (
         <div className="bg-white shadow rounded-lg p-2 w-full">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4 new-font">
+            <h2 className="text-lg px-2 font-semibold text-gray-800 mb-4 new-font">
                 Monthly <span className="text-red-600">Overview</span>
             </h2>
             <div className="h-[400px]">
                 <Bar data={chartData} options={options} />
+               <p className='text-sm text-muted-foreground text-center font-semibold'> fig : Monthly Revenue and Due Amount Bar graph</p>
             </div>
         </div>
     );
