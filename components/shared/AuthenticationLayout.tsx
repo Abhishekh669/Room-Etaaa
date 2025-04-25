@@ -100,7 +100,6 @@ function AuthenticationLayout({ children }: { children: React.ReactNode }) {
                 isOnboarding={isPending}    
 
             />
-
             {user.isVerified || user.isAdmin  || user.role !== "USER" ? (
                 <main>
                     {children}

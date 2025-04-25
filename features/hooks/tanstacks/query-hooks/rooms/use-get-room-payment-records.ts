@@ -11,7 +11,7 @@ export  const fetch_room_payment_records = async(roomId : string) =>{
 
 export const useGetRoomPaymentRecords= (roomId : string) =>{
     return useQuery({
-        queryKey : ["get-room-payment-records"],
+        queryKey : ["get-room-payment-records",roomId],
         queryFn : () => fetch_room_payment_records(roomId),
     })
 }   

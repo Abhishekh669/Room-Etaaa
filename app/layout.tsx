@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
 import QueryProvider from "@/features/providers/query-provider";
-
 import { Toaster } from "@/components/ui/sonner"
 import { JotaiProvider } from "@/features/providers/jotai-providers";
+import { Analytics } from '@vercel/analytics/next';
 
 
 const geistSans = Geist({
@@ -36,6 +35,7 @@ export default function RootLayout({
         <JotaiProvider>
           <QueryProvider>
             {children}
+            <Analytics />
             <Toaster />
           </QueryProvider>
         </JotaiProvider>

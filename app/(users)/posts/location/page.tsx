@@ -3,7 +3,6 @@ import React, { useEffect, useState, useMemo, useCallback } from 'react'
 import { LocationList } from '@/components/posts/location/location-list'
 import { LocationMap } from '@/components/posts/location/location-map'
 import { LocationInfo } from '@/components/posts/location/location-info'
-import { locations } from '@/data/locations'
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import { PostsDataTypeFromServer } from '@/features/schemas/posts/posts.type'
 import { LocationSearch } from '@/components/posts/location/location-search'
@@ -77,7 +76,6 @@ export default function LocationPage() {
     handleLocationSelect(location, lat!, lon!)
   }, [handleLocationSelect, location, lat, lon])
 
-  const currentLocationData = locations.find(loc => loc.location === location)
 
   const nearbyLocations = useMemo(() => 
     rooms

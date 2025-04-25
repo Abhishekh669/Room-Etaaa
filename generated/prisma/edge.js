@@ -329,11 +329,12 @@ const config = {
     "db"
   ],
   "activeProvider": "mongodb",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "mongodb+srv://nepaliabhishekh669:4connectmongodb4@cluster0.cuyrnuq.mongodb.net/room-etaaa?retryWrites=true&w=majority&appName=Cluster0"
+        "value": null
       }
     }
   },
