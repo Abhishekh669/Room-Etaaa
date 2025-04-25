@@ -10,20 +10,21 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Upload, Trash2, X } from "lucide-react"
 import { toast } from 'sonner'
+import { useRoomImagesStore } from '@/features/store/room-images/use-room-images-store'
 
 interface RoomBasicDetailsFormProps {
     form: UseFormReturn<EditRoomType>,
     images: string[],
-    onImageChange?: (files: File[]) => void
-    handleServerImages: (imageUrl: string) => void
+    handleServerImages: (imageUrl: string) => void,
     previewUrls: string[],
     files: File[],
-    removeImage: (index: number) => void
+    removeImage: (index: number) => void,
     handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
+function RoomBasicDetailsForm({ form, images, handleServerImages, previewUrls, files, removeImage, handleImageChange }: RoomBasicDetailsFormProps) {
+    const { addFiles } = useRoomImagesStore()
 
-function RoomBasicDetailsForm({ form, images, previewUrls, handleImageChange, files, removeImage, handleServerImages }: RoomBasicDetailsFormProps) {
     return (
         <Card>
             <CardHeader>
@@ -225,8 +226,8 @@ function RoomBasicDetailsForm({ form, images, previewUrls, handleImageChange, fi
                             </span>
                         </label>
                         {images.length > 0 && (
-                            <div className="">
-                                <div className=' flex justify-start  text-muted-foreground font-semibold'>
+                            <div className="mt-4">
+                                <div className='flex justify-start text-muted-foreground font-semibold'>
                                     Images from the server:
                                 </div>
                                 <div className='mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'>
@@ -251,7 +252,6 @@ function RoomBasicDetailsForm({ form, images, previewUrls, handleImageChange, fi
                                 </div>
                             </div>
                         )}
-
                         {previewUrls.length > 0 && (
                             <div className="mt-4">
                                 <div className='flex justify-start text-muted-foreground font-semibold'>

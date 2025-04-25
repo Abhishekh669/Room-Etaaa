@@ -16,6 +16,7 @@ import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { checkRoomNumber, createRoom, removeMultipleRoomImages } from "@/features/actions/rooms/rooms"
 import { useLocationStore } from "@/features/store/location/use-location-store"
+import { useRoomImagesStore } from '@/features/store/room-images/use-room-images-store'
 
 const provinces = [
   { id: 1, name: "Province 1" },
@@ -31,7 +32,7 @@ export default function AddRoomForm() {
   const router = useRouter()
   const [loading, setLoading] = React.useState(false)
   const { startUpload } = useUploadThing("imageUploader")
-  const [files, setFiles] = React.useState<File[]>([])
+  const { files, clearFiles, addFiles } = useRoomImagesStore()
   const {resetAllData} = useLocationStore()
 
   const form = useForm<z.infer<typeof RoomSchema>>({
@@ -60,8 +61,8 @@ export default function AddRoomForm() {
   })
 
   const handleImageChange = React.useCallback((newFiles: File[]) => {
-    setFiles(newFiles)
-  }, [])
+    addFiles(newFiles)
+  }, [addFiles])
 
   console.log("this is the images  ;",files)
 
@@ -86,9 +87,7 @@ export default function AddRoomForm() {
 
       let uploadedImages: string[] = []
       if (files.length > 0) {
-        console.log("i am going to upload the images")
         const uploadResults = await startUpload(files)
-        console.log("this is the upload results :", uploadResults)
         if (uploadResults) {
           errorDelete = uploadResults.map(result => result.ufsUrl)
           uploadedImages = uploadResults.map(result => result.ufsUrl)
@@ -105,7 +104,7 @@ export default function AddRoomForm() {
         toast.success("Room added successfully")
         router.push("/ghar/rooms")
         form.reset()
-        setFiles([])
+        clearFiles()
         resetAllData()
       } else if(res.error){
         toast.error(res.error || "Something went wrong")
@@ -117,14 +116,13 @@ export default function AddRoomForm() {
       toast.error(error instanceof Error ? error.message : "Something went wrong");
     } finally {
       setLoading(false)
-
     }
   }
 
   const handleCancel = () => {
     form.reset()
     resetAllData();
-    setFiles([])
+    clearFiles()
   }
 
   return (

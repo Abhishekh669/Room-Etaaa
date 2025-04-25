@@ -120,9 +120,11 @@ export const RoomSummaryCard = ({ room }: RoomSummaryCardProps) => {
 
             <div className="mt-6 space-y-2">
                 {room.roomStatus === "VACANT" && (
-                    <Button className="w-full"
+                    <Button 
+                    className='w-full bg-red-500 text-white hover:bg-red-500/50 cursor-pointer hover:text-white'
                         onMouseEnter={() => router.prefetch(`/ghar/rooms/${room.id}/edit-room`)}
                         onClick={() => router.push(`/ghar/rooms/${room.id}/edit-room`)}
+
                     >
                         <Users className="mr-2 h-4 w-4" />
                         Assign Client

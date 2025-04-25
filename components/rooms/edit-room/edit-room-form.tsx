@@ -21,6 +21,7 @@ import { RoomLocationMap } from './room-location-map'
 import { useUploadThing } from '@/lib/uploadthing-client'
 import { removeMultipleRoomImages, updateRoom } from '@/features/actions/rooms/rooms'
 import { useRouter } from 'next/navigation'
+import { useRoomImagesStore } from '@/features/store/room-images/use-room-images-store'
 
 
 
@@ -33,11 +34,9 @@ function EditRoomFormPage() {
   const [mounted, setMounted] = useState(false)
   const [hasClient, setHasClient] = useState(false)
   const [images, setImages] = useState<string[]>([])
-  const [files, setFiles] = useState<File[]>([])
-  const [previewUrls, setPreviewUrls] = useState<string[]>([])
   const [deleteImages, setDeleteImages] = useState<string[]>([])
   const { startUpload } = useUploadThing("imageUploader")
-  const filesRef = useRef<File[]>([])
+  const { files, previewUrls, addFiles, removeFile, clearFiles } = useRoomImagesStore()
   const router = useRouter()
   const [isUpdating, setIsUpdating] = useState(false)
   const form = useForm<z.infer<typeof EditRoomSchema>>({
@@ -174,10 +173,8 @@ function EditRoomFormPage() {
 
 
 
-  const handleUpdateRoom = async() =>{
+  const handleUpdateRoom = async() => {
     const values = form.getValues();
-
-    
     setIsUpdating(true)
 
     if (deleteImages.length > 0) {
@@ -194,8 +191,8 @@ function EditRoomFormPage() {
     if(files.length > 0){
       const uploadResults = await startUpload(files)
       if(uploadResults){
-        let newImages = uploadResults.map(result => result.ufsUrl)
-        uploadedImages = [...uploadedImages, ...uploadResults.map(result => result.ufsUrl)];
+        newImages = uploadResults.map(result => result.ufsUrl)
+        uploadedImages = [...uploadedImages, ...newImages];
       }
     }
 
@@ -213,134 +210,36 @@ function EditRoomFormPage() {
     if(updateNow.success){
       toast.success(updateNow.message)
       resetAllData();
-      setFiles([])
+      clearFiles()
       setDeleteImages([])
       setImages([])
-      setPreviewUrls([])
       router.push(`/ghar/rooms/${id}`)
     }else{
       await removeMultipleRoomImages(newImages);
       toast.error(updateNow.error || "Failed to update room")
-
     }
     setIsUpdating(false)
   }
 
-
-  // const submitData = async (values: z.infer<typeof EditRoomSchema>) => {
-  //   const totalCost = values.roomBilling.roomCost + values.roomBilling.electricity + values.roomBilling.water + values.roomBilling.internet + values.dueAmount;
-
-  //   if (values.payedAmount > totalCost) {
-  //     toast.error("Paid amount cannot exceed total cost");
-  //     return;
-  //   }
-  //   setIsUpdating(true)
-
-  //   if (deleteImages.length > 0) {
-  //     const deleteResult = await removeMultipleRoomImages(deleteImages);
-  //     if (!deleteResult.success) {
-  //       toast.error(deleteResult.error || "Failed to delete images");
-  //       setIsUpdating(false)
-  //       return;
-  //     }
-  //   }
-
-  //   let uploadedImages : string[] = [...images]
-  //   if(files.length > 0){
-  //     const uploadResults = await startUpload(files)
-  //     if(uploadResults){
-  //       uploadedImages = uploadResults.map(result => result.ufsUrl)
-  //     }
-  //   }
-
-  //   const newData: EditRoomType = {
-  //     ...values,
-  //     clientInitationDate: values.clientInitationDate || values.clients.length > 0 ? new Date() : undefined,
-  //     lastPayedDate: values.payedAmount > 0 ? new Date() : undefined,
-  //     lon: values.lon || undefined,
-  //     lat: values.lat || undefined,
-  //     startedPriceFromDate: values.startedPriceFromDate || values.clients.length > 0 ? new Date() : undefined,
-  //     roomImages : uploadedImages,
-  //   }
-
-  //   const updateNow = await updateRoom(newData);
-  //   if(updateNow.success){
-  //     toast.success(updateNow.message)
-  //     resetAllData();
-  //     setFiles([])
-  //     setDeleteImages([])
-  //     setImages([])
-  //     setPreviewUrls([])
-  //     router.push(`/ghar/rooms/${id}`)
-  //   }else{
-  //     toast.error(updateNow.error || "Failed to update room")
-  //   }
-  //   setIsUpdating(false)
-  // }
-
-  const handleImageChageForFiles = useCallback((newFiles: File[]) => {
-    setFiles(newFiles)
-  }, [])
-
-
   const handleCancel = () => {
     if (!mounted || isLoading) return;
     resetAllData();
-    setFiles([])
+    clearFiles()
     resetFromWithRoomData();
-
   }
-
-  const handleServerImages = (imageUrl: string) => {
-    setImages((prev) => {
-      const newImages = prev.filter((image) => image !== imageUrl)
-      return newImages;
-    })
-    setDeleteImages((prev) => [...prev, imageUrl])
-  }
-
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newFiles = e.target.files;
     if (!newFiles) return;
 
     const fileArray = Array.from(newFiles);
-    if (filesRef.current.length + fileArray.length + images.length > 10) {
+    if (files.length + fileArray.length + images.length > 10) {
       toast.error("You can only upload up to 10 images");
       return;
     }
 
-    const updatedFiles = [...files, ...fileArray];
-    const newPreviewUrls = fileArray.map(file => URL.createObjectURL(file));
-    const updatedPreviewUrls = [...previewUrls, ...newPreviewUrls];
-
-    setFiles(updatedFiles);
-    setPreviewUrls(updatedPreviewUrls);
-    filesRef.current = updatedFiles;
-    handleImageChageForFiles(updatedFiles);
+    addFiles(fileArray);
   };
-
-  const removeImage = (index: number) => {
-    const newFiles = [...files];
-    const newPreviewUrls = [...previewUrls];
-
-    URL.revokeObjectURL(newPreviewUrls[index]);
-
-    newFiles.splice(index, 1);
-    newPreviewUrls.splice(index, 1);
-
-    setFiles(newFiles);
-    setPreviewUrls(newPreviewUrls);
-    filesRef.current = newFiles;
-    handleImageChageForFiles(newFiles);
-  };
-
-  useEffect(() => {
-    return () => {
-      previewUrls.forEach(url => URL.revokeObjectURL(url))
-    }
-  }, [previewUrls])
-
 
   const handleAddClient = () => {
     if (clientsFiledArray.fields.length >= roomCapacity) {
@@ -358,6 +257,11 @@ function EditRoomFormPage() {
 
   const handleProvinceChange = (province: number) => {
     form.setValue("province", province)
+  }
+
+  const handleServerImages = (imageUrl: string) => {
+    setDeleteImages(prev => [...prev, imageUrl])
+    setImages(prev => prev.filter(img => img !== imageUrl))
   }
 
   // Watch form values for debugging
@@ -411,9 +315,8 @@ console.log("this is formvalues : ",form.getValues())
                 handleServerImages={handleServerImages}
                 previewUrls={previewUrls}
                 files={files}
-                removeImage={removeImage}
+                removeImage={removeFile}
                 handleImageChange={handleImageChange}
-
               />
             </TabsContent>
             <TabsContent value="clients">

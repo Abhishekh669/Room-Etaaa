@@ -19,18 +19,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useRoomImagesStore } from '@/features/store/room-images/use-room-images-store'
 
 
 
 interface RoomBasicInfoFormProps {
-  form: UseFormReturn<z.infer<typeof RoomSchema>>
-  onImageChange?: (files: File[]) => void
+  form: UseFormReturn<z.infer<typeof RoomSchema>>,
+  onImageChange?: (newFiles: File[]) => void
 }
 
 export const RoomBasicInfoForm = ({ form, onImageChange }: RoomBasicInfoFormProps) => {
-  const [files, setFiles] = useState<File[]>([])
-  const [previewUrls, setPreviewUrls] = useState<string[]>([])
-  const filesRef = useRef<File[]>([])
+  const { files, previewUrls, addFiles, removeFile } = useRoomImagesStore()
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newFiles = e.target.files
@@ -39,39 +38,13 @@ export const RoomBasicInfoForm = ({ form, onImageChange }: RoomBasicInfoFormProp
     const fileArray = Array.from(newFiles)
 
     // Check if adding new files would exceed the limit
-    if (filesRef.current.length + fileArray.length > 10) {
+    if (files.length + fileArray.length > 10) {
       toast.error("You can only upload up to 10 images")
       return
     }
 
-    const newPreviewUrls = fileArray.map(file => URL.createObjectURL(file))
-
-    setFiles(prev => [...prev, ...fileArray])
-    setPreviewUrls(prev => [...prev, ...newPreviewUrls])
-    filesRef.current = [...filesRef.current, ...fileArray]
-
-    onImageChange?.(filesRef.current)
+    addFiles(fileArray)
   }
-
-  const removeImage = (index: number) => {
-    setFiles(prev => prev.filter((_, i) => i !== index))
-    setPreviewUrls(prev => {
-      URL.revokeObjectURL(prev[index])
-      return prev.filter((_, i) => i !== index)
-    })
-    filesRef.current = filesRef.current.filter((_, i) => i !== index)
-    onImageChange?.(filesRef.current)
-  }
-
-  useEffect(() => {
-    onImageChange?.(filesRef.current)
-  }, [filesRef.current.length, onImageChange])
-
-  useEffect(() => {
-    return () => {
-      previewUrls.forEach(url => URL.revokeObjectURL(url))
-    }
-  }, [previewUrls])
 
   return (
     <div className="grid gap-6 md:grid-cols-2">
@@ -274,7 +247,7 @@ export const RoomBasicInfoForm = ({ form, onImageChange }: RoomBasicInfoFormProp
                     variant="destructive"
                     size="icon"
                     className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
-                    onClick={() => removeImage(index)}
+                    onClick={() => removeFile(index)}
                   >
                     <X className="h-4 w-4" />
                   </Button>

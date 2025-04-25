@@ -13,7 +13,7 @@ import { Pagination, PaginationContent,  PaginationItem, PaginationLink, Paginat
 function RoomMainPage() {
   const { data: roomData, isLoading: roomDataLoading } = useGetRoomStatistics();
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6; 
+  const itemsPerPage = 8; 
 
   if (roomDataLoading) {
     return <SpinningLoader />
