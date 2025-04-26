@@ -124,10 +124,12 @@ export default function LocationPage() {
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                 <div className="flex-1">
                   <h3 className="font-semibold text-lg line-clamp-1">{room.title}</h3>
+                  <Hint label={room.location}>
                   <div className="flex items-center mt-1 text-sm text-muted-foreground">
                     <MapPin className="h-4 w-4 mr-1 flex-shrink-0 text-red-600" />
-                    <span className="truncate">{room.location}</span>
+                    <span className="max-w-[200px] max-h-100px] md:max-w-[200px] md:max-h-[100px] truncate">{room.location}</span>
                   </div>
+                  </Hint>
                 </div>
                 <Badge variant="outline" className="bg-primary/10 text-primary font-semibold mt-2 sm:mt-0">
                   Rs {room.roomBilling?.roomCost?.toLocaleString() || 'N/A'}/mo
@@ -202,9 +204,11 @@ export default function LocationPage() {
 
   return (
     <div className="space-y-4 md:space-y-8">
-      <div className='flex flex-row justify-between items-start sm:items-center gap-3 p-4 shadow-sm rounded-lg bg-white'>
-        <h1 className="text-2xl sm:text-3xl font-bold new-font">
-          Room <span className='text-red-500'>Etaaa</span>
+      <div className='flex flex-row justify-between items-start mx-3 sm:items-center gap-3 p-4 shadow-sm rounded-lg bg-white'>
+        <h1 className="text-xl sm:text-xl font-bold new-font">
+          <Link href="/posts">
+            Room <span className='text-red-500'>Etaaa</span>
+          </Link>
         </h1>
         <Button 
           variant="outline" 
@@ -216,8 +220,8 @@ export default function LocationPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-        <div className="lg:sticky lg:top-4 lg:h-[calc(100vh-8rem)]">
+      <div className="grid px-2 grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+        <div className="lg:sticky lg:top-4 lg:h-[calc(100vh-8rem)] h-full">
           <LocationSearch {...locationSearchProps} />
         </div>
 
@@ -225,10 +229,10 @@ export default function LocationPage() {
           <Card className="border-0 shadow-sm lg:border lg:shadow-md ">
             <CardHeader className="p-4 sm:p-6 pb-2 sm:pb-4">
               <CardTitle className="text-xl sm:text-2xl font-semibold new-font">
-                Nearby <span className='text-red-500'>Rooms</span>
+                Nearby <span className='text-red-500'>Rooms</span> ({rooms.length})
               </CardTitle>
             </CardHeader>
-            <CardContent className="p-4 md:px-16 lg:px-30  max-h-[calc(100vh-17rem)]  h-full overflow-y-auto">
+            <CardContent className="p-4 md:px-16 lg:px-30  max-h-[calc(100vh-17rem)]  h-[calc(100vh-17rem)] overflow-y-auto">
               {renderRooms}
             </CardContent>
           </Card>

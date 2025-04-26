@@ -99,7 +99,7 @@ export function PricingSection() {
                     </li>
                   ))}
                 </ul>
-                <Link href="/register">
+                <Link href="#">
                   <Button 
                     className={`w-full py-4 md:py-6 text-base md:text-lg font-semibold ${
                       plan.popular 

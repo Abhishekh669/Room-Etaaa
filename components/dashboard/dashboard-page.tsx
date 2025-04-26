@@ -20,8 +20,8 @@ function DashBoardMainPage() {
   console.log("this is data", data)
 
   return (
-    <div className='space-y-4'>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
+    <div className='space-y-4 p-4'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
         <DashboardCard
           title="Total Rooms"
           number={data?.totalRooms || 0}
@@ -71,11 +71,11 @@ function DashBoardMainPage() {
         />
       </div>
       <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
-        <div className=''>
+        <div className='h-[500px]'>
           <RevenueBarChart data={chartData?.data || []} />
         </div>
-        <div className='  bg-white rounded-lg shadow  py-4 space-y-2 px-4 border border-gray-100'>
-          <h2 className="text-lg  font-semibold  text-gray-800 new-font">
+        <div className='h-[500px] bg-white rounded-lg shadow p-4 border border-gray-100'>
+          <h2 className="text-lg font-semibold text-gray-800 new-font mb-4">
             Recent <span className="text-red-600">Payments</span>
           </h2>
           <RecentPayments payments={data?.recentPaymentRecords || []} isLoading={isLoading} />

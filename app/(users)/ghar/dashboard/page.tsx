@@ -6,7 +6,7 @@ function DashboardPage() {
   return (
     <div>
       <HeaderPage title1="Owner" title2="Dashboard" />
-      <div className='p-4'  >
+      <div className='py-1'  >
       <DashBoardMainPage />
       </div>
     </div>

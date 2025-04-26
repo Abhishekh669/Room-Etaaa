@@ -16,6 +16,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { PostFiltersForMobile } from "@/components/posts/post-mobile-view-filter"
 import Hint from "@/components/shared/hint"
 import { cn } from "@/lib/utils"
+import Link from "next/link"
 
 function PostMainPage() {
   const queryClient = useQueryClient()
@@ -85,7 +86,9 @@ function PostMainPage() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
             <div>
               <h1 className="text-xl md:text-3xl font-bold new-font">
-                Room <span className="text-red-600">Etaaa</span>
+               <Link href="/posts">
+               Room <span className="text-red-600">Etaaa</span>
+               </Link>
               </h1>
             </div>
           </div>
