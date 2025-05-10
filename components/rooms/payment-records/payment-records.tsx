@@ -8,6 +8,7 @@ import { useRoomId } from "@/features/hooks/params-id/use-rooms-id";
 import { useGetRoomPaymentRecords } from "@/features/hooks/tanstacks/query-hooks/rooms/use-get-room-payment-records";
 import SpinningLoader from "@/components/shared/SpinningLoader";
 import PaymentRecordCard from "./payment-record-card";
+import { PayDueDialog } from "./pay-due-dialog";
 
 interface PaymentRecordsProps {
   payments: RoomPaymentRecord[];
@@ -22,6 +23,7 @@ const id = useRoomId();
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest" | "amount">("newest");
   const [mockPaymentHistory, setMockPaymentHistory]  = useState<RoomPaymentRecord[]>([])
   const {data : roomPaymentRecords, isLoading : roomPaymentRecordsLoading} = useGetRoomPaymentRecords(id as string);
+  const [selectedPayment, setSelectedPayment] = useState<RoomPaymentRecord | null>(null);
   console.log("this is room payment records : ",roomPaymentRecords)
 
 
@@ -58,6 +60,10 @@ const id = useRoomId();
   const totalAmount = filteredPayments.reduce((sum, payment) => sum + payment.amountTotal, 0);
   const totalDueAmount = filteredPayments.reduce((sum, payment) => sum + payment.dueAmount, 0);
   const totalPayedAmount = filteredPayments.reduce((sum, payment) => sum + payment.payedAmount, 0);
+
+  const handlePayDue = (payment: RoomPaymentRecord) => {
+    setSelectedPayment(payment);
+  };
 
   if(!mounted)return null;
 
@@ -126,7 +132,7 @@ const id = useRoomId();
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredPayments.length > 0 ? (
           filteredPayments.map((payment) => (
-            <PaymentRecordCard key={payment.id} payment={payment} onDelete={onDelete} onUpdate={onUpdate} />
+            <PaymentRecordCard key={payment.id} payment={payment} onDelete={onDelete} onUpdate={onUpdate} onPayDue={handlePayDue} />
           ))
         ) : (
           <div className="col-span-full flex flex-col items-center justify-center py-12 text-center">
@@ -143,6 +149,14 @@ const id = useRoomId();
           </div>
         )}
       </div>
+
+      {selectedPayment && (
+        <PayDueDialog
+          payment={selectedPayment}
+          isOpen={!!selectedPayment}
+          onClose={() => setSelectedPayment(null)}
+        />
+      )}
     </div>
   );
 };

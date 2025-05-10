@@ -15,12 +15,14 @@ interface PaymentRecordCardProps {
   payment: RoomPaymentRecord;
   onUpdate?: (payment: RoomPaymentRecord) => void;
   onDelete?: (payment: RoomPaymentRecord) => void;
+  onPayDue?: (payment: RoomPaymentRecord) => void;
 }
 
-const PaymentRecordCard = ({ payment, onUpdate, onDelete }: PaymentRecordCardProps) => {
+const PaymentRecordCard = ({ payment, onUpdate, onDelete, onPayDue }: PaymentRecordCardProps) => {
   const formattedDate = format(new Date(payment.createdAt), "MMM dd, yyyy");
   const isRecentPayment = new Date().getTime() - new Date(payment.createdAt).getTime() < 1000 * 60 * 60 * 24 * 7; // 7 days
   const paymentStatus = payment.dueAmount === 0 ? "PAID" : payment.dueAmount > 0 ? "OVERDUE" : "PENDING";
+  const hasDueAmount = payment.dueAmount > 0;
 
   const truncateId = (id: string) => {
     return `${id.slice(0, 4)}...${id.slice(-4)}`;
@@ -60,6 +62,15 @@ const PaymentRecordCard = ({ payment, onUpdate, onDelete }: PaymentRecordCardPro
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
+                {hasDueAmount && (
+                  <DropdownMenuItem 
+                    onClick={() => onPayDue?.(payment)}
+                    className="flex items-center gap-2 text-green-600"
+                  >
+                    <CreditCard className="h-4 w-4" />
+                    <span>Pay Due</span>
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuItem 
                   onClick={() => onUpdate?.(payment)}
                   className="flex items-center gap-2 text-gray-700 dark:text-gray-300"
@@ -85,15 +96,17 @@ const PaymentRecordCard = ({ payment, onUpdate, onDelete }: PaymentRecordCardPro
       </CardHeader>
       <CardContent className="space-y-3">
         <p className="text-sm text-gray-700 dark:text-gray-300">{payment?.description || "No description provided"}</p>
-        <div className="grid grid-cols-2 gap-4">
+        <div className={`grid ${hasDueAmount ? 'grid-cols-2' : 'grid-cols-1'} gap-4`}>
           <div className="bg-gray-50 dark:bg-gray-800 p-2 rounded-lg">
             <p className="text-xs text-gray-500 dark:text-gray-400">Total Amount</p>
             <p className="text-sm font-semibold text-gray-900 dark:text-white">Rs {payment.amountTotal.toFixed(2)}</p>
           </div>
-          <div className="bg-gray-50 dark:bg-gray-800 p-2 rounded-lg">
-            <p className="text-xs text-gray-500 dark:text-gray-400">Due Amount</p>
-            <p className="text-sm font-semibold text-red-500">Rs {payment.dueAmount.toFixed(2)}</p>
-          </div>
+          {hasDueAmount && (
+            <div className="bg-gray-50 dark:bg-gray-800 p-2 rounded-lg">
+              <p className="text-xs text-gray-500 dark:text-gray-400">Due Amount</p>
+              <p className="text-sm font-semibold text-red-500">Rs {payment.dueAmount.toFixed(2)}</p>
+            </div>
+          )}
         </div>
         {paymentStatus === "OVERDUE" && (
           <div className="flex items-center gap-1 text-red-500 text-sm">

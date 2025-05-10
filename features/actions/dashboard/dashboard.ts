@@ -2,13 +2,12 @@
 
 import { db } from "@/prisma";
 import { getCurrentUser } from "../users/user";
-
 export const getDashboardData = async () => {
     try {
         const currentUser = await getCurrentUser();
 
         if (!currentUser || !currentUser.id || !currentUser.email || currentUser.role === "USER" || !currentUser.isOnboarded) {
-            throw new Error("User not authenticated")
+            throw new Error("User not authenticated");
         }
 
         // Get all rooms for the current user
@@ -26,26 +25,21 @@ export const getDashboardData = async () => {
 
         const totalRooms = dashboardData.length;
 
-        // Calculate total revenue from room payment records
+        // Calculate total revenue from all payment records
         const totalRevenue = dashboardData.reduce((sum, room) => {
             return sum + room.roomPaymentRecord.reduce((roomSum, record) => {
                 return roomSum + (record.payedAmount || 0);
             }, 0);
         }, 0);
 
-        // Calculate total due amount from rooms
+        // Calculate total due amount from all rooms
         const totalDueAmount = dashboardData.reduce((sum, room) => sum + (room.dueAmount || 0), 0);
 
         // Get all unique clients from rooms and payment records
         const clientIds = new Set<string>();
         
-        // Add clients from rooms
         dashboardData.forEach(room => {
             room.clients.forEach(clientId => clientIds.add(clientId));
-        });
-
-        // Add clients from payment records
-        dashboardData.forEach(room => {
             room.roomPaymentRecord.forEach(record => {
                 if (record.payedBy) clientIds.add(record.payedBy);
             });
@@ -57,6 +51,7 @@ export const getDashboardData = async () => {
         const now = new Date();
         const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
         const previousMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+        const previousMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0);
         
         // Room growth calculation
         const currentRooms = await db.room.count({
@@ -68,17 +63,17 @@ export const getDashboardData = async () => {
             }
         });
 
-        const previousMonthRooms = await db.room.count({
+        const previousMonthRoomsCount = await db.room.count({
             where: {
                 ownerId: currentUser.id,
                 createdAt: {
-                    lte: previousMonthStart
+                    lte: previousMonthEnd
                 }
             }
         });
 
-        const roomGrowthRate = previousMonthRooms > 0 
-            ? ((currentRooms - previousMonthRooms) / previousMonthRooms) * 100 
+        const roomGrowthRate = previousMonthRoomsCount > 0 
+            ? Number(((currentRooms - previousMonthRoomsCount) / previousMonthRoomsCount * 100).toFixed(2))
             : currentRooms > 0 ? 100 : 0;
 
         // Client growth calculation
@@ -98,7 +93,7 @@ export const getDashboardData = async () => {
             where: {
                 ownerId: currentUser.id,
                 createdAt: {
-                    lte: previousMonthStart
+                    lte: previousMonthEnd
                 }
             },
             select: {
@@ -107,47 +102,80 @@ export const getDashboardData = async () => {
         })).flatMap(room => room.clients).length;
 
         const clientGrowthRate = previousMonthClients > 0 
-            ? ((currentClients - previousMonthClients) / previousMonthClients) * 100 
+            ? Number(((currentClients - previousMonthClients) / previousMonthClients * 100).toFixed(2))
             : currentClients > 0 ? 100 : 0;
 
-        // Calculate monthly revenues and due amounts
-        const currentMonthRevenue = dashboardData
-            .filter(room => room.createdAt >= currentMonthStart && room.createdAt <= now)
-            .reduce((sum, room) => {
-                return sum + room.roomPaymentRecord.reduce((roomSum, record) => {
-                    return roomSum + (record.payedAmount || 0);
-                }, 0);
-            }, 0);
+        // Calculate monthly revenues - query payment records directly
+        const currentMonthPaymentRecords = await db.roomPaymentRecord.findMany({
+            where: {
+                ownerId: currentUser.id,
+                createdAt: {
+                    gte: currentMonthStart,
+                    lte: now
+                }
+            }
+        });
 
-        const previousMonthRevenue = dashboardData
-            .filter(room => room.createdAt >= previousMonthStart && room.createdAt < currentMonthStart)
-            .reduce((sum, room) => {
-                return sum + room.roomPaymentRecord.reduce((roomSum, record) => {
-                    return roomSum + (record.payedAmount || 0);
-                }, 0);
-        }, 0);
+        const previousMonthPaymentRecords = await db.roomPaymentRecord.findMany({
+            where: {
+                ownerId: currentUser.id,
+                createdAt: {
+                    gte: previousMonthStart,
+                    lt: currentMonthStart
+                }
+            }
+        });
 
-        const currentMonthDueAmount = dashboardData
-            .filter(room => room.createdAt >= currentMonthStart && room.createdAt <= now)
-            .reduce((sum, room) => sum + (room.dueAmount || 0), 0);
+        const currentMonthRevenue = currentMonthPaymentRecords.reduce(
+            (sum, record) => sum + (record.payedAmount || 0), 0
+        );
 
-        const previousMonthDueAmount = dashboardData
-            .filter(room => room.createdAt >= previousMonthStart && room.createdAt < currentMonthStart)
-            .reduce((sum, room) => sum + (room.dueAmount || 0), 0);
+        const previousMonthRevenue = previousMonthPaymentRecords.reduce(
+            (sum, record) => sum + (record.payedAmount || 0), 0
+        );
 
         const revenueDifferencePercentage = previousMonthRevenue > 0 
-            ? ((currentMonthRevenue - previousMonthRevenue) / previousMonthRevenue) * 100 
+            ? Number(((currentMonthRevenue - previousMonthRevenue) / previousMonthRevenue * 100).toFixed(2))
             : currentMonthRevenue > 0 ? 100 : 0;
 
+        // Calculate monthly due amounts - get all rooms up to each period
+        const currentMonthRoomsList = await db.room.findMany({
+            where: {
+                ownerId: currentUser.id,
+                createdAt: {
+                    lte: now
+                }
+            }
+        });
+
+        const previousMonthRoomsList = await db.room.findMany({
+            where: {
+                ownerId: currentUser.id,
+                createdAt: {
+                    lte: previousMonthEnd
+                }
+            }
+        });
+
+        const currentMonthDueAmount = currentMonthRoomsList.reduce(
+            (sum, room) => sum + (room.dueAmount || 0), 0
+        );
+
+        const previousMonthDueAmount = previousMonthRoomsList.reduce(
+            (sum, room) => sum + (room.dueAmount || 0), 0
+        );
+
         const dueAmountDifferencePercentage = previousMonthDueAmount > 0 
-            ? ((currentMonthDueAmount - previousMonthDueAmount) / previousMonthDueAmount) * 100 
+            ? Number(((currentMonthDueAmount - previousMonthDueAmount) / previousMonthDueAmount * 100).toFixed(2))
             : currentMonthDueAmount > 0 ? 100 : 0;
 
+        // Room status counts
         const vacantRooms = dashboardData.filter(room => room.roomStatus === "VACANT").length;
         const occupiedRooms = dashboardData.filter(room => room.roomStatus === "OCCUPIED").length;
         const maintenanceRooms = dashboardData.filter(room => room.roomStatus === "MAINTENANCE").length;
         const occupancyRate = totalRooms > 0 ? (occupiedRooms / totalRooms) * 100 : 0;
 
+        // Client details
         const clientDetails = await Promise.all(
             Array.from(clientIds).map(async (id: string) => {
                 return await db.user.findUnique({
@@ -162,33 +190,32 @@ export const getDashboardData = async () => {
             })
         );
 
+        // Recent payment records
         const recentPaymentRecords = await db.roomPaymentRecord.findMany({
-            where : {
-                ownerId : currentUser.id,
+            where: {
+                ownerId: currentUser.id,
             },
-            include : {
-                client : {
-                    select : {
-                        id : true,
-                        name : true,
-                        email : true,
-                        phoneNumber : true,
-                        image : true,
+            include: {
+                client: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                        phoneNumber: true,
+                        image: true,
                     }
                 },
-                room : {
-                    select : {
-                        roomNumber : true,
+                room: {
+                    select: {
+                        roomNumber: true,
                     }
                 }
             },
-            orderBy : {
-                createdAt : "desc",
+            orderBy: {
+                createdAt: "desc",
             },
-            take : 6,
+            take: 6,
         });
-
-
 
         return {
             totalRooms,
@@ -197,13 +224,14 @@ export const getDashboardData = async () => {
             occupiedRooms,
             maintenanceRooms,
             occupancyRate,
-            totalRevenue: currentMonthRevenue,
-            totalDueAmount: currentMonthDueAmount,
+            totalRevenue,
+            totalDueAmount,
             recentPaymentRecords,
             growthRate: {
                 rooms: roomGrowthRate,
                 clients: clientGrowthRate,
                 revenue: revenueDifferencePercentage,
+                dueAmount: dueAmountDifferencePercentage,
                 monthlyRevenue: {
                     currentMonth: currentMonthRevenue,
                     previousMonth: previousMonthRevenue,
@@ -226,6 +254,230 @@ export const getDashboardData = async () => {
         };
     }
 };
+
+// export const getDashboardData = async () => {
+//     try {
+//         const currentUser = await getCurrentUser();
+
+//         if (!currentUser || !currentUser.id || !currentUser.email || currentUser.role === "USER" || !currentUser.isOnboarded) {
+//             throw new Error("User not authenticated")
+//         }
+
+//         // Get all rooms for the current user
+//         const dashboardData = await db.room.findMany({
+//             where: {
+//                 ownerId: currentUser.id,
+//             },
+//             orderBy: {
+//                 createdAt: "desc",
+//             },
+//             include: {
+//                 roomPaymentRecord: true,
+//             }
+//         });
+
+//         const totalRooms = dashboardData.length;
+
+//         // Calculate total revenue from room payment records
+//         const totalRevenue = dashboardData.reduce((sum, room) => {
+//             return sum + room.roomPaymentRecord.reduce((roomSum, record) => {
+//                 return roomSum + (record.payedAmount || 0);
+//             }, 0);
+//         }, 0);
+
+//         // Calculate total due amount from rooms
+//         const totalDueAmount = dashboardData.reduce((sum, room) => sum + (room.dueAmount || 0), 0);
+
+//         // Get all unique clients from rooms and payment records
+//         const clientIds = new Set<string>();
+        
+//         // Add clients from rooms
+//         dashboardData.forEach(room => {
+//             room.clients.forEach(clientId => clientIds.add(clientId));
+//         });
+
+//         // Add clients from payment records
+//         dashboardData.forEach(room => {
+//             room.roomPaymentRecord.forEach(record => {
+//                 if (record.payedBy) clientIds.add(record.payedBy);
+//             });
+//         });
+
+//         const totalClients = clientIds.size;
+
+//         // Calculate growth rates from one month ago to today
+//         const now = new Date();
+//         const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+//         const previousMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+        
+//         // Room growth calculation
+//         const currentRooms = await db.room.count({
+//             where: {
+//                 ownerId: currentUser.id,
+//                 createdAt: {
+//                     lte: now
+//                 }
+//             }
+//         });
+
+//         const previousMonthRooms = await db.room.count({
+//             where: {
+//                 ownerId: currentUser.id,
+//                 createdAt: {
+//                     lte: previousMonthStart
+//                 }
+//             }
+//         });
+
+//         const roomGrowthRate = previousMonthRooms > 0 
+//             ? ((currentRooms - previousMonthRooms) / previousMonthRooms) * 100 
+//             : currentRooms > 0 ? 100 : 0;
+
+//         // Client growth calculation
+//         const currentClients = (await db.room.findMany({
+//             where: {
+//                 ownerId: currentUser.id,
+//                 createdAt: {
+//                     lte: now
+//                 }
+//             },
+//             select: {
+//                 clients: true
+//             }
+//         })).flatMap(room => room.clients).length;
+
+//         const previousMonthClients = (await db.room.findMany({
+//             where: {
+//                 ownerId: currentUser.id,
+//                 createdAt: {
+//                     lte: previousMonthStart
+//                 }
+//             },
+//             select: {
+//                 clients: true
+//             }
+//         })).flatMap(room => room.clients).length;
+
+//         const clientGrowthRate = previousMonthClients > 0 
+//             ? ((currentClients - previousMonthClients) / previousMonthClients) * 100 
+//             : currentClients > 0 ? 100 : 0;
+
+//         // Calculate monthly revenues and due amounts
+//         const currentMonthRevenue = dashboardData
+//             .filter(room => room.createdAt >= currentMonthStart && room.createdAt <= now)
+//             .reduce((sum, room) => {
+//                 return sum + room.roomPaymentRecord.reduce((roomSum, record) => {
+//                     return roomSum + (record.payedAmount || 0);
+//                 }, 0);
+//             }, 0);
+
+//         const previousMonthRevenue = dashboardData
+//             .filter(room => room.createdAt >= previousMonthStart && room.createdAt < currentMonthStart)
+//             .reduce((sum, room) => {
+//                 return sum + room.roomPaymentRecord.reduce((roomSum, record) => {
+//                     return roomSum + (record.payedAmount || 0);
+//                 }, 0);
+//         }, 0);
+
+//         const currentMonthDueAmount = dashboardData
+//             .filter(room => room.createdAt >= currentMonthStart && room.createdAt <= now)
+//             .reduce((sum, room) => sum + (room.dueAmount || 0), 0);
+
+//         const previousMonthDueAmount = dashboardData
+//             .filter(room => room.createdAt >= previousMonthStart && room.createdAt < currentMonthStart)
+//             .reduce((sum, room) => sum + (room.dueAmount || 0), 0);
+
+//         const revenueDifferencePercentage = previousMonthRevenue > 0 
+//             ? ((currentMonthRevenue - previousMonthRevenue) / previousMonthRevenue) * 100 
+//             : currentMonthRevenue > 0 ? 100 : 0;
+
+//         const dueAmountDifferencePercentage = previousMonthDueAmount > 0 
+//             ? ((currentMonthDueAmount - previousMonthDueAmount) / previousMonthDueAmount) * 100 
+//             : currentMonthDueAmount > 0 ? 100 : 0;
+
+//         const vacantRooms = dashboardData.filter(room => room.roomStatus === "VACANT").length;
+//         const occupiedRooms = dashboardData.filter(room => room.roomStatus === "OCCUPIED").length;
+//         const maintenanceRooms = dashboardData.filter(room => room.roomStatus === "MAINTENANCE").length;
+//         const occupancyRate = totalRooms > 0 ? (occupiedRooms / totalRooms) * 100 : 0;
+
+//         const clientDetails = await Promise.all(
+//             Array.from(clientIds).map(async (id: string) => {
+//                 return await db.user.findUnique({
+//                     where: { id },
+//                     select: {
+//                         name: true,
+//                         email: true,
+//                         phoneNumber: true,
+//                         image: true,
+//                     }
+//                 });
+//             })
+//         );
+
+//         const recentPaymentRecords = await db.roomPaymentRecord.findMany({
+//             where : {
+//                 ownerId : currentUser.id,
+//             },
+//             include : {
+//                 client : {
+//                     select : {
+//                         id : true,
+//                         name : true,
+//                         email : true,
+//                         phoneNumber : true,
+//                         image : true,
+//                     }
+//                 },
+//                 room : {
+//                     select : {
+//                         roomNumber : true,
+//                     }
+//                 }
+//             },
+//             orderBy : {
+//                 createdAt : "desc",
+//             },
+//             take : 6,
+//         });
+
+
+
+//         return {
+//             totalRooms,
+//             totalClients,
+//             vacantRooms,
+//             occupiedRooms,
+//             maintenanceRooms,
+//             occupancyRate,
+//             totalRevenue: currentMonthRevenue,
+//             totalDueAmount: currentMonthDueAmount,
+//             recentPaymentRecords,
+//             growthRate: {
+//                 rooms: roomGrowthRate,
+//                 clients: clientGrowthRate,
+//                 revenue: revenueDifferencePercentage,
+//                 monthlyRevenue: {
+//                     currentMonth: currentMonthRevenue,
+//                     previousMonth: previousMonthRevenue,
+//                     differencePercentage: revenueDifferencePercentage
+//                 },
+//                 monthlyDueAmount: {
+//                     currentMonth: currentMonthDueAmount,
+//                     previousMonth: previousMonthDueAmount,
+//                     differencePercentage: dueAmountDifferencePercentage
+//                 }
+//             },
+//             roomWithClients: clientDetails.filter(client => client !== null),
+//             success: true
+//         };
+//     } catch (error) {
+//         console.log(error);
+//         return {
+//             error: error instanceof Error ? error.message : "Something went wrong",
+//             success: false,
+//         };
+//     }
+// };
 
 export const dashboardChartData = async () => {
     try {

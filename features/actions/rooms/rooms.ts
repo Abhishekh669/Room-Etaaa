@@ -885,3 +885,147 @@ export const deletePaymentRecord = async (paymentId: string) => {
     }
 }
 
+export const payDueAmount = async({paymentId, payedAmount, description, payedBy, reason}:{
+    paymentId: string,
+    payedAmount: number,
+    description: string,
+    payedBy: string,
+    reason?: string
+}) => {
+    try {
+        const currentUser = await getCurrentUser();
+        if (!currentUser || !currentUser.id || !currentUser.email || (currentUser.role !== "ADMIN" && currentUser.role !== "OWNER") || !currentUser.isOnboarded) {
+            throw new Error("User not authenticated")
+        }
+
+        const checkPayment = await db.roomPaymentRecord.findUnique({
+            where: {
+                id: paymentId
+            }
+        });
+
+        if (!checkPayment) {
+            throw new Error("Payment record not found")
+        }
+
+        // Calculate new total paid amount and due amount
+        const newTotalPaidAmount = checkPayment.payedAmount + payedAmount;
+        const newDueAmount = checkPayment.amountTotal - newTotalPaidAmount;
+        const paymentStatus = newDueAmount === 0 ? "PAID" : "OVERDUE";
+        const dueMoneyReason = newDueAmount > 0 ? reason : null;
+
+        // Update the payment record
+        const updatePayment = await db.roomPaymentRecord.update({
+            where: {
+                id: paymentId
+            },
+            data: {
+                payedAmount: newTotalPaidAmount,
+                description: description,
+                payedBy: payedBy,
+                paymentStatus: paymentStatus,
+                dueAmount: newDueAmount,
+                dueMoneyReason: dueMoneyReason
+            }
+        });
+
+        if (!updatePayment) {
+            throw new Error("Failed to update payment record")
+        }
+
+        // Update room's total due amount
+        const allPaymentRecords = await db.roomPaymentRecord.findMany({
+            where: {
+                roomId: updatePayment.roomId
+            }
+        });
+
+        const totalDueAmount = allPaymentRecords.reduce((acc, curr) => acc + curr.dueAmount, 0);
+
+        await db.room.update({
+            where: {
+                id: updatePayment.roomId
+            },
+            data: {
+                dueAmount: totalDueAmount
+            }
+        });
+
+        return {
+            message: "Due amount paid successfully",
+            success: true,
+            data: updatePayment
+        }
+    } catch (error) {
+        return {
+            error: error instanceof Error ? error.message : "Something went wrong",
+            success: false
+        }
+    }
+}
+
+export const updateRoomPaymentRecord = async (
+    params: {
+        paymentId: string;
+        data: Partial<{
+            payedAmount: number;
+            description: string;
+            payedBy: string;
+            paymentStatus: string;
+            dueAmount: number;
+            dueMoneyReason: string | null;
+            amountTotal: number;
+        }>;
+    }
+) => {
+    try {
+        const { paymentId, data } = params;
+        const currentUser = await getCurrentUser();
+        if (!currentUser || !currentUser.id || !currentUser.email || (currentUser.role !== "ADMIN" && currentUser.role !== "OWNER") || !currentUser.isOnboarded) {
+            throw new Error("User not authenticated");
+        }
+
+        const checkPayment = await db.roomPaymentRecord.findUnique({
+            where: { id: paymentId }
+        });
+        if (!checkPayment) {
+            throw new Error("Payment record not found");
+        }
+
+        // Remove undefined fields from data
+        const filteredData = Object.fromEntries(
+            Object.entries(data).filter(([_, v]) => v !== undefined)
+        );
+
+        const updatePayment = await db.roomPaymentRecord.update({
+            where: { id: paymentId },
+            data: filteredData
+        });
+
+        if (!updatePayment) {
+            throw new Error("Failed to update payment record");
+        }
+
+        // Update room's total due amount
+        const allPaymentRecords = await db.roomPaymentRecord.findMany({
+            where: { roomId: updatePayment.roomId }
+        });
+        const totalDueAmount = allPaymentRecords.reduce((acc, curr) => acc + curr.dueAmount, 0);
+        await db.room.update({
+            where: { id: updatePayment.roomId },
+            data: { dueAmount: totalDueAmount }
+        });
+
+        return {
+            message: "Payment record updated successfully",
+            success: true,
+            data: updatePayment
+        };
+    } catch (error) {
+        return {
+            error: error instanceof Error ? error.message : "Something went wrong",
+            success: false
+        };
+    }
+}
+
