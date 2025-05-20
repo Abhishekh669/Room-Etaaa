@@ -184,7 +184,7 @@ function PostMainPage() {
             <div className="flex-1 p-2 md:p-4 max-h-full overflow-y-auto">
               <div className="max-h-[95%] overflow-y-auto">
                 {isLoading ? (
-                  <div className="grid grid-cols-1  lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
+                  <div className="grid grid-cols-1  lg:grid-cols-2 xl:grid-cols-2 gap-4 md:gap-6">
                     {[...Array(6)].map((_, i) => (
                       <Card key={i} className="overflow-hidden">
                         <Skeleton className="h-40 md:h-48 w-full rounded-t-lg" />
@@ -217,7 +217,7 @@ function PostMainPage() {
                     </Button>
                   </div>
                 ) : (
-                  <div className="grid  lg:grid-cols-3 gap-4 lg:px-10">
+                  <div className="grid  lg:grid-cols-2 gap-4 lg:px-10">
                     {postsData.map((post) => (
                       <PostCard key={post.id} post={post} handleSave={handleSavePost} pending={isSaving} />
                     ))}
