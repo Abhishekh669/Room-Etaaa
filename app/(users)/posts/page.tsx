@@ -86,11 +86,13 @@ function PostMainPage() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
             <div>
               <h1 className="text-xl md:text-3xl font-bold new-font">
-               <Link href="/posts">
-               Room <span className="text-red-600">Etaaa</span>
+               <Link href="/">
+               Room <span className="text-red-600">Etaaa </span>
                </Link>
               </h1>
+             
             </div>
+            
           </div>
         </div>
 
@@ -108,7 +110,7 @@ function PostMainPage() {
               disabled={isSaving}
               size="sm"
             >
-              Saved Posts
+              Saved Posts 
             </Button>
             <Hint label="Rooms Near To Me">
               <Button
