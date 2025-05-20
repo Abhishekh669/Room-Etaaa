@@ -1,6 +1,6 @@
 'use server'
 
-import { auth } from "@/auth";
+import { auth, signOut } from "@/auth";
 import { db } from "@/prisma";
 
 
@@ -255,6 +255,13 @@ export const getAccountByUserId = async (userId: string) => {
         }
 
     }
+}
+
+export const handleLogOut = async() =>{
+    await signOut({
+        redirectTo : "/"
+    })
+
 }
 
 

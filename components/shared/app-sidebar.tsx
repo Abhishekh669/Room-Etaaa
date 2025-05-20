@@ -9,6 +9,8 @@ import {
 import { Calendar, DoorClosedIcon, FileText, Home, Inbox, LucideDoorOpen, Search, Settings, Users2 } from "lucide-react"
 import { NavMain } from "./nav-main"
 import { SideBarHeader } from "./sidebar-header"
+import { useGetUserSession } from "@/features/hooks/tanstacks/query-hooks/users/use-get-session"
+import { NavUser } from "./nav-user"
 
 
 const items = [
@@ -65,6 +67,13 @@ const items = [
   
   ]
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const {data } = useGetUserSession();
+  const  user = {
+    name : data?.name,
+    email : data?.email,
+    avatar  : data?.image,
+
+  }
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader className="bg-white">
@@ -73,7 +82,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent className="bg-white">
         <NavMain items={items} />
       </SidebarContent>
+
       <SidebarRail />
+      <SidebarFooter>
+         {user && (
+          <NavUser user={user}/>
+         )}
+      </SidebarFooter>
     </Sidebar>
   )
 }
