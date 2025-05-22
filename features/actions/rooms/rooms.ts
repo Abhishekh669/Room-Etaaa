@@ -505,6 +505,78 @@ export const getRoomById = async (id: string) => {
 }
 
 
+
+
+export const getRoomByIdForUsers = async (id: string) => {
+    try {
+        const currentUser = await getCurrentUser();
+        if (!currentUser || !currentUser.id || !currentUser.email ||  !currentUser.isOnboarded) {
+            throw new Error("User not authenticated")
+        }
+        const checkRoom = await db.room.findUnique({
+            where: {
+                id,
+
+            },
+            include: {
+                roomBilling: true,
+                roomPayment: true,
+                owner: {
+                    select: {
+                        id: true,
+                        name: true,
+                        image: true,
+                        email: true,
+                        phoneNumber: true,
+                    }
+                }
+            },
+
+
+        });
+
+        if (!checkRoom) {
+            throw new Error("No such room found")
+        }
+
+        const clientPromises = checkRoom.clients.map(clientId =>
+            db.user.findUnique({
+                where: { id: clientId },
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    phoneNumber: true,
+                    image: true,
+                }
+            })
+        );
+
+        const clients = await Promise.all(clientPromises);
+
+        const roomData = {
+            ...checkRoom,
+            clients: clients.filter(client => client !== null) // Filter out any null results
+        };
+
+        return {
+            data: JSON.stringify(roomData),
+            message: "successfully fetched room data"
+        }
+
+
+    } catch (error) {
+        console.log("this is the error : ", error)
+        return {
+            error: error instanceof Error ? error.message : "Something went wrong",
+            success: false,
+        }
+
+    }
+}
+
+
+
 export const getRoomStatistics = async () => {
     try {
         const currentUser = await getCurrentUser();

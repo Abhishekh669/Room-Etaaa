@@ -11,10 +11,11 @@ import { RoomDetailsTab } from '@/components/rooms/room-details-tab';
 import { RoomLocationTab } from '@/components/rooms/room-location-tab';
 import { PostRoomSummaryCard } from './post-summary-card';
 import RoomBillingTabs from './post-room-billing';
+import { useGetRoomByIdForUsers } from '@/features/hooks/tanstacks/query-hooks/rooms/use-get-room-by-for-user';
 
 function PostIdClientSide() {
     const roomId = useRoomId();
-    const { data: roomData, isLoading: roomDataLoading } = useGetRoomById(roomId)
+    const { data: roomData, isLoading: roomDataLoading } = useGetRoomByIdForUsers(roomId)
 
     if (roomDataLoading) {
         return <SpinningLoader />
